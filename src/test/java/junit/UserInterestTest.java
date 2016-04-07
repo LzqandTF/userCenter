@@ -22,7 +22,7 @@ public class UserInterestTest {
     @Autowired
     private UserInterestService userInterestService;
 
-    @Test
+    //@Test
     public void testSetUserInterest() {
         UserInterest userInterest = new UserInterest();
 
@@ -34,12 +34,17 @@ public class UserInterestTest {
         userInterestService.setUserInterest(userInterest);
     }
 
-    @Test
+   // @Test
     public void testInterestList() {
         List<InterestListItemVO> list = userInterestService.getInterestList("456", "1");
         if (list != null && list.size() > 0) {
             System.out.println(list.size());
         }
+    }
+    @Test
+    public void testlist() {
+    	List<UserInterest> list = userInterestService.getInterestListByEntityId("lot_00001", "1");
+    	System.out.println();
     }
 
 }

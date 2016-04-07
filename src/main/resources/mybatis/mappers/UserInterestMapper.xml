@@ -17,6 +17,12 @@
     from user_interest
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="getInterestListByEntityId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_interest
+    where entity_id = #{entityId,jdbcType=VARCHAR} and type = #{type, jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from user_interest
     where id = #{id,jdbcType=BIGINT}

@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.yijiawang.web.platform.userCenter.po.UserInfo;
 import com.yijiawang.web.platform.userCenter.po.WxUserInfo;
+import com.yijiawang.web.platform.userCenter.service.UserService;
 import com.yijiawang.web.platform.userCenter.service.WxUserService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -15,6 +17,8 @@ import com.yijiawang.web.platform.userCenter.service.WxUserService;
 public class WxUserInfoTest {
 	@Autowired
 	private WxUserService wxUserService;
+	@Autowired
+	private UserService userService;
 
 	@Test
 	public void main(){
@@ -22,8 +26,7 @@ public class WxUserInfoTest {
 	}
 	
 	public void testWxUser() {
-		WxUserInfo user = wxUserService.getUserByOpenId("12345");
-		System.out.println(user.getNickname());
+	
 	}
 
 }

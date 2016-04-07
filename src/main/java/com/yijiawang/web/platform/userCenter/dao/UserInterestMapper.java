@@ -3,6 +3,7 @@ package com.yijiawang.web.platform.userCenter.dao;
 
 import com.yijiawang.web.platform.userCenter.po.UserInterest;
 import com.yijiawang.web.platform.userCenter.vo.InterestListItemVO;
+
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface UserInterestMapper {
     int setUserInterest(UserInterest userInterest);
 
     List<InterestListItemVO> getInterestList(@Param("userId")String userId, @Param("type")String type);
+    
+    List<UserInterest> getInterestListByEntityId(@Param("entityId")String entityId, @Param("type")String type);
 }

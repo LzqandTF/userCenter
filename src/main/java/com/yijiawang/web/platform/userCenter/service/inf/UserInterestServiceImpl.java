@@ -4,6 +4,7 @@ import com.yijiawang.web.platform.userCenter.dao.UserInterestMapper;
 import com.yijiawang.web.platform.userCenter.po.UserInterest;
 import com.yijiawang.web.platform.userCenter.service.UserInterestService;
 import com.yijiawang.web.platform.userCenter.vo.InterestListItemVO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,4 +28,10 @@ public class UserInterestServiceImpl implements UserInterestService{
     public List<InterestListItemVO> getInterestList(String userId, String interestType) {
         return userInterestMapper.getInterestList(userId, interestType);
     }
+
+	@Override
+	public List<UserInterest> getInterestListByEntityId(String entityId,
+			String type) {
+		return userInterestMapper.getInterestListByEntityId(entityId, type);
+	}
 }
