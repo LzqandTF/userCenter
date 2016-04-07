@@ -14,7 +14,7 @@
   	<dependency>
   		<groupId>com.yijiawang</groupId>
   		<artifactId>userCenter-rpc</artifactId>
-  		<version>1.1.9</version>
+  		<version>1.2.0</version>
   	</dependency>
     <dependency>
   		<groupId>javax.servlet</groupId>

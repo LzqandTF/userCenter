@@ -3,7 +3,6 @@ package com.yijiawang.web.platform.userCenter.service.inf;
 import com.yijiawang.web.platform.userCenter.dao.UserInterestMapper;
 import com.yijiawang.web.platform.userCenter.dao.WxUserInfoMapper;
 import com.yijiawang.web.platform.userCenter.po.UserInterest;
-import com.yijiawang.web.platform.userCenter.po.WxUserInfo;
 import com.yijiawang.web.platform.userCenter.service.UserInterestService;
 import com.yijiawang.web.platform.userCenter.vo.InterestListItemVO;
 
