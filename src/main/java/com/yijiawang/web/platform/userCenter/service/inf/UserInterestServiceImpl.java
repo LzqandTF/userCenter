@@ -1,7 +1,9 @@
 package com.yijiawang.web.platform.userCenter.service.inf;
 
 import com.yijiawang.web.platform.userCenter.dao.UserInterestMapper;
+import com.yijiawang.web.platform.userCenter.dao.WxUserInfoMapper;
 import com.yijiawang.web.platform.userCenter.po.UserInterest;
+import com.yijiawang.web.platform.userCenter.po.WxUserInfo;
 import com.yijiawang.web.platform.userCenter.service.UserInterestService;
 import com.yijiawang.web.platform.userCenter.vo.InterestListItemVO;
 
@@ -18,6 +20,8 @@ public class UserInterestServiceImpl implements UserInterestService{
 
     @Autowired
     private UserInterestMapper userInterestMapper;
+    @Autowired
+    private WxUserInfoMapper wxUserInfoMapper;
 
     @Override
     public int setUserInterest(UserInterest userInterest) {
@@ -30,8 +34,8 @@ public class UserInterestServiceImpl implements UserInterestService{
     }
 
 	@Override
-	public List<UserInterest> getInterestListByEntityId(String entityId,
+	public List<String> getInterestListByEntityId(String entityId,
 			String type) {
-		return userInterestMapper.getInterestListByEntityId(entityId, type);
+		return wxUserInfoMapper.getInterestListByEntityId(entityId, type);
 	}
 }

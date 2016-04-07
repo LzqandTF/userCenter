@@ -1,8 +1,12 @@
 package junit;
 
+import com.yijiawang.web.platform.userCenter.dao.UserInterestMapper;
+import com.yijiawang.web.platform.userCenter.dao.WxUserInfoMapper;
 import com.yijiawang.web.platform.userCenter.po.UserInterest;
+import com.yijiawang.web.platform.userCenter.po.WxUserInfo;
 import com.yijiawang.web.platform.userCenter.service.UserInterestService;
 import com.yijiawang.web.platform.userCenter.vo.InterestListItemVO;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,8 @@ public class UserInterestTest {
 
     @Autowired
     private UserInterestService userInterestService;
+    @Autowired
+    private WxUserInfoMapper wxUserInfoMapper;
 
     //@Test
     public void testSetUserInterest() {
@@ -43,7 +49,8 @@ public class UserInterestTest {
     }
     @Test
     public void testlist() {
-    	List<UserInterest> list = userInterestService.getInterestListByEntityId("lot_00001", "1");
+    	//List<WxUserInfo> list = userInterestService.getInterestListByEntityId("lot_00001", "1");
+    	List list = wxUserInfoMapper.getInterestListByEntityId("lot_00001", "1");
     	System.out.println();
     }
 
