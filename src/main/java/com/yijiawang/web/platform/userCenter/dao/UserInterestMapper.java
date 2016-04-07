@@ -24,4 +24,6 @@ public interface UserInterestMapper {
     int setUserInterest(UserInterest userInterest);
 
     List<InterestListItemVO> getInterestList(@Param("userId")String userId, @Param("type")String type);
+
+    String getUserInterestStatus(@Param("userId")String userId, @Param("type")String type, @Param("entityId")String entityId);
 }

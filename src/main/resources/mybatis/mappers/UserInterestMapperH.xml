@@ -24,4 +24,9 @@
     values (#{type,jdbcType=VARCHAR}, #{entityId,jdbcType=VARCHAR},
     #{status,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR})
   </update>
+
+  <select id="getUserInterestStatus" resultType="java.lang.String">
+    SELECT status FROM user_interest
+    where type = #{type,jdbcType=VARCHAR} AND entity_id = #{entityId,jdbcType=VARCHAR} AND user_id = #{userId,jdbcType=VARCHAR}
+  </select>
 </mapper>

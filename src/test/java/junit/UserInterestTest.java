@@ -33,7 +33,7 @@ public class UserInterestTest {
         UserInterest userInterest = new UserInterest();
 
         userInterest.setUserId("456");
-        userInterest.setStatus("0");
+        userInterest.setStatus("1");
         userInterest.setType("1");
         userInterest.setEntityId("lot_00001");
 

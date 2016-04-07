@@ -37,4 +37,9 @@ public class UserInterestServiceImpl implements UserInterestService{
 			String type) {
 		return wxUserInfoMapper.getInterestListByEntityId(entityId, type);
 	}
+
+    @Override
+    public String getUserInterestStatus(String userId, String interestType, String entityId) {
+        return userInterestMapper.getUserInterestStatus(userId, interestType, entityId);
+    }
 }
