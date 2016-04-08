@@ -27,4 +27,8 @@ public class WxUserServiceImpl implements WxUserService{
 		return wxUserInfoMapper.selectByPrimaryKey(openId);
 	}
 
+	@Override
+	public WxUserInfo getUserByUserId(String userId) {
+		return wxUserInfoMapper.selectWxUserInfoByUserId(userId);
+	}
 }

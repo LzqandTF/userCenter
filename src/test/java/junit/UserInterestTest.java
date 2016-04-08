@@ -54,4 +54,10 @@ public class UserInterestTest {
     	System.out.println();
     }
 
+    @Test
+    public void testUserInterestStatus() {
+        String status = userInterestService.getUserInterestStatus("123456", "1", "lot_00001");
+        System.out.println(status);
+    }
+
 }

@@ -29,4 +29,10 @@ public class WxUserInfoTest {
 	
 	}
 
+	@Test
+	public void testSelectWxuserByUserId() {
+		WxUserInfo wxUserInfo = wxUserService.getUserByUserId("12345");
+		System.out.println("   ");
+	}
+
 }
