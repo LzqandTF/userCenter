@@ -40,6 +40,11 @@ public class UserInterestServiceImpl implements UserInterestService{
 
     @Override
     public String getUserInterestStatus(String userId, String interestType, String entityId) {
-        return userInterestMapper.getUserInterestStatus(userId, interestType, entityId);
+        String status = userInterestMapper.getUserInterestStatus(userId, interestType, entityId);
+        if (status == null) {
+            return "1";
+        } else {
+            return status;
+        }
     }
 }
