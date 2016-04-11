@@ -13,13 +13,13 @@
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="ext" property="ext" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="ext1" property="ext1" jdbcType="VARCHAR" />
     <result column="ext2" property="ext2" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, open_id, name, vip, buy_score, sell_score, status, recommend, user_id, create_time, 
-    update_time, ext, ext1, ext2
+    update_time, mobile, ext1, ext2
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -37,12 +37,12 @@
     insert into user_info (id, open_id, name, 
       vip, buy_score, sell_score, 
       status, recommend, user_id, 
-      create_time, update_time, ext, 
+      create_time, update_time, mobile, 
       ext1, ext2)
     values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{vip,jdbcType=INTEGER}, #{buyScore,jdbcType=INTEGER}, #{sellScore,jdbcType=INTEGER}, 
       #{status,jdbcType=TINYINT}, #{recommend,jdbcType=TINYINT}, #{userId,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{ext,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{mobile,jdbcType=VARCHAR}, 
       #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserInfo" >
@@ -82,7 +82,7 @@
         update_time,
       </if>
       <if test="ext != null" >
-        ext,
+        mobile,
       </if>
       <if test="ext1 != null" >
         ext1,
@@ -126,7 +126,7 @@
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="ext != null" >
-        #{ext,jdbcType=VARCHAR},
+        #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="ext1 != null" >
         #{ext1,jdbcType=VARCHAR},
@@ -170,7 +170,7 @@
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="ext != null" >
-        ext = #{ext,jdbcType=VARCHAR},
+        mobile = #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="ext1 != null" >
         ext1 = #{ext1,jdbcType=VARCHAR},
@@ -193,7 +193,7 @@
       user_id = #{userId,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      ext = #{ext,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
       ext1 = #{ext1,jdbcType=VARCHAR},
       ext2 = #{ext2,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
