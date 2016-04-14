@@ -81,7 +81,7 @@
       <if test="updateTime != null" >
         update_time,
       </if>
-      <if test="ext != null" >
+      <if test="mobile != null" >
         mobile,
       </if>
       <if test="ext1 != null" >
@@ -125,7 +125,7 @@
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="ext != null" >
+      <if test="mobile != null" >
         #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="ext1 != null" >
@@ -169,7 +169,7 @@
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="ext != null" >
+      <if test="mobile != null" >
         mobile = #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="ext1 != null" >
