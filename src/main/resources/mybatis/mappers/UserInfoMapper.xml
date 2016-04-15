@@ -189,7 +189,7 @@
         ext2 = #{ext2,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yijiawang.web.platform.userCenter.po.UserInfo" >
     update user_info

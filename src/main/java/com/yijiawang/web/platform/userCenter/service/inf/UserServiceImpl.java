@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public int updateByPrimaryKey(UserInfo userInfo) {
-		return userInfoMapper.updateByPrimaryKey(userInfo);
+		return userInfoMapper.updateByPrimaryKeySelective(userInfo);
 	}
 
 
