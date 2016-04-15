@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="open_id" property="openId" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="signature" property="signature" jdbcType="VARCHAR" />
     <result column="vip" property="vip" jdbcType="INTEGER" />
     <result column="buy_score" property="buyScore" jdbcType="INTEGER" />
     <result column="sell_score" property="sellScore" jdbcType="INTEGER" />
@@ -19,7 +20,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, open_id, name, vip, buy_score, sell_score, status, recommend, user_id, create_time, 
-    update_time, mobile, ext1, ext2
+    update_time, mobile, signature, ext1, ext2
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -37,13 +38,13 @@
     insert into user_info (id, open_id, name, 
       vip, buy_score, sell_score, 
       status, recommend, user_id, 
-      create_time, update_time, mobile, 
+      create_time, update_time, mobile, signature, 
       ext1, ext2)
     values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{vip,jdbcType=INTEGER}, #{buyScore,jdbcType=INTEGER}, #{sellScore,jdbcType=INTEGER}, 
       #{status,jdbcType=TINYINT}, #{recommend,jdbcType=TINYINT}, #{userId,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{mobile,jdbcType=VARCHAR}, 
-      #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR})
+      #{signature,jdbcType=VARCHAR}, #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserInfo" >
     insert into user_info
@@ -56,6 +57,9 @@
       </if>
       <if test="name != null" >
         name,
+      </if>
+      <if test="signature != null" >
+        signature,
       </if>
       <if test="vip != null" >
         vip,
@@ -101,6 +105,9 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="signature != null" >
+        #{signature,jdbcType=VARCHAR},
+      </if>
       <if test="vip != null" >
         #{vip,jdbcType=INTEGER},
       </if>
@@ -145,6 +152,9 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="signature != null" >
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
       <if test="vip != null" >
         vip = #{vip,jdbcType=INTEGER},
       </if>
@@ -185,6 +195,7 @@
     update user_info
     set open_id = #{openId,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
+      signature = #{signature,jdbcType=VARCHAR},
       vip = #{vip,jdbcType=INTEGER},
       buy_score = #{buyScore,jdbcType=INTEGER},
       sell_score = #{sellScore,jdbcType=INTEGER},
