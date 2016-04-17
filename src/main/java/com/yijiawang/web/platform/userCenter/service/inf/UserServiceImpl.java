@@ -21,13 +21,19 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public int updateByPrimaryKey(UserInfo userInfo) {
-		return userInfoMapper.updateByPrimaryKeySelective(userInfo);
+		return userInfoMapper.updateByPrimaryKey(userInfo);
 	}
 
 
 	@Override
 	public int insertSelective(UserInfo userInfo) {
 		return userInfoMapper.insertSelective(userInfo);
+	}
+
+
+	@Override
+	public int updateByUserId(UserInfo userInfo) {
+		return userInfoMapper.updateByPrimaryKeySelective(userInfo);
 	}
 
 }
