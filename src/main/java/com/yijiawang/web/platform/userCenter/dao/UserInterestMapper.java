@@ -27,5 +27,5 @@ public interface UserInterestMapper {
 
     String getUserInterestStatus(@Param("userId")String userId, @Param("type")String type, @Param("entityId")String entityId);
 
-    List<InterestListItemVO> getInterestMeList(String myUserId, @Param("cursor")Long cursor, @Param("count")Integer count);
+    List<InterestListItemVO> getInterestMeList(@Param("myUserId")String myUserId, @Param("cursor")Long cursor, @Param("count")Integer count);
 }
