@@ -11,9 +11,9 @@
   </resultMap>
 
   <select id="getInterestList" resultMap="InterestListItemMap">
-    select UNIX_TIMESTAMP(a.update_time) id,a.entity_id,a.type,a.status,b.name
+    select UNIX_TIMESTAMP(a.update_time) id,a.entity_id,a.type,a.status,b.nickname name,b.avatar
     from user_interest a
-    LEFT JOIN user_info b
+    LEFT JOIN wx_user_info b
     on a.user_id=b.user_id
     where a.user_id=#{userId,jdbcType=VARCHAR} AND a.type=#{type,jdbcType=VARCHAR} AND a.status="0"
     <if test="cursor != 0">
@@ -36,9 +36,9 @@
   </select>
 
   <select id="getInterestMeList" resultMap="InterestListItemMap">
-    select UNIX_TIMESTAMP(a.update_time) id,a.entity_id,a.type,a.status,b.name
+    select UNIX_TIMESTAMP(a.update_time) id,a.entity_id,a.type,a.status,b.nickname name,b.avatar
     from user_interest a
-    LEFT JOIN user_info b
+    LEFT JOIN wx_user_info b
     on a.user_id=b.user_id
     where a.entity_id=#{myUserId,jdbcType=VARCHAR} AND a.type="2" AND a.status="0"
     <if test="cursor != 0">
