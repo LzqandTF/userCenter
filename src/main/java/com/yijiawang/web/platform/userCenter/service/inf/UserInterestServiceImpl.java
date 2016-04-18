@@ -28,8 +28,8 @@ public class UserInterestServiceImpl implements UserInterestService{
     }
 
     @Override
-    public List<InterestListItemVO> getInterestList(String userId, String interestType) {
-        return userInterestMapper.getInterestList(userId, interestType);
+    public List<InterestListItemVO> getInterestList(String userId, String interestType, Long cursor, Integer count) {
+        return userInterestMapper.getInterestList(userId, interestType, cursor, count);
     }
 
 	@Override
@@ -49,7 +49,7 @@ public class UserInterestServiceImpl implements UserInterestService{
     }
 
     @Override
-    public List<InterestListItemVO> getInterestMeList(String myUserId) {
-        return userInterestMapper.getInterestMeList(myUserId);
+    public List<InterestListItemVO> getInterestMeList(String myUserId, Long cursor, Integer count) {
+        return userInterestMapper.getInterestMeList(myUserId, cursor, count);
     }
 }
