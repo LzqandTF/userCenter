@@ -60,4 +60,9 @@ public class UserInterestTest {
         System.out.println(status);
     }
 
+    @Test
+    public void testInterestMeList() {
+        List list = userInterestService.getInterestMeList("678");
+        System.out.println("  ");
+    }
 }

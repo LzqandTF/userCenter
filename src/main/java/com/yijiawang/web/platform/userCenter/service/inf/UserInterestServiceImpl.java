@@ -47,4 +47,9 @@ public class UserInterestServiceImpl implements UserInterestService{
             return status;
         }
     }
+
+    @Override
+    public List<InterestListItemVO> getInterestMeList(String myUserId) {
+        return userInterestMapper.getInterestMeList(myUserId);
+    }
 }
