@@ -42,7 +42,7 @@ public class UserInterestTest {
 
    // @Test
     public void testInterestList() {
-        List<InterestListItemVO> list = userInterestService.getInterestList("456", "1");
+        List<InterestListItemVO> list = userInterestService.getInterestList("456", "1", 0L, 20);
         if (list != null && list.size() > 0) {
             System.out.println(list.size());
         }
@@ -62,7 +62,7 @@ public class UserInterestTest {
 
     @Test
     public void testInterestMeList() {
-        List list = userInterestService.getInterestMeList("678");
+        List list = userInterestService.getInterestMeList("678", 0L, 20);
         System.out.println("  ");
     }
 }
