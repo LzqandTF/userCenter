@@ -29,7 +29,7 @@
       select UNIX_TIMESTAMP(a.update_time) id,a.entity_id,a.type,a.status,b.name
       from user_interest a
       LEFT JOIN artist_info b
-      on a.entity_id=b.user_id
+      on a.entity_id=b.artist_id
     </if>
      where a.user_id=#{userId,jdbcType=VARCHAR} AND a.type=#{type,jdbcType=VARCHAR} AND a.status="0"
     <if test="cursor != 0">
