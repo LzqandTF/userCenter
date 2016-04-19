@@ -17,7 +17,7 @@
     on a.user_id=b.user_id
     where a.user_id=#{userId,jdbcType=VARCHAR} AND a.type=#{type,jdbcType=VARCHAR} AND a.status="0"
     <if test="cursor != 0">
-      <![CDATA[and a.update_time <= #{cursor,jdbcType=BIGINT} ]]>
+      <![CDATA[and a.update_time <= FROM_UNIXTIME(#{cursor,jdbcType=BIGINT}) ]]>
     </if>
     ORDER BY a.update_time desc
     LIMIT #{count,jdbcType=INTEGER}
@@ -42,7 +42,7 @@
     on a.user_id=b.user_id
     where a.entity_id=#{myUserId,jdbcType=VARCHAR} AND a.type="2" AND a.status="0"
     <if test="cursor != 0">
-      <![CDATA[and a.update_time <= #{cursor,jdbcType=BIGINT} ]]>
+      <![CDATA[and a.update_time <= FROM_UNIXTIME(#{cursor,jdbcType=BIGINT}) ]]>
     </if>
     ORDER BY a.update_time desc
     LIMIT #{count,jdbcType=INTEGER}
