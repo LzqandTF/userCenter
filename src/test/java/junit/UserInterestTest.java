@@ -40,9 +40,9 @@ public class UserInterestTest {
         userInterestService.setUserInterest(userInterest);
     }
 
-   // @Test
+   @Test
     public void testInterestList() {
-        List<InterestListItemVO> list = userInterestService.getInterestList("456", "1", 0L, 20);
+        List<InterestListItemVO> list = userInterestService.getInterestList("12345", "1", 0L, 20);
         if (list != null && list.size() > 0) {
             System.out.println(list.size());
         }

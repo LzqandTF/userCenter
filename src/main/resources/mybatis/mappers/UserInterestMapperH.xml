@@ -11,11 +11,27 @@
   </resultMap>
 
   <select id="getInterestList" resultMap="InterestListItemMap">
-    select UNIX_TIMESTAMP(a.update_time) id,a.entity_id,a.type,a.status,b.nickname name,b.avatar
-    from user_interest a
-    LEFT JOIN wx_user_info b
-    on a.user_id=b.user_id
-    where a.user_id=#{userId,jdbcType=VARCHAR} AND a.type=#{type,jdbcType=VARCHAR} AND a.status="0"
+    <if test="type == 2">
+      select UNIX_TIMESTAMP(a.update_time) id,a.entity_id,a.type,a.status,b.nickname name,b.avatar
+      from user_interest a
+      LEFT JOIN wx_user_info b
+      on a.entity_id=b.user_id
+    </if>
+    <if test="type == 1">
+      select UNIX_TIMESTAMP(a.update_time) id,a.entity_id,a.type,a.status,c.name
+      from user_interest a
+      LEFT JOIN lot_info b
+        LEFT JOIN goods_info c
+        on b.goods_id = c.goods_id
+      on a.entity_id=b.goods_id
+    </if>
+    <if test="type == 3">
+      select UNIX_TIMESTAMP(a.update_time) id,a.entity_id,a.type,a.status,b.name
+      from user_interest a
+      LEFT JOIN artist_info b
+      on a.entity_id=b.user_id
+    </if>
+     where a.user_id=#{userId,jdbcType=VARCHAR} AND a.type=#{type,jdbcType=VARCHAR} AND a.status="0"
     <if test="cursor != 0">
       <![CDATA[and a.update_time <= FROM_UNIXTIME(#{cursor,jdbcType=BIGINT}) ]]>
     </if>
