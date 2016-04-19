@@ -36,7 +36,7 @@
   </select>
 
   <select id="getInterestMeList" resultMap="InterestListItemMap">
-    select UNIX_TIMESTAMP(a.update_time) id,a.entity_id,a.type,a.status,b.nickname name,b.avatar
+    select UNIX_TIMESTAMP(a.update_time) id,a.user_id,a.type,a.status,b.nickname name,b.avatar
     from user_interest a
     LEFT JOIN wx_user_info b
     on a.user_id=b.user_id
