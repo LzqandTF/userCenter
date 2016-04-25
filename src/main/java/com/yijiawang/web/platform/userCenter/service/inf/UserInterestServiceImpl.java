@@ -4,8 +4,10 @@ import com.yijiawang.web.platform.userCenter.dao.UserInterestMapper;
 import com.yijiawang.web.platform.userCenter.dao.WxUserInfoMapper;
 import com.yijiawang.web.platform.userCenter.po.UserInterest;
 import com.yijiawang.web.platform.userCenter.service.UserInterestService;
+import com.yijiawang.web.platform.userCenter.type.InterestType;
 import com.yijiawang.web.platform.userCenter.vo.InterestListItemVO;
 
+import com.yijiawang.web.platform.userCenter.vo.InterestUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,5 +53,17 @@ public class UserInterestServiceImpl implements UserInterestService{
     @Override
     public List<InterestListItemVO> getInterestMeList(String myUserId, Long cursor, Integer count) {
         return userInterestMapper.getInterestMeList(myUserId, cursor, count);
+    }
+
+    @Override
+    public InterestUserVO getInterestUserInfo(String userId, String myUserId) {
+        InterestUserVO vo = userInterestMapper.getInterestUser(userId);
+        String status = userInterestMapper.getUserInterestStatus(myUserId, InterestType.USER.value(), userId);
+        if (status == null) {
+            vo.setStatus("1");
+        } else {
+            vo.setStatus(status);
+        }
+        return vo;
     }
 }

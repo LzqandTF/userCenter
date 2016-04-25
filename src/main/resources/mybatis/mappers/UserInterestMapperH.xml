@@ -63,4 +63,11 @@
     ORDER BY a.update_time desc
     LIMIT #{count,jdbcType=INTEGER}
   </select>
+
+  <select id="getInterestUser" parameterType="java.lang.String" resultType="com.yijiawang.web.platform.userCenter.vo.InterestUserVO">
+    select count(a.id),w.user_id,w.avatar,w.nickname from user_interest a
+    left join wx_user_info w
+    on a.entity_id=w.user_id
+    where a.entity_id = #{userId,jdbcType=VARCHAR} and a.type="2" AND a.status="0"
+  </select>
 </mapper>
