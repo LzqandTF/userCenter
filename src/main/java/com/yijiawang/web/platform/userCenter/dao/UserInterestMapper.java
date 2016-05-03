@@ -2,9 +2,10 @@ package com.yijiawang.web.platform.userCenter.dao;
 
 
 import com.yijiawang.web.platform.userCenter.po.UserInterest;
+import com.yijiawang.web.platform.userCenter.vo.InterestCountVO;
 import com.yijiawang.web.platform.userCenter.vo.InterestListItemVO;
-
 import com.yijiawang.web.platform.userCenter.vo.InterestUserVO;
+
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -31,4 +32,6 @@ public interface UserInterestMapper {
     List<InterestListItemVO> getInterestMeList(@Param("myUserId")String myUserId, @Param("cursor")Long cursor, @Param("count")Integer count);
 
     InterestUserVO getInterestUser(String userId);
+    
+    InterestCountVO getInterestCount(@Param("userId")String userId);
 }

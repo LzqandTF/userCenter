@@ -5,6 +5,7 @@ import com.yijiawang.web.platform.userCenter.dao.WxUserInfoMapper;
 import com.yijiawang.web.platform.userCenter.po.UserInterest;
 import com.yijiawang.web.platform.userCenter.po.WxUserInfo;
 import com.yijiawang.web.platform.userCenter.service.UserInterestService;
+import com.yijiawang.web.platform.userCenter.vo.InterestCountVO;
 import com.yijiawang.web.platform.userCenter.vo.InterestListItemVO;
 
 import org.junit.Test;
@@ -27,6 +28,8 @@ public class UserInterestTest {
     private UserInterestService userInterestService;
     @Autowired
     private WxUserInfoMapper wxUserInfoMapper;
+    @Autowired
+    private UserInterestMapper userInterestMapper;
 
     //@Test
     public void testSetUserInterest() {
@@ -40,29 +43,34 @@ public class UserInterestTest {
         userInterestService.setUserInterest(userInterest);
     }
 
-   @Test
+   //@Test
     public void testInterestList() {
         List<InterestListItemVO> list = userInterestService.getInterestList("12345", "1", 0L, 20);
         if (list != null && list.size() > 0) {
             System.out.println(list.size());
         }
     }
-    @Test
+    //@Test
     public void testlist() {
     	//List<WxUserInfo> list = userInterestService.getInterestListByEntityId("lot_00001", "1");
     	List list = wxUserInfoMapper.getInterestListByEntityId("lot_00001", "1");
     	System.out.println();
     }
 
-    @Test
+   // @Test
     public void testUserInterestStatus() {
         String status = userInterestService.getUserInterestStatus("123456", "1", "lot_00001");
         System.out.println(status);
     }
 
-    @Test
+    //@Test
     public void testInterestMeList() {
         List list = userInterestService.getInterestMeList("678", 0L, 20);
         System.out.println("  ");
+    }
+    @Test
+    public void testInterestCount() {
+    	InterestCountVO vo = userInterestMapper.getInterestCount("33");
+    	System.out.println(vo);
     }
 }

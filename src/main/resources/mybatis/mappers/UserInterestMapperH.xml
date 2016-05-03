@@ -68,4 +68,11 @@
     select count(a.id) fansCount,w.user_id userId,w.avatar,w.nickname name from user_interest a, wx_user_info w
     where a.entity_id=w.user_id and a.entity_id = #{userId,jdbcType=VARCHAR} and a.type="2" AND a.status="0"
   </select>
+  
+  <select id="getInterestCount" parameterType="java.lang.String" resultType="com.yijiawang.web.platform.userCenter.vo.InterestCountVO">
+    SELECT * FROM (
+    (SELECT COUNT(1) fansCount FROM user_interest WHERE TYPE = '2' AND entity_id = #{userId,jdbcType=VARCHAR})table1,
+	(SELECT COUNT(1) sellerCount FROM user_interest WHERE TYPE = '2' AND user_id = #{userId,jdbcType=VARCHAR})table2,
+	(SELECT COUNT(1) artistCount FROM user_interest WHERE TYPE = '3' AND user_id = #{userId,jdbcType=VARCHAR})table3)
+  </select>
 </mapper>

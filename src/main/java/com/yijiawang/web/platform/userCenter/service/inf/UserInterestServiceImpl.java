@@ -5,9 +5,10 @@ import com.yijiawang.web.platform.userCenter.dao.WxUserInfoMapper;
 import com.yijiawang.web.platform.userCenter.po.UserInterest;
 import com.yijiawang.web.platform.userCenter.service.UserInterestService;
 import com.yijiawang.web.platform.userCenter.type.InterestType;
+import com.yijiawang.web.platform.userCenter.vo.InterestCountVO;
 import com.yijiawang.web.platform.userCenter.vo.InterestListItemVO;
-
 import com.yijiawang.web.platform.userCenter.vo.InterestUserVO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,4 +67,9 @@ public class UserInterestServiceImpl implements UserInterestService{
         }
         return vo;
     }
+
+	@Override
+	public InterestCountVO getInterestCount(String userId) {
+		return userInterestMapper.getInterestCount(userId);
+	}
 }
