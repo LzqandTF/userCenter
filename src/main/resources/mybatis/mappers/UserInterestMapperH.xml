@@ -63,6 +63,12 @@
     ORDER BY a.update_time desc
     LIMIT #{count,jdbcType=INTEGER}
   </select>
+  
+  <select id="getInterestFansList" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select <include refid="Base_Column_List" />
+   		 from user_interest
+    where a.entity_id=#{entityId,jdbcType=VARCHAR} AND a.type="2" AND a.status="0"
+  </select>
 
   <select id="getInterestUser" parameterType="java.lang.String" resultType="com.yijiawang.web.platform.userCenter.vo.InterestUserVO">
     select count(a.id) fansCount,w.user_id userId,w.avatar,w.nickname name from user_interest a, wx_user_info w

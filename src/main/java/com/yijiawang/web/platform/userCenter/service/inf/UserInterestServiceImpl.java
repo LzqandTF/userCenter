@@ -72,4 +72,9 @@ public class UserInterestServiceImpl implements UserInterestService{
 	public InterestCountVO getInterestCount(String userId) {
 		return userInterestMapper.getInterestCount(userId);
 	}
+
+	@Override
+	public List<UserInterest> getInterestFansList(String entityId) {
+		return userInterestMapper.getInterestFansList(entityId);
+	}
 }

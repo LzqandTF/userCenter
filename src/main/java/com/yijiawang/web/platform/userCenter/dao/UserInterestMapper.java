@@ -34,4 +34,6 @@ public interface UserInterestMapper {
     InterestUserVO getInterestUser(String userId);
     
     InterestCountVO getInterestCount(@Param("userId")String userId);
+    
+    List<UserInterest> getInterestFansList(String entityId);
 }
