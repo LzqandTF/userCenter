@@ -67,7 +67,7 @@
   <select id="getInterestFansList" resultMap="BaseResultMap" parameterType="java.lang.String">
     select <include refid="Base_Column_List" />
    		 from user_interest
-    where a.entity_id=#{entityId,jdbcType=VARCHAR} AND a.type="2" AND a.status="0"
+    where entity_id=#{entityId,jdbcType=VARCHAR} AND type="2" AND status="0"
   </select>
 
   <select id="getInterestUser" parameterType="java.lang.String" resultType="com.yijiawang.web.platform.userCenter.vo.InterestUserVO">
