@@ -82,7 +82,7 @@
 	(SELECT COUNT(1) artistCount FROM user_interest WHERE TYPE = '3' AND user_id = #{userId,jdbcType=VARCHAR})table3)
   </select>
 
-  <select id="getUserInterestEntityIdByType" resultMap="java.lang.String">
+  <select id="getUserInterestEntityIdByType" resultType="java.lang.String">
     select entity_id FROM user_interst
     WHERE status='0' AND user_id=#{userId,jdbcType=VARCHAR} AND type=#{type,jdbcType=VARCHAR}
   </select>
