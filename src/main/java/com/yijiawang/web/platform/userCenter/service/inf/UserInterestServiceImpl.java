@@ -91,7 +91,9 @@ public class UserInterestServiceImpl implements UserInterestService{
         Set<String> set = new HashSet<>();
         Set<String> retRecommendSet = new HashSet<>();
         UserInfo recommendUserInfo = null;
+        int count = 0;
         do{
+            count++;
             int index = new Random().nextInt(recommendList.size());
             recommendUserInfo = recommendList.get(index);
             if (!retRecommendSet.contains(recommendUserInfo.getUserId())) {
@@ -107,7 +109,7 @@ public class UserInterestServiceImpl implements UserInterestService{
                 retRecommendSet.add(recommendUserInfo.getUserId());
                 retList.add(vo);
             }
-        }while (set.size()<6);
+        }while (set.size()<6 && count<recommendList.size());
         return retList;
     }
 }
