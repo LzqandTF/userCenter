@@ -83,7 +83,7 @@
   </select>
 
   <select id="getUserInterestEntityIdByType" resultType="java.lang.String">
-    select entity_id FROM user_interst
+    select entity_id FROM user_interest
     WHERE status='0' AND user_id=#{userId,jdbcType=VARCHAR} AND type=#{type,jdbcType=VARCHAR}
   </select>
 </mapper>
