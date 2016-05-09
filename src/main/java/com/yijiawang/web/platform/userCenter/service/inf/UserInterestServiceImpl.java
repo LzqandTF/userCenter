@@ -40,7 +40,7 @@ public class UserInterestServiceImpl implements UserInterestService{
         return userInterestMapper.getInterestList(userId, interestType, cursor, count);
     }
 
-	@Override
+    @Override
 	public List<String> getInterestListByEntityId(String entityId,
 			String type) {
 		return wxUserInfoMapper.getInterestListByEntityId(entityId, type);
