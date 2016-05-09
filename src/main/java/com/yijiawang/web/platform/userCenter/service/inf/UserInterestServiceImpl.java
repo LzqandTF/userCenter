@@ -1,7 +1,9 @@
 package com.yijiawang.web.platform.userCenter.service.inf;
 
+import com.yijiawang.web.platform.userCenter.dao.UserInfoMapper;
 import com.yijiawang.web.platform.userCenter.dao.UserInterestMapper;
 import com.yijiawang.web.platform.userCenter.dao.WxUserInfoMapper;
+import com.yijiawang.web.platform.userCenter.po.UserInfo;
 import com.yijiawang.web.platform.userCenter.po.UserInterest;
 import com.yijiawang.web.platform.userCenter.service.UserInterestService;
 import com.yijiawang.web.platform.userCenter.type.InterestType;
@@ -9,10 +11,11 @@ import com.yijiawang.web.platform.userCenter.vo.InterestCountVO;
 import com.yijiawang.web.platform.userCenter.vo.InterestListItemVO;
 import com.yijiawang.web.platform.userCenter.vo.InterestUserVO;
 
+import com.yijiawang.web.platform.userCenter.vo.RecommendSalerVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by xy on 16/4/6.
@@ -24,6 +27,8 @@ public class UserInterestServiceImpl implements UserInterestService{
     private UserInterestMapper userInterestMapper;
     @Autowired
     private WxUserInfoMapper wxUserInfoMapper;
+    @Autowired
+    private UserInfoMapper userInfoMapper;
 
     @Override
     public int setUserInterest(UserInterest userInterest) {
@@ -77,4 +82,32 @@ public class UserInterestServiceImpl implements UserInterestService{
 	public List<UserInterest> getInterestFansList(String entityId) {
 		return userInterestMapper.getInterestFansList(entityId);
 	}
+
+    @Override
+    public List<RecommendSalerVO> recommendSaler(String userId) {
+        List<UserInfo> recommendList = userInfoMapper.getRecommendUserList();
+        List<RecommendSalerVO> retList = new ArrayList<>();
+        List<String> hasInterestSaler = userInterestMapper.getUserInterestEntityIdByType(userId, InterestType.USER.value());
+        Set<String> set = new HashSet<>();
+        Set<String> retRecommendSet = new HashSet<>();
+        UserInfo recommendUserInfo = null;
+        do{
+            int index = new Random().nextInt(recommendList.size());
+            recommendUserInfo = recommendList.get(index);
+            if (!retRecommendSet.contains(recommendUserInfo.getUserId())) {
+                RecommendSalerVO vo = new RecommendSalerVO();
+                vo.setSalerId(recommendUserInfo.getUserId());
+                vo.setSalerName(recommendUserInfo.getName());
+                // // TODO: 16/5/9  avatar
+                if (hasInterestSaler.contains(recommendUserInfo.getUserId())) {
+                    vo.setInterested(1);
+                } else {
+                    vo.setInterested(0);
+                }
+                retRecommendSet.add(recommendUserInfo.getUserId());
+                retList.add(vo);
+            }
+        }while (set.size()<6);
+        return retList;
+    }
 }

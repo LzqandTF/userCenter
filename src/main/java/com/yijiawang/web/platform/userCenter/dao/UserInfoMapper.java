@@ -2,6 +2,8 @@ package com.yijiawang.web.platform.userCenter.dao;
 
 import com.yijiawang.web.platform.userCenter.po.UserInfo;
 
+import java.util.List;
+
 public interface UserInfoMapper {
     int insert(UserInfo record);
 
@@ -14,4 +16,6 @@ public interface UserInfoMapper {
     int updateByPrimaryKey(UserInfo record);
     
     UserInfo getUserByUserId(String userId);
+
+    List<UserInfo> getRecommendUserList();
 }
