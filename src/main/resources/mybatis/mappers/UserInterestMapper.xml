@@ -1,18 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yijiawang.web.platform.userCenter.dao.UserInterestMapper">
-  <resultMap id="BaseResultMap" type="com.yijiawang.web.platform.userCenter.po.UserInterest">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yijiawang.web.platform.userCenter.dao.UserInterestMapper" >
+  <resultMap id="BaseResultMap" type="com.yijiawang.web.platform.userCenter.po.UserInterest" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="type" property="type" jdbcType="VARCHAR" />
-    <result column="entity_id" property="entityId" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="entity_id" property="entityId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, type, entity_id, status, user_id
+    id, user_id, type, entity_id, status, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
+    select 
     <include refid="Base_Column_List" />
     from user_interest
     where id = #{id,jdbcType=BIGINT}
@@ -22,16 +23,21 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.UserInterest" >
-    insert into user_interest (id, type, entity_id,
-    status, user_id)
-    values (#{id,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, #{entityId,jdbcType=VARCHAR},
-    #{status,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR})
+    insert into user_interest (id, user_id, type, 
+      entity_id, status, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{entityId,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserInterest" >
     insert into user_interest
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="userId != null" >
+        user_id,
       </if>
       <if test="type != null" >
         type,
@@ -42,52 +48,59 @@
       <if test="status != null" >
         status,
       </if>
-      <if test="userId != null" >
-        user_id,
+      <if test="updateTime != null" >
+        update_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
       <if test="type != null" >
-        #{type,jdbcType=VARCHAR},
+        #{type,jdbcType=TINYINT},
       </if>
       <if test="entityId != null" >
         #{entityId,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=VARCHAR},
+        #{status,jdbcType=TINYINT},
       </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=VARCHAR},
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserInterest" >
     update user_interest
     <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
       <if test="type != null" >
-        type = #{type,jdbcType=VARCHAR},
+        type = #{type,jdbcType=TINYINT},
       </if>
       <if test="entityId != null" >
         entity_id = #{entityId,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=VARCHAR},
+        status = #{status,jdbcType=TINYINT},
       </if>
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=VARCHAR},
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yijiawang.web.platform.userCenter.po.UserInterest" >
     update user_interest
-    set type = #{type,jdbcType=VARCHAR},
+    set user_id = #{userId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
       entity_id = #{entityId,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR},
-      user_id = #{userId,jdbcType=VARCHAR}
+      status = #{status,jdbcType=TINYINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -25,9 +25,9 @@ public interface UserInterestMapper {
 
     int setUserInterest(UserInterest userInterest);
 
-    List<InterestListItemVO> getInterestList(@Param("userId")String userId, @Param("type")String type, @Param("cursor")Long cursor, @Param("count")Integer count);
+    List<InterestListItemVO> getInterestList(@Param("userId")String userId, @Param("type")Byte type, @Param("cursor")Long cursor, @Param("count")Integer count);
 
-    String getUserInterestStatus(@Param("userId")String userId, @Param("type")String type, @Param("entityId")String entityId);
+    Byte getUserInterestStatus(@Param("userId")String userId, @Param("type")Byte type, @Param("entityId")String entityId);
 
     List<InterestListItemVO> getInterestMeList(@Param("myUserId")String myUserId, @Param("cursor")Long cursor, @Param("count")Integer count);
 
@@ -37,5 +37,5 @@ public interface UserInterestMapper {
     
     List<UserInterest> getInterestFansList(String entityId);
 
-    List<String> getUserInterestEntityIdByType(@Param("userId") String userId, @Param("type") String type);
+    List<String> getUserInterestEntityIdByType(@Param("userId") String userId, @Param("type") Byte type);
 }

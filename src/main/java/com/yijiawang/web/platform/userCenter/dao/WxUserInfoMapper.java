@@ -17,7 +17,7 @@ public interface WxUserInfoMapper {
 
     int updateByPrimaryKey(WxUserInfo record);
     
-    List<String> getInterestListByEntityId(@Param("entityId")String entityId, @Param("type")String type);
+    List<String> getInterestListByEntityId(@Param("entityId")String entityId, @Param("type")Byte type);
 
     WxUserInfo selectWxUserInfoByUserId(String userId);
 }

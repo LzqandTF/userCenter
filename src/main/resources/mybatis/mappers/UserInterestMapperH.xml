@@ -6,8 +6,8 @@
     <result column="entity_id" jdbcType="VARCHAR" property="entityId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="status" jdbcType="TINYINT" property="status" />
   </resultMap>
 
   <select id="getInterestList" resultMap="InterestListItemMap">
@@ -31,7 +31,7 @@
       LEFT JOIN artist_info b
       on a.entity_id=b.artist_id
     </if>
-     where a.user_id=#{userId,jdbcType=VARCHAR} AND a.type=#{type,jdbcType=VARCHAR} AND a.status="0"
+     where a.user_id=#{userId,jdbcType=VARCHAR} AND a.type=#{type,jdbcType=TINYINT} AND a.status="0"
     <if test="cursor != 0">
       <![CDATA[and a.update_time <= FROM_UNIXTIME(#{cursor,jdbcType=BIGINT}) ]]>
     </if>
@@ -42,13 +42,13 @@
   <update id="setUserInterest" parameterType="com.yijiawang.web.platform.userCenter.po.UserInterest">
     REPLACE INTO user_interest (type, entity_id,
     status, user_id)
-    values (#{type,jdbcType=VARCHAR}, #{entityId,jdbcType=VARCHAR},
+    values (#{type,jdbcType=TINYINT}, #{entityId,jdbcType=VARCHAR},
     #{status,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR})
   </update>
 
-  <select id="getUserInterestStatus" resultType="java.lang.String">
+  <select id="getUserInterestStatus" resultType="java.lang.Byte">
     SELECT status FROM user_interest
-    where type = #{type,jdbcType=VARCHAR} AND entity_id = #{entityId,jdbcType=VARCHAR} AND user_id = #{userId,jdbcType=VARCHAR}
+    where type = #{type,jdbcType=TINYINT} AND entity_id = #{entityId,jdbcType=VARCHAR} AND user_id = #{userId,jdbcType=VARCHAR}
   </select>
 
   <select id="getInterestMeList" resultMap="InterestListItemMap">
@@ -56,7 +56,7 @@
     from user_interest a
     LEFT JOIN wx_user_info b
     on a.user_id=b.user_id
-    where a.entity_id=#{myUserId,jdbcType=VARCHAR} AND a.type="2" AND a.status="0"
+    where a.entity_id=#{myUserId,jdbcType=VARCHAR} AND a.type=2 AND a.status=0
     <if test="cursor != 0">
       <![CDATA[and a.update_time <= FROM_UNIXTIME(#{cursor,jdbcType=BIGINT}) ]]>
     </if>
@@ -67,23 +67,23 @@
   <select id="getInterestFansList" resultMap="BaseResultMap" parameterType="java.lang.String">
     select <include refid="Base_Column_List" />
    		 from user_interest
-    where entity_id=#{entityId,jdbcType=VARCHAR} AND type="2" AND status="0"
+    where entity_id=#{entityId,jdbcType=VARCHAR} AND type=2 AND status=0
   </select>
 
   <select id="getInterestUser" parameterType="java.lang.String" resultType="com.yijiawang.web.platform.userCenter.vo.InterestUserVO">
     select count(a.id) fansCount,w.user_id userId,w.avatar,w.nickname name from user_interest a, wx_user_info w
-    where a.entity_id=w.user_id and a.entity_id = #{userId,jdbcType=VARCHAR} and a.type="2" AND a.status="0"
+    where a.entity_id=w.user_id and a.entity_id = #{userId,jdbcType=VARCHAR} and a.type=2 AND a.status=0
   </select>
   
   <select id="getInterestCount" parameterType="java.lang.String" resultType="com.yijiawang.web.platform.userCenter.vo.InterestCountVO">
     SELECT * FROM (
-    (SELECT COUNT(1) fansCount FROM user_interest WHERE TYPE = '2' AND entity_id = #{userId,jdbcType=VARCHAR})table1,
-	(SELECT COUNT(1) sellerCount FROM user_interest WHERE TYPE = '2' AND user_id = #{userId,jdbcType=VARCHAR})table2,
-	(SELECT COUNT(1) artistCount FROM user_interest WHERE TYPE = '3' AND user_id = #{userId,jdbcType=VARCHAR})table3)
+    (SELECT COUNT(1) fansCount FROM user_interest WHERE status=0 AND type= 2 AND entity_id = #{userId,jdbcType=VARCHAR})table1,
+	(SELECT COUNT(1) sellerCount FROM user_interest WHERE status=0 AND TYPE = 2 AND user_id = #{userId,jdbcType=VARCHAR})table2,
+	(SELECT COUNT(1) artistCount FROM user_interest WHERE status=0 AND TYPE = 3 AND user_id = #{userId,jdbcType=VARCHAR})table3)
   </select>
 
   <select id="getUserInterestEntityIdByType" resultType="java.lang.String">
     select entity_id FROM user_interest
-    WHERE status='0' AND user_id=#{userId,jdbcType=VARCHAR} AND type=#{type,jdbcType=VARCHAR}
+    WHERE status=0 AND user_id=#{userId,jdbcType=VARCHAR} AND type=#{type,jdbcType=VARCHAR}
   </select>
 </mapper>

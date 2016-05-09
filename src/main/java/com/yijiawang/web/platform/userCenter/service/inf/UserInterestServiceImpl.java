@@ -36,21 +36,21 @@ public class UserInterestServiceImpl implements UserInterestService{
     }
 
     @Override
-    public List<InterestListItemVO> getInterestList(String userId, String interestType, Long cursor, Integer count) {
+    public List<InterestListItemVO> getInterestList(String userId, Byte interestType, Long cursor, Integer count) {
         return userInterestMapper.getInterestList(userId, interestType, cursor, count);
     }
 
     @Override
 	public List<String> getInterestListByEntityId(String entityId,
-			String type) {
+			Byte type) {
 		return wxUserInfoMapper.getInterestListByEntityId(entityId, type);
 	}
 
     @Override
-    public String getUserInterestStatus(String userId, String interestType, String entityId) {
-        String status = userInterestMapper.getUserInterestStatus(userId, interestType, entityId);
+    public Byte getUserInterestStatus(String userId, Byte interestType, String entityId) {
+        Byte status = userInterestMapper.getUserInterestStatus(userId, interestType, entityId);
         if (status == null) {
-            return "1";
+            return 1;
         } else {
             return status;
         }
@@ -64,9 +64,9 @@ public class UserInterestServiceImpl implements UserInterestService{
     @Override
     public InterestUserVO getInterestUserInfo(String userId, String myUserId) {
         InterestUserVO vo = userInterestMapper.getInterestUser(userId);
-        String status = userInterestMapper.getUserInterestStatus(myUserId, InterestType.USER.value(), userId);
+        Byte status = userInterestMapper.getUserInterestStatus(myUserId, InterestType.USER.value(), userId);
         if (status == null) {
-            vo.setStatus("1");
+            vo.setStatus((byte)1);
         } else {
             vo.setStatus(status);
         }

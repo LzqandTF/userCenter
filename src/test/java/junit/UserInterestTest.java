@@ -36,8 +36,8 @@ public class UserInterestTest {
         UserInterest userInterest = new UserInterest();
 
         userInterest.setUserId("456");
-        userInterest.setStatus("1");
-        userInterest.setType("1");
+        userInterest.setStatus((byte)1);
+        userInterest.setType((byte)1);
         userInterest.setEntityId("lot_00001");
 
         userInterestService.setUserInterest(userInterest);
@@ -45,7 +45,7 @@ public class UserInterestTest {
 
    //@Test
     public void testInterestList() {
-        List<InterestListItemVO> list = userInterestService.getInterestList("12345", "1", 0L, 20);
+        List<InterestListItemVO> list = userInterestService.getInterestList("12345", (byte)1, 0L, 20);
         if (list != null && list.size() > 0) {
             System.out.println(list.size());
         }
@@ -53,13 +53,13 @@ public class UserInterestTest {
     //@Test
     public void testlist() {
     	//List<WxUserInfo> list = userInterestService.getInterestListByEntityId("lot_00001", "1");
-    	List list = wxUserInfoMapper.getInterestListByEntityId("lot_00001", "1");
+    	List list = wxUserInfoMapper.getInterestListByEntityId("lot_00001", (byte)1);
     	System.out.println();
     }
 
    // @Test
     public void testUserInterestStatus() {
-        String status = userInterestService.getUserInterestStatus("123456", "1", "lot_00001");
+        Byte status = userInterestService.getUserInterestStatus("123456", (byte)1, "lot_00001");
         System.out.println(status);
     }
 
