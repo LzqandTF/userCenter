@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yijiawang.web.platform.userCenter.dao.ProtectQuestionMapper" >
+    <select id="userProtectQuestion" parameterType="java.lang.String" resultType="com.yijiawang.web.platform.userCenter.vo.UserProtectQuestionVO">
+        select a.question_id questionId, a.question, a.group_id groupId, b.user_answer userAnswer
+        FROM protect_question a
+        LEFT JOIN protect_answer b
+        on a.question_id = b.question_id
+        <if test="userId != null">
+            where b.user_id=#{userId,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+</mapper>

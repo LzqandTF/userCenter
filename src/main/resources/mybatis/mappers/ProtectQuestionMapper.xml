@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yijiawang.web.platform.userCenter.dao.ProtectQuestionMapper" >
+  <resultMap id="BaseResultMap" type="com.yijiawang.web.platform.userCenter.po.ProtectQuestion" >
+      <id column="id" property="id" jdbcType="INTEGER" />
+      <result column="question" property="question" jdbcType="VARCHAR" />
+      <result column="question_id" property="questionId" jdbcType="VARCHAR" />
+      <result column="status" property="status" jdbcType="TINYINT" />
+      <result column="group_id" property="groupId" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, question, question_id, status, group_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from protect_question
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from protect_question
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.ProtectQuestion" >
+    insert into protect_question (id, question, question_id, 
+      status, group_id)
+    values (#{id,jdbcType=INTEGER}, #{question,jdbcType=VARCHAR}, #{questionId,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}, #{groupId,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.ProtectQuestion" >
+    insert into protect_question
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+            id,
+        </if>
+        <if test="question != null" >
+            question,
+        </if>
+        <if test="questionId != null" >
+            question_id,
+        </if>
+        <if test="status != null" >
+            status,
+        </if>
+        <if test="groupId != null" >
+            group_id,
+        </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="id != null" >
+            #{id,jdbcType=INTEGER},
+        </if>
+        <if test="question != null" >
+            #{question,jdbcType=VARCHAR},
+        </if>
+        <if test="questionId != null" >
+            #{questionId,jdbcType=VARCHAR},
+        </if>
+        <if test="status != null" >
+            #{status,jdbcType=TINYINT},
+        </if>
+        <if test="groupId != null" >
+            #{groupId,jdbcType=TINYINT},
+        </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yijiawang.web.platform.userCenter.po.ProtectQuestion" >
+      update protect_question
+      <set >
+          <if test="question != null" >
+              question = #{question,jdbcType=VARCHAR},
+          </if>
+          <if test="questionId != null" >
+              question_id = #{questionId,jdbcType=VARCHAR},
+          </if>
+          <if test="status != null" >
+              status = #{status,jdbcType=TINYINT},
+          </if>
+          <if test="groupId != null" >
+              group_id = #{groupId,jdbcType=TINYINT},
+          </if>
+      </set>
+      where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yijiawang.web.platform.userCenter.po.ProtectQuestion" >
+    update protect_question
+    set question = #{question,jdbcType=VARCHAR},
+      question_id = #{questionId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
+      group_id = #{groupId,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
