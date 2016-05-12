@@ -1,15 +1,12 @@
 package com.yijiawang.web.platform.userCenter.service.inf;
 
-import com.yijiawang.web.platform.userCenter.dao.ProtectAnswerMapper;
-import com.yijiawang.web.platform.userCenter.dao.ProtectQuestionMapper;
-import com.yijiawang.web.platform.userCenter.dao.UserPayInfoMapper;
+import com.yijiawang.web.platform.userCenter.dao.*;
 import com.yijiawang.web.platform.userCenter.po.ProtectAnswer;
-import com.yijiawang.web.platform.userCenter.po.UserPayInfo;
+import com.yijiawang.web.platform.userCenter.po.UserAccount;
 import com.yijiawang.web.platform.userCenter.vo.UserProtectQuestionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.yijiawang.web.platform.userCenter.dao.UserInfoMapper;
 import com.yijiawang.web.platform.userCenter.po.UserInfo;
 import com.yijiawang.web.platform.userCenter.service.UserService;
 
@@ -24,7 +21,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private ProtectAnswerMapper protectAnswerMapper;
     @Autowired
-    private UserPayInfoMapper userPayInfoMapper;
+    private UserAccountMapper userAccountMapper;
 	
 	
 	@Override
@@ -51,14 +48,14 @@ public class UserServiceImpl implements UserService{
 	}
 
     @Override
-    public UserPayInfo getUserPayInfo(String userId) {
-        return userPayInfoMapper.selectByUserId(userId);
+    public UserAccount getUserPayInfo(String userId) {
+        return userAccountMapper.selectByUserId(userId);
     }
 
     @Override
     public List<UserProtectQuestionVO> getProtectQuestion(String userId) {
-        UserPayInfo payInfo = getUserPayInfo(userId);
-        if (payInfo != null && payInfo.getPayPwd() != null && payInfo.getPayPwd().length() > 0) {
+        UserAccount payInfo = getUserPayInfo(userId);
+        if (payInfo != null && payInfo.getPassWord() != null && payInfo.getPassWord().length() > 0) {
             return protectQuestionMapper.userProtectQuestion(userId);
         }
         return protectQuestionMapper.userProtectQuestion(null);
@@ -85,7 +82,6 @@ public class UserServiceImpl implements UserService{
                     return 1;
                 }
             }
-            userPayInfoMapper.updateUserPayPassword(userId, payPassword);
         } else {
             // 未设置过密保问题, 全部保存
             for(UserProtectQuestionVO vo : questions) {
@@ -96,19 +92,26 @@ public class UserServiceImpl implements UserService{
                 answer.setUserAnswer(vo.getUserAnswer());
                 protectAnswerMapper.insert(answer);
             }
-            UserPayInfo userPayInfo = new UserPayInfo();
-            userPayInfo.setUserId(userId);
-            userPayInfo.setPayPwd(payPassword);
-            userPayInfoMapper.insert(userPayInfo);
+        }
+        UserAccount userAccount = getUserPayInfo(userId);
+        if (userAccount == null) {
+            userAccount = new UserAccount();
+            userAccount.setUserId(userId);
+            userAccount.setPassWord(payPassword);
+            userAccount.setStatus(0);
+            userAccountMapper.insert(userAccount);
+        } else {
+            userAccount.setPassWord(payPassword);
+            userAccountMapper.updateUserPayPassword(userId, payPassword);
         }
         return 0;
     }
 
     @Override
     public int updateUserPayPassword(String userId, String oldPwd, String newPwd) {
-        UserPayInfo payInfo = getUserPayInfo(userId);
-        if (payInfo != null && payInfo.getPayPwd().equals(oldPwd)) {
-            if(userPayInfoMapper.updateUserPayPassword(userId, newPwd) > 0){
+        UserAccount payInfo = getUserPayInfo(userId);
+        if (payInfo != null && payInfo.getPassWord().equals(oldPwd)) {
+            if(userAccountMapper.updateUserPayPassword(userId, newPwd) > 0){
                 return 0;
             } else {
                 return 1;
