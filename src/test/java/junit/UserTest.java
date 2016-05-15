@@ -23,7 +23,7 @@ public class UserTest {
 
     @Test
     public void getProtectQuestionTest() {
-        String userId = "4c572546b2ec481e96ccfa48d354ad39";
+        String userId = "31229a9e544c431d9d9b294064ac1f2b";
 
         List<UserProtectQuestionVO> list = userService.getProtectQuestion(userId);
 

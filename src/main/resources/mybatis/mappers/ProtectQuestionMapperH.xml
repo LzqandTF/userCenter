@@ -6,7 +6,7 @@
         FROM protect_question a
         LEFT JOIN protect_answer b
         on a.question_id = b.question_id
-        <if test="_parameter!=null != null">
+        <if test="_parameter != null">
             where b.user_id=#{_parameter,jdbcType=VARCHAR}
         </if>
     </select>
