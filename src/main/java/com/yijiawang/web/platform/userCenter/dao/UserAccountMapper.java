@@ -20,4 +20,8 @@ public interface UserAccountMapper {
     UserAccount selectByUserId(String userId);
 
     int updateUserPayPassword(@Param("userId") String userId, @Param("paypwd") String paypwd);
+
+    int updateBalance2UserAccount(@Param("userId") String userId, @Param("amount") Integer amount);
+
+    int updateFrozenMoney2UserAccount(@Param("userId") String userId, @Param("amount") Integer amount);
 }

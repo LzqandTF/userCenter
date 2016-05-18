@@ -126,15 +126,4 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
-        select
-        <include refid="Base_Column_List" />
-        from user_account
-        where user_id = #{userId,jdbcType=VARCHAR}
-    </select>
-
-    <update id="updateUserPayPassword" parameterType="com.yijiawang.web.platform.userCenter.po.UserAccount">
-        UPDATE user_account set pass_word = #{paypwd,jdbcType=VARCHAR}
-        WHERE user_id = #{userId,jdbcType=VARCHAR}
-    </update>
 </mapper>

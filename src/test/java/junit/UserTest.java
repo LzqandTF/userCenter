@@ -51,10 +51,10 @@ public class UserTest {
 
     @Test
     public void updateUserPayPasswordTest() {
-        String userId = "4c572546b2ec481e96ccfa48d354ad39";
-        String oldPassword = "123456";
-        String newPassword = "654321";
+        String userId = "31229a9e544c431d9d9b294064ac1f2b";
+        String oldPassword = "e3ceb5881a0a1fdaad01296d7554868d";
+        String newPassword = "e3ceb5881a0a1fdaad01296d7554868d";
         int result = userService.updateUserPayPassword(userId, oldPassword, newPassword);
-        System.out.println("   ");
+        System.out.println("result=="+result);
     }
 }
