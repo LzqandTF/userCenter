@@ -29,6 +29,8 @@ public class UserServiceImpl implements UserService{
     private AccountCheckMapper accountCheckMapper;
     @Autowired
     private InsurePriceInfoMapper insurePriceInfoMapper;
+    @Autowired
+    private WxUserInfoMapper wxUserInfoMapper;
 	
 	
 	@Override
@@ -136,12 +138,15 @@ public class UserServiceImpl implements UserService{
             return 1;
         }
         accountCheck.setTranId(param.get("tran_id"));
-        if (param.get("user_id") == null || param.get("open_id") == null) {
+        if (param.get("open_id") == null) {
             return 2;
         }
-        String userId = param.get("user_id");
-        accountCheck.setUserId(userId);
-        accountCheck.setOpenId(param.get("open_id"));
+        WxUserInfo wxUserInfo = wxUserInfoMapper.selectByPrimaryKey(param.get("open_id"));
+        if (wxUserInfo == null) {
+            return 4;
+        }
+        accountCheck.setUserId(wxUserInfo.getUserId());
+        accountCheck.setOpenId(wxUserInfo.getOpenId());
         if (param.get("title") != null) {
             accountCheck.setTitle(param.get("title"));
         }
@@ -277,11 +282,11 @@ public class UserServiceImpl implements UserService{
     }
 
     private int insertInsurePriceInfo(AccountCheck accountCheck) {
-        InsurePriceInfo info = new InsurePriceInfo();
         UserInfo salerInfo = insurePriceInfoMapper.getLotSalerInfo(accountCheck.getLotId());
+        InsurePriceInfo info = new InsurePriceInfo();
         info.setTranId(accountCheck.getTranId());
         info.setSalerId(salerInfo.getUserId());
-        info.setOpenId(salerInfo.getOpenId());
+        info.setOpenId(accountCheck.getOpenId());
         info.setLotId(accountCheck.getLotId());
         info.setOpenId(accountCheck.getOpenId());
         info.setUserId(accountCheck.getUserId());
