@@ -1,6 +1,5 @@
 package com.yijiawang.web.platform.userCenter.service.inf;
 
-import com.sun.javafx.tools.packager.Log;
 import com.yijiawang.web.platform.userCenter.dao.*;
 import com.yijiawang.web.platform.userCenter.po.*;
 import com.yijiawang.web.platform.userCenter.type.BalanceChange;
