@@ -4,6 +4,8 @@ import com.yijiawang.web.platform.userCenter.dao.*;
 import com.yijiawang.web.platform.userCenter.po.AccountCheck;
 import com.yijiawang.web.platform.userCenter.po.ProtectAnswer;
 import com.yijiawang.web.platform.userCenter.po.UserAccount;
+import com.yijiawang.web.platform.userCenter.type.BalanceChange;
+import com.yijiawang.web.platform.userCenter.type.TradeType;
 import com.yijiawang.web.platform.userCenter.vo.UserProtectQuestionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -136,7 +138,8 @@ public class UserServiceImpl implements UserService{
         if (param.get("user_id") == null || param.get("open_id") == null) {
             return 2;
         }
-        accountCheck.setUserId(param.get("user_id"));
+        String userId = param.get("user_id");
+        accountCheck.setUserId(userId);
         accountCheck.setOpenId(param.get("open_id"));
         if (param.get("title") != null) {
             accountCheck.setTitle(param.get("title"));
@@ -165,20 +168,19 @@ public class UserServiceImpl implements UserService{
         }
         if (accountCheckMapper.insert(accountCheck) > 0) {
             // 更新用户账户余额
-            UserAccount userAccount = getUserPayInfo(param.get("user_id"));
-            if (type == 0) {
+            if (type == BalanceChange.SUB.value()) {
                 // 从余额支出
-                userAccountMapper.updateBalance2UserAccount(param.get("user_id"), amount*-1);
-                if (tradeType == 2) {
+                userAccountMapper.updateBalance2UserAccount(userId, amount*-1);
+                if (tradeType == TradeType.INSURE.value()) {
                     // 支付保证金
-                    userAccountMapper.updateFrozenMoney2UserAccount(param.get("user_id"), amount);
+                    userAccountMapper.updateFrozenMoney2UserAccount(userId, amount);
                 }
-            } else if (type == 1) {
+            } else if (type == BalanceChange.ADD.value()) {
                 // 余额收入
-                userAccountMapper.updateBalance2UserAccount(param.get("user_id"), amount);
-                if (tradeType == 2) {
+                userAccountMapper.updateBalance2UserAccount(userId, amount);
+                if (tradeType == TradeType.INSURE.value()) {
                     // 退还保证金
-                    userAccountMapper.updateFrozenMoney2UserAccount(param.get("user_id"), amount*-1);
+                    userAccountMapper.updateFrozenMoney2UserAccount(userId, amount*-1);
                 }
             }
         }

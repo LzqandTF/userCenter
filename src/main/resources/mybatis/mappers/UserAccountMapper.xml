@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="com.yijiawang.web.platform.userCenter.po.UserAccount" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
-    <result column="balance" property="balance" jdbcType="DECIMAL" />
-    <result column="frozen_money" property="frozenMoney" jdbcType="DECIMAL" />
+    <result column="balance" property="balance" jdbcType="INTEGER" />
+    <result column="frozen_money" property="frozenMoney" jdbcType="INTEGER" />
     <result column="pass_word" property="passWord" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -28,8 +28,8 @@
     insert into user_account (id, user_id, balance, 
       frozen_money, pass_word, status, 
       create_time, update_time)
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{balance,jdbcType=DECIMAL}, 
-      #{frozenMoney,jdbcType=DECIMAL}, #{passWord,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{balance,jdbcType=INTEGER}, 
+      #{frozenMoney,jdbcType=INTEGER}, #{passWord,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserAccount" >
@@ -68,10 +68,10 @@
         #{userId,jdbcType=VARCHAR},
       </if>
       <if test="balance != null" >
-        #{balance,jdbcType=DECIMAL},
+        #{balance,jdbcType=INTEGER},
       </if>
       <if test="frozenMoney != null" >
-        #{frozenMoney,jdbcType=DECIMAL},
+        #{frozenMoney,jdbcType=INTEGER},
       </if>
       <if test="passWord != null" >
         #{passWord,jdbcType=VARCHAR},
@@ -94,10 +94,10 @@
         user_id = #{userId,jdbcType=VARCHAR},
       </if>
       <if test="balance != null" >
-        balance = #{balance,jdbcType=DECIMAL},
+        balance = #{balance,jdbcType=INTEGER},
       </if>
       <if test="frozenMoney != null" >
-        frozen_money = #{frozenMoney,jdbcType=DECIMAL},
+        frozen_money = #{frozenMoney,jdbcType=INTEGER},
       </if>
       <if test="passWord != null" >
         pass_word = #{passWord,jdbcType=VARCHAR},
@@ -117,8 +117,8 @@
   <update id="updateByPrimaryKey" parameterType="com.yijiawang.web.platform.userCenter.po.UserAccount" >
     update user_account
     set user_id = #{userId,jdbcType=VARCHAR},
-      balance = #{balance,jdbcType=DECIMAL},
-      frozen_money = #{frozenMoney,jdbcType=DECIMAL},
+      balance = #{balance,jdbcType=INTEGER},
+      frozen_money = #{frozenMoney,jdbcType=INTEGER},
       pass_word = #{passWord,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
