@@ -1,6 +1,8 @@
 package com.yijiawang.web.platform.userCenter.dao;
 
 import com.yijiawang.web.platform.userCenter.po.InsurePriceInfo;
+import com.yijiawang.web.platform.userCenter.po.UserInfo;
+import org.apache.ibatis.annotations.Param;
 
 public interface InsurePriceInfoMapper {
     int deleteByPrimaryKey(Long id);
@@ -14,4 +16,11 @@ public interface InsurePriceInfoMapper {
     int updateByPrimaryKeySelective(InsurePriceInfo record);
 
     int updateByPrimaryKey(InsurePriceInfo record);
+
+    //------ 自定义操作
+    int updateInsurePriceInfoStatus(@Param("userId") String userId, @Param("lotId") String lotId, @Param("status") Byte status);
+
+    UserInfo getLotSalerInfo(String lotId);
+
+    InsurePriceInfo selectByTranId(String tranId);
 }

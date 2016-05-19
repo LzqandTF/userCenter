@@ -4,16 +4,18 @@
   <resultMap id="BaseResultMap" type="com.yijiawang.web.platform.userCenter.po.InsurePriceInfo" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="tran_id" property="tranId" jdbcType="VARCHAR" />
+    <result column="saler_id" property="salerId" jdbcType="VARCHAR" />
     <result column="lot_id" property="lotId" jdbcType="VARCHAR" />
     <result column="open_id" property="openId" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="insure_price" property="insurePrice" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
     <result column="pay_type" property="payType" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, tran_id, lot_id, open_id, user_id, insure_price, status, pay_type, create_time
+    id, tran_id, saler_id, lot_id, open_id, user_id, insure_price, status, pay_type, 
+    create_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -26,14 +28,14 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.InsurePriceInfo" >
-    insert into insure_price_info (id, tran_id, lot_id, 
-      open_id, user_id, insure_price, 
-      status, pay_type, create_time
-      )
-    values (#{id,jdbcType=BIGINT}, #{tranId,jdbcType=VARCHAR}, #{lotId,jdbcType=VARCHAR}, 
-      #{openId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{insurePrice,jdbcType=INTEGER}, 
-      #{status,jdbcType=VARCHAR}, #{payType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
-      )
+    insert into insure_price_info (id, tran_id, saler_id, 
+      lot_id, open_id, user_id, 
+      insure_price, status, pay_type, 
+      create_time)
+    values (#{id,jdbcType=BIGINT}, #{tranId,jdbcType=VARCHAR}, #{salerId,jdbcType=VARCHAR}, 
+      #{lotId,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{insurePrice,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{payType,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.InsurePriceInfo" >
     insert into insure_price_info
@@ -43,6 +45,9 @@
       </if>
       <if test="tranId != null" >
         tran_id,
+      </if>
+      <if test="salerId != null" >
+        saler_id,
       </if>
       <if test="lotId != null" >
         lot_id,
@@ -73,6 +78,9 @@
       <if test="tranId != null" >
         #{tranId,jdbcType=VARCHAR},
       </if>
+      <if test="salerId != null" >
+        #{salerId,jdbcType=VARCHAR},
+      </if>
       <if test="lotId != null" >
         #{lotId,jdbcType=VARCHAR},
       </if>
@@ -86,7 +94,7 @@
         #{insurePrice,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=VARCHAR},
+        #{status,jdbcType=TINYINT},
       </if>
       <if test="payType != null" >
         #{payType,jdbcType=INTEGER},
@@ -102,6 +110,9 @@
       <if test="tranId != null" >
         tran_id = #{tranId,jdbcType=VARCHAR},
       </if>
+      <if test="salerId != null" >
+        saler_id = #{salerId,jdbcType=VARCHAR},
+      </if>
       <if test="lotId != null" >
         lot_id = #{lotId,jdbcType=VARCHAR},
       </if>
@@ -115,7 +126,7 @@
         insure_price = #{insurePrice,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=VARCHAR},
+        status = #{status,jdbcType=TINYINT},
       </if>
       <if test="payType != null" >
         pay_type = #{payType,jdbcType=INTEGER},
@@ -129,11 +140,12 @@
   <update id="updateByPrimaryKey" parameterType="com.yijiawang.web.platform.userCenter.po.InsurePriceInfo" >
     update insure_price_info
     set tran_id = #{tranId,jdbcType=VARCHAR},
+      saler_id = #{salerId,jdbcType=VARCHAR},
       lot_id = #{lotId,jdbcType=VARCHAR},
       open_id = #{openId,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=VARCHAR},
       insure_price = #{insurePrice,jdbcType=INTEGER},
-      status = #{status,jdbcType=VARCHAR},
+      status = #{status,jdbcType=TINYINT},
       pay_type = #{payType,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}

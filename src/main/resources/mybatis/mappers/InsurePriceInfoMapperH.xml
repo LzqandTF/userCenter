@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yijiawang.web.platform.userCenter.dao.InsurePriceInfoMapper" >
+
+  <select id="selectByTranId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from insure_price_info
+    where tran_id = #{tranId,jdbcType=VARCHAR}
+  </select>
+
+  <update id="updateInsurePriceInfoStatus" >
+    update insure_price_info
+    set
+      status = #{status,jdbcType=TINYINT}
+    where user_id = #{userId,jdbcType=VARCHAR} AND lot_id=#{lotId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="getLotSalerInfo" parameterType="java.lang.String" resultType="com.yijiawang.web.platform.userCenter.po.UserInfo">
+      select c.user_id userId, c.open_id openId
+      from lot_info a
+      left join goods_info b on a.goods_id=b.goods_id
+      left join user_info c on b.owner_id = c.user_id
+      WHERE a.lot_id=#{lotId,jdbcType=VARCHAR}
+  </select>
+</mapper>
