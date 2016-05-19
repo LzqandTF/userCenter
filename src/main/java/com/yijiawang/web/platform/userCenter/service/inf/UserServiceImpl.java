@@ -1,5 +1,6 @@
 package com.yijiawang.web.platform.userCenter.service.inf;
 
+import com.sun.javafx.tools.packager.Log;
 import com.yijiawang.web.platform.userCenter.dao.*;
 import com.yijiawang.web.platform.userCenter.po.*;
 import com.yijiawang.web.platform.userCenter.type.BalanceChange;
@@ -157,6 +158,7 @@ public class UserServiceImpl implements UserService{
         }
         Integer tradeType = Integer.parseInt(param.get("trade_type"));
         accountCheck.setTradeType(tradeType);
+        Log.info("获取到金额==" + param.get("trade_amount"));
         Integer amount = Integer.parseInt(param.get("trade_amount"));
         accountCheck.setTradeAmount(amount);
         if (param.get("pay_type") == null) {
