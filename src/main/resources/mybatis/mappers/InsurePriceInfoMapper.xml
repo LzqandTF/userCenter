@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yijiawang.web.platform.userCenter.dao.InsurePriceInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.yijiawang.web.platform.userCenter.po.InsurePriceInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="tran_id" property="tranId" jdbcType="VARCHAR" />
+    <result column="lot_id" property="lotId" jdbcType="VARCHAR" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="insure_price" property="insurePrice" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, tran_id, lot_id, open_id, user_id, insure_price, status, pay_type, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from insure_price_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from insure_price_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.InsurePriceInfo" >
+    insert into insure_price_info (id, tran_id, lot_id, 
+      open_id, user_id, insure_price, 
+      status, pay_type, create_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{tranId,jdbcType=VARCHAR}, #{lotId,jdbcType=VARCHAR}, 
+      #{openId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{insurePrice,jdbcType=INTEGER}, 
+      #{status,jdbcType=VARCHAR}, #{payType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.InsurePriceInfo" >
+    insert into insure_price_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tranId != null" >
+        tran_id,
+      </if>
+      <if test="lotId != null" >
+        lot_id,
+      </if>
+      <if test="openId != null" >
+        open_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="insurePrice != null" >
+        insure_price,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="tranId != null" >
+        #{tranId,jdbcType=VARCHAR},
+      </if>
+      <if test="lotId != null" >
+        #{lotId,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="insurePrice != null" >
+        #{insurePrice,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yijiawang.web.platform.userCenter.po.InsurePriceInfo" >
+    update insure_price_info
+    <set >
+      <if test="tranId != null" >
+        tran_id = #{tranId,jdbcType=VARCHAR},
+      </if>
+      <if test="lotId != null" >
+        lot_id = #{lotId,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="insurePrice != null" >
+        insure_price = #{insurePrice,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yijiawang.web.platform.userCenter.po.InsurePriceInfo" >
+    update insure_price_info
+    set tran_id = #{tranId,jdbcType=VARCHAR},
+      lot_id = #{lotId,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      insure_price = #{insurePrice,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
