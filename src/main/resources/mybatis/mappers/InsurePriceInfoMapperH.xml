@@ -23,4 +23,12 @@
       left join user_info c on b.owner_id = c.user_id
       WHERE a.lot_id=#{lotId,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectByOpenIdAndLotId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from insure_price_info
+    where open_id = #{openId,jdbcType=VARCHAR} and lot_id = #{lotId,jdbcType=VARCHAR} and status = '0'
+    limit 1
+  </select>
 </mapper>

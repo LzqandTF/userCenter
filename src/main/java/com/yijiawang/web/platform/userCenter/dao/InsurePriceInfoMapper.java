@@ -23,4 +23,6 @@ public interface InsurePriceInfoMapper {
     UserInfo getLotSalerInfo(String lotId);
 
     InsurePriceInfo selectByTranId(String tranId);
+    
+    InsurePriceInfo selectByOpenIdAndLotId(@Param("openId")String openId, @Param("lotId")String lotId);
 }
