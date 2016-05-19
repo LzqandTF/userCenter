@@ -216,7 +216,7 @@ public class UserServiceImpl implements UserService {
                 if (accountCheckMapper.insert(accountCheck) > 0) {
                     userAccountMapper.updateBalance2UserAccount(userId, amount);
                 }
-            } else if (accountCheck.getTradeType() == TradeType.ORDER.value()) {
+            } else if (accountCheck.getTradeType() == TradeType.ORDER_PAY.value()) {
                 // 支付订单
                 // 1. 充值余额
                 accountCheck.setType(BalanceChange.ADD.value());
@@ -275,7 +275,7 @@ public class UserServiceImpl implements UserService {
                 if (accountCheckMapper.insert(accountCheck) > 0) {
                     userAccountMapper.updateBalance2UserAccount(userId, -1*amount);
                 }
-            } else if (accountCheck.getTradeType() == TradeType.REFUND.value()) {
+            } else if (accountCheck.getTradeType() == TradeType.ORDER_WITHDRAW.value()) {
                 // 退款
                 accountCheck.setType(BalanceChange.ADD.value());
                 if (accountCheckMapper.insert(accountCheck) > 0) {
@@ -299,6 +299,14 @@ public class UserServiceImpl implements UserService {
                         }
 
                     }
+                }
+            } else if (accountCheck.getTradeType() == TradeType.ORDER_FINISH.value()) {
+                // 订单完成
+                accountCheck.setType(BalanceChange.ADD.value());
+                // 修改余额
+                if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
+                    // 添加流水
+                    accountCheckMapper.insert(accountCheck);
                 }
             } else if (accountCheck.getTradeType() == TradeType.INSURE_WITHDRAW.value()) {
                 // 退回保证金
