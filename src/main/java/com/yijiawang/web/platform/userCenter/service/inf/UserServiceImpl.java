@@ -8,6 +8,7 @@ import com.yijiawang.web.platform.userCenter.type.InsureStatus;
 import com.yijiawang.web.platform.userCenter.type.PayType;
 import com.yijiawang.web.platform.userCenter.type.TradeType;
 import com.yijiawang.web.platform.userCenter.vo.UserProtectQuestionVO;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ import java.util.Map;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{
+
+    private org.apache.commons.logging.Log log = LogFactory.getLog(UserServiceImpl.class);
+
 	@Autowired
 	private UserInfoMapper userInfoMapper;
     @Autowired
@@ -158,7 +162,7 @@ public class UserServiceImpl implements UserService{
         }
         Integer tradeType = Integer.parseInt(param.get("trade_type"));
         accountCheck.setTradeType(tradeType);
-        Log.info("获取到金额==" + param.get("trade_amount"));
+        log.info("获取到金额==" + param.get("trade_amount"));
         Integer amount = Integer.parseInt(param.get("trade_amount"));
         accountCheck.setTradeAmount(amount);
         if (param.get("pay_type") == null) {
