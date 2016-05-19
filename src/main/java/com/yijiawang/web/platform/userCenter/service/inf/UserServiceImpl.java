@@ -139,14 +139,17 @@ public class UserServiceImpl implements UserService{
     @Override
     public int addAccountCheck(Map<String, String> param) {
         // 写入流水
+        log.info("------------addAccountCheck-----------");
         AccountCheck accountCheck = new AccountCheck();
         if (param.get("tran_id") == null) {
             return 1;
         }
+        log.info("tran_id == " + param.get("tran_id"));
         accountCheck.setTranId(param.get("tran_id"));
         if (param.get("open_id") == null) {
             return 2;
         }
+        log.info("open_id == " + param.get("open_id"));
         WxUserInfo wxUserInfo = wxUserInfoMapper.selectByPrimaryKey(param.get("open_id"));
         if (wxUserInfo == null) {
             return 4;
@@ -156,25 +159,30 @@ public class UserServiceImpl implements UserService{
         if (param.get("title") != null) {
             accountCheck.setTitle(param.get("title"));
         }
+        log.info("title == " + param.get("title"));
         if (param.get("trade_type") == null || param.get("trade_amount") == null) {
             return 3;
         }
+        log.info("trade_type == " + param.get("trade_type"));
         Integer tradeType = Integer.parseInt(param.get("trade_type"));
         accountCheck.setTradeType(tradeType);
-        log.info("获取到金额==" + param.get("trade_amount"));
+        log.info("trade_amount == " + param.get("trade_amount"));
         Integer amount = Integer.parseInt(param.get("trade_amount"));
         accountCheck.setTradeAmount(amount);
         if (param.get("pay_type") == null) {
             return 5;
         }
+        log.info("pay_type == " + param.get("pay_type"));
         accountCheck.setPayType(Integer.parseInt(param.get("pay_type")));
         if (param.get("lot_id") != null) {
             accountCheck.setLotId(param.get("lot_id"));
+            log.info("lot_id == " + param.get("lot_id"));
         }
         if (param.get("order_id") != null) {
             accountCheck.setOrderId(param.get("lot_id"));
+            log.info("order_id == " + param.get("order_id"));
         }
-
+        log.info("----------- end addAccountCheck ------------");
         return changeBalance(accountCheck);
     }
 
@@ -217,11 +225,20 @@ public class UserServiceImpl implements UserService{
             }
         } else if (accountCheck.getTradeType() == TradeType.INSURE_PAY.value()) {
             // 支付保证金
-            accountCheck.setType(BalanceChange.ADD.value());
-            if (accountCheckMapper.insert(accountCheck) > 0) {
-                // 1. 充值到余额
-                if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
-                    // 充值成功, 2. 从余额支付保证金
+            // 1. 充值到余额
+            if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
+                log.info(" 支付保证金, 余额增加完成 !");
+                accountCheck.setType(BalanceChange.ADD.value());
+                if (accountCheckMapper.insert(accountCheck) > 0) {
+                    log.info(" 支付保证金, 余额充值流水写入完成 !");
+                    // 2. 从余额支付保证金
+                    userAccountMapper.updateBalance2UserAccount(userId, -1*amount);
+                    log.info(" 支付保证金, 余额扣除完成 !");
+                    userAccountMapper.updateFrozenMoney2UserAccount(userId, amount);
+                    log.info(" 支付保证金, 冻结保证金完成 !");
+                    // 插入保证金表
+                    insertInsurePriceInfo(accountCheck);
+                    log.info(" 支付保证金, 写入保证金表完成");
                     AccountCheck outAccountCheck = new AccountCheck();
                     outAccountCheck.setUserId(accountCheck.getUserId());
                     outAccountCheck.setOpenId(accountCheck.getOpenId());
@@ -232,10 +249,7 @@ public class UserServiceImpl implements UserService{
                     outAccountCheck.setPayType(PayType.BALANCE.value());
                     outAccountCheck.setLotId(accountCheck.getLotId());
                     if (accountCheckMapper.insert(outAccountCheck) > 0) {
-                        userAccountMapper.updateBalance2UserAccount(userId, -1*amount);
-                        userAccountMapper.updateFrozenMoney2UserAccount(userId, amount);
-                        // 插入保证金表
-                        insertInsurePriceInfo(accountCheck);
+                        log.info(" 支付保证金, 余额消费流水写入完成 !");
                     }
                 }
             }
@@ -253,8 +267,17 @@ public class UserServiceImpl implements UserService{
                 if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
                     if (accountCheck.getPayType() != PayType.BALANCE.value()) {
                         // 2. 如果非余额付款,从余额扣除
-                        accountCheck.setType(BalanceChange.SUB.value());
-                        if (accountCheckMapper.insert(accountCheck) > 0) {
+                        AccountCheck outAccountCheck = new AccountCheck();
+                        outAccountCheck.setUserId(accountCheck.getUserId());
+                        outAccountCheck.setOpenId(accountCheck.getOpenId());
+                        outAccountCheck.setTitle(accountCheck.getTitle());
+                        outAccountCheck.setTradeType(accountCheck.getTradeType());
+                        outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
+                        outAccountCheck.setType(BalanceChange.SUB.value());
+                        outAccountCheck.setPayType(PayType.BALANCE.value());
+                        outAccountCheck.setLotId(accountCheck.getLotId());
+                        outAccountCheck.setOrderId(accountCheck.getOrderId());
+                        if (accountCheckMapper.insert(outAccountCheck) > 0) {
                             userAccountMapper.updateBalance2UserAccount(userId, -1*amount);
                         }
                     }
@@ -269,8 +292,16 @@ public class UserServiceImpl implements UserService{
                 if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
                     if (accountCheck.getPayType() != PayType.BALANCE.value()) {
                         // 2. 如果非余额付款,从余额扣除
-                        accountCheck.setType(BalanceChange.SUB.value());
-                        if (accountCheckMapper.insert(accountCheck) > 0) {
+                        AccountCheck outAccountCheck = new AccountCheck();
+                        outAccountCheck.setUserId(accountCheck.getUserId());
+                        outAccountCheck.setOpenId(accountCheck.getOpenId());
+                        outAccountCheck.setTitle(accountCheck.getTitle());
+                        outAccountCheck.setTradeType(accountCheck.getTradeType());
+                        outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
+                        outAccountCheck.setType(BalanceChange.SUB.value());
+                        outAccountCheck.setPayType(PayType.BALANCE.value());
+                        outAccountCheck.setLotId(accountCheck.getLotId());
+                        if (accountCheckMapper.insert(outAccountCheck) > 0) {
                             userAccountMapper.updateBalance2UserAccount(userId, -1*amount);
                         }
                     }
