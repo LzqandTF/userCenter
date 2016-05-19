@@ -108,6 +108,8 @@ public class UserServiceImpl implements UserService{
             userAccount.setUserId(userId);
             userAccount.setPassWord(payPassword);
             userAccount.setStatus(0);
+            userAccount.setBalance(0);
+            userAccount.setFrozenMoney(0);
             userAccountMapper.insert(userAccount);
         } else {
             userAccount.setPassWord(payPassword);
