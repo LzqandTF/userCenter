@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service("userService")
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private org.apache.commons.logging.Log log = LogFactory.getLog(UserServiceImpl.class);
 
@@ -74,6 +74,8 @@ public class UserServiceImpl implements UserService{
         return protectQuestionMapper.userProtectQuestion(null);
     }
 
+
+
     /**
      * 保存用户密保问题(如果是第一次还要保存密保问题)
      * @param userId
@@ -123,6 +125,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public int createUserAccount(UserAccount userAccount) {
+        return userAccountMapper.insert(userAccount);
+    }
+
+    @Override
     public int updateUserPayPassword(String userId, String oldPwd, String newPwd) {
         UserAccount payInfo = getUserPayInfo(userId);
         if (payInfo != null && payInfo.getPassWord().equals(oldPwd)) {
@@ -134,6 +141,11 @@ public class UserServiceImpl implements UserService{
         } else {
             return 2;
         }
+    }
+
+    @Override
+    public AccountCheck getAccountCheckByTranId(String tran_id) {
+        return accountCheckMapper.selectByTranId(tran_id);
     }
 
     @Override

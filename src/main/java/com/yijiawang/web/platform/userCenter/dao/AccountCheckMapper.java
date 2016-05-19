@@ -14,4 +14,7 @@ public interface AccountCheckMapper {
     int updateByPrimaryKeySelective(AccountCheck record);
 
     int updateByPrimaryKey(AccountCheck record);
+
+    // -------- 自定义 -------
+    AccountCheck selectByTranId(String tranId);
 }
