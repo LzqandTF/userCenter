@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int createUserAccount(UserAccount userAccount) {
-        return userAccountMapper.insert(userAccount);
+        return userAccountMapper.insertSelective(userAccount);
     }
 
     @Override
