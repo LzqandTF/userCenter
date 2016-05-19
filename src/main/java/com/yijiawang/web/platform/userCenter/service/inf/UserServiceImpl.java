@@ -193,8 +193,16 @@ public class UserServiceImpl implements UserService{
             if (accountCheckMapper.insert(accountCheck) > 0) {
                 if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
                     // 充值成功, 2. 从余额支付订单
-                    accountCheck.setType(BalanceChange.SUB.value());
-                    if (accountCheckMapper.insert(accountCheck) > 0) {
+                    AccountCheck outAccountCheck = new AccountCheck();
+                    outAccountCheck.setUserId(accountCheck.getUserId());
+                    outAccountCheck.setOpenId(accountCheck.getOpenId());
+                    outAccountCheck.setTitle("支付保证金");
+                    outAccountCheck.setTradeType(accountCheck.getTradeType());
+                    outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
+                    outAccountCheck.setType(BalanceChange.SUB.value());
+                    outAccountCheck.setPayType(PayType.BALANCE.value());
+                    outAccountCheck.setLotId(accountCheck.getLotId());
+                    if (accountCheckMapper.insert(outAccountCheck) > 0) {
                         userAccountMapper.updateBalance2UserAccount(userId, -1*amount);
                     }
                 }
