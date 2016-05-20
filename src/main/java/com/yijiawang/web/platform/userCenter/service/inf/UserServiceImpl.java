@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yijiawang.web.platform.userCenter.service.UserService;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.List;
 import java.util.Map;
@@ -286,6 +287,7 @@ public class UserServiceImpl implements UserService {
                         outAccountCheck.setLotId(accountCheck.getLotId());
                         if (accountCheckMapper.insert(outAccountCheck) > 0) {
                             log.info(" 支付保证金, 余额消费流水写入完成 !");
+                            throw new RuntimeException();
                         }
                     }
                 }
@@ -415,6 +417,7 @@ public class UserServiceImpl implements UserService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         }
 
         return 0;
