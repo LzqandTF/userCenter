@@ -149,6 +149,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<AccountCheck> getAccountCheckByOrderId(String orderId) {
+        return accountCheckMapper.selectByOrderId(orderId);
+    }
+
+    @Override
     public int addAccountCheck(Map<String, String> param) {
         // 写入流水
         log.info("------------addAccountCheck-----------");

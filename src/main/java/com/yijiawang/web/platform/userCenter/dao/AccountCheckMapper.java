@@ -2,6 +2,8 @@ package com.yijiawang.web.platform.userCenter.dao;
 
 import com.yijiawang.web.platform.userCenter.po.AccountCheck;
 
+import java.util.List;
+
 public interface AccountCheckMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -17,4 +19,6 @@ public interface AccountCheckMapper {
 
     // -------- 自定义 -------
     AccountCheck selectByTranId(String tranId);
+
+    List<AccountCheck> selectByOrderId(String orderId);
 }
