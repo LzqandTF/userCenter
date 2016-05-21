@@ -200,6 +200,14 @@ public class UserServiceImpl implements UserService {
             accountCheck.setOrderId(param.get("lot_id"));
             log.info("order_id == " + param.get("order_id"));
         }
+        if (param.get("order_sn") != null) {
+            accountCheck.setOrderSn(param.get("order_sn"));
+            log.info("order_sn == " + param.get("order_sn"));
+        }
+        if (param.get("back_sn") != null) {
+            accountCheck.setBackSn(param.get("back_sn"));
+            log.info("back_sn == " + param.get("back_sn"));
+        }
         log.info("----------- end addAccountCheck ------------");
         return changeBalance(accountCheck);
     }
@@ -231,7 +239,6 @@ public class UserServiceImpl implements UserService {
                 // 支付订单
                 // 1. 充值余额
                 log.info(" 订单支付 ");
-
                 if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
                     log.info(" 订单支付, 余额增加完成");
                     accountCheck.setType(BalanceChange.ADD.value());
@@ -266,6 +273,7 @@ public class UserServiceImpl implements UserService {
                 if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
                     log.info(" 支付保证金, 余额增加完成 !");
                     accountCheck.setType(BalanceChange.ADD.value());
+                    accountCheck.setTitle("充值");
                     if (accountCheckMapper.insert(accountCheck) > 0) {
                         log.info(" 支付保证金, 余额充值流水写入完成 !");
                         // 2. 从余额支付保证金
@@ -279,7 +287,7 @@ public class UserServiceImpl implements UserService {
                         AccountCheck outAccountCheck = new AccountCheck();
                         outAccountCheck.setUserId(accountCheck.getUserId());
                         outAccountCheck.setOpenId(accountCheck.getOpenId());
-                        outAccountCheck.setTitle(accountCheck.getTitle());
+                        outAccountCheck.setTitle("支付保证金");
                         outAccountCheck.setTradeType(accountCheck.getTradeType());
                         outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
                         outAccountCheck.setType(BalanceChange.SUB.value());
