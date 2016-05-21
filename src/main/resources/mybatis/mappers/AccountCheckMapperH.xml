@@ -15,4 +15,11 @@
       from account_check
       where order_id = #{orderId,jdbcType=VARCHAR}
   </select>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select
+      <include refid="Base_Column_List" />
+      from account_check
+      where user_id = #{userId,jdbcType=VARCHAR}
+      order by id DESC
+  </select>
 </mapper>

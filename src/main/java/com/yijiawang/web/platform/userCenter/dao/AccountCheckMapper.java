@@ -21,4 +21,6 @@ public interface AccountCheckMapper {
     AccountCheck selectByTranId(String tranId);
 
     List<AccountCheck> selectByOrderId(String orderId);
+
+    List<AccountCheck> selectByUserId(String userId);
 }

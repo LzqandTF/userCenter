@@ -287,7 +287,6 @@ public class UserServiceImpl implements UserService {
                         outAccountCheck.setLotId(accountCheck.getLotId());
                         if (accountCheckMapper.insert(outAccountCheck) > 0) {
                             log.info(" 支付保证金, 余额消费流水写入完成 !");
-                            throw new RuntimeException();
                         }
                     }
                 }
@@ -442,4 +441,14 @@ public class UserServiceImpl implements UserService {
         return insurePriceInfoMapper.updateInsurePriceInfoStatus(userId, lotId, status);
     }
 
+
+    @Override
+    public List<AccountCheck> getAccountCheckByUserId(String userId) {
+        return accountCheckMapper.selectByUserId(userId);
+    }
+
+    @Override
+    public AccountCheck getAccountById(Long id) {
+        return accountCheckMapper.selectByPrimaryKey(id);
+    }
 }
