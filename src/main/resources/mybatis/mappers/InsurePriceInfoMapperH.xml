@@ -8,12 +8,33 @@
     from insure_price_info
     where tran_id = #{tranId,jdbcType=VARCHAR}
   </select>
+  
+  <select id="getInsurePriceListByLotId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from insure_price_info
+    where     
+    lot_id = #{lotId,jdbcType=VARCHAR}
+     <if test="type == 0">
+     and deal_flag = 0
+     </if>
+     <if test="type == 1">
+     and deal_flag = 1
+     </if>
+  </select>
 
   <update id="updateInsurePriceInfoStatus" >
     update insure_price_info
     set
       status = #{status,jdbcType=TINYINT}
     where user_id = #{userId,jdbcType=VARCHAR} AND lot_id=#{lotId,jdbcType=VARCHAR}
+  </update>
+  
+   <update id="updateInsurePrice" >
+    update insure_price_info
+    set
+      deal_flag = 1
+    where open_id = #{openId,jdbcType=VARCHAR} AND lot_id=#{lotId,jdbcType=VARCHAR}
   </update>
 
   <select id="getLotSalerInfo" parameterType="java.lang.String" resultType="com.yijiawang.web.platform.userCenter.po.UserInfo">

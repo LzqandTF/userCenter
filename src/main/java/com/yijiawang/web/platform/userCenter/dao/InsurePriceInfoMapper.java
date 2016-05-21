@@ -1,7 +1,10 @@
 package com.yijiawang.web.platform.userCenter.dao;
 
+import java.util.List;
+
 import com.yijiawang.web.platform.userCenter.po.InsurePriceInfo;
 import com.yijiawang.web.platform.userCenter.po.UserInfo;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface InsurePriceInfoMapper {
@@ -25,4 +28,8 @@ public interface InsurePriceInfoMapper {
     InsurePriceInfo selectByTranId(String tranId);
     
     InsurePriceInfo selectByOpenIdAndLotId(@Param("openId")String openId, @Param("lotId")String lotId);
+    
+    List<InsurePriceInfo> getInsurePriceListByLotId(@Param("lotId")String lotId, @Param("type")Integer type);
+    
+    int updateInsurePrice(@Param("lotId")String lotId, @Param("openId")String openId);
 }
