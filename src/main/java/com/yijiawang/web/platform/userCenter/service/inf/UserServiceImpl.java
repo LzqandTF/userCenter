@@ -452,7 +452,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<AccountCheck> getAccountCheckByUserId(String userId, Long cursor, Integer count) {
-        return accountCheckMapper.selectByUserId(userId);
+        return accountCheckMapper.selectByUserId(userId, cursor, count);
     }
 
     @Override
