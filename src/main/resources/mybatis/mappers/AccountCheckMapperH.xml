@@ -20,6 +20,10 @@
       <include refid="Base_Column_List" />
       from account_check
       where user_id = #{userId,jdbcType=VARCHAR}
+      <if test="cursor != 0">
+          <![CDATA[and id <= #{cursor,jdbcType=BIGINT} ]]>
+      </if>
       order by id DESC
+      LIMIT #{count,jdbcType=INTEGER}
   </select>
 </mapper>
