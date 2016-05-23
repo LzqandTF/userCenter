@@ -1,5 +1,7 @@
 package com.yijiawang.web.platform.userCenter.service.inf;
 
+import com.yijiawang.web.platform.userCenter.cache.JedisPoolManager;
+import com.yijiawang.web.platform.userCenter.cache.UserCacheNameSpace;
 import com.yijiawang.web.platform.userCenter.dao.*;
 import com.yijiawang.web.platform.userCenter.po.*;
 import com.yijiawang.web.platform.userCenter.type.BalanceChange;
@@ -7,6 +9,7 @@ import com.yijiawang.web.platform.userCenter.type.InsureStatus;
 import com.yijiawang.web.platform.userCenter.type.PayType;
 import com.yijiawang.web.platform.userCenter.type.TradeType;
 import com.yijiawang.web.platform.userCenter.vo.UserProtectQuestionVO;
+import com.yijiawang.web.platform.userCenter.vo.UserVO;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,6 +39,8 @@ public class UserServiceImpl implements UserService {
     private InsurePriceInfoMapper insurePriceInfoMapper;
     @Autowired
     private WxUserInfoMapper wxUserInfoMapper;
+    @Autowired
+    private JedisPoolManager jedisPoolManager;
 	
 	
 	@Override
@@ -458,5 +463,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public AccountCheck getAccountById(Long id) {
         return accountCheckMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public UserVO getUserVOByUserId(String userId) {
+        String key = String.format(UserCacheNameSpace.USER_VO, userId);
+        Object obj = jedisPoolManager.getObject(key);
+        UserVO vo = null;
+        if (obj != null && obj instanceof UserVO) {
+            vo = (UserVO)obj;
+        } else {
+            vo = wxUserInfoMapper.selectUserVOByUserId(userId);
+            if (vo != null) {
+                jedisPoolManager.putObject(key, vo, UserCacheNameSpace.USER_VO_EXPIRE);
+            }
+        }
+        return vo;
     }
 }

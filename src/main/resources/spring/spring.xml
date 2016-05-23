@@ -15,7 +15,7 @@
 	<context:property-placeholder location="classpath*:props/*.properties" />
 	 
 	<!--<import resource="classpath*:spring/spring-mvc.xml" />  -->
-	<!--<import resource="classpath*:spring/spring-redis.xml" />  -->
+	<import resource="classpath*:spring/spring-redis.xml" />
 	<import resource="classpath*:spring/spring-dubbo.xml" />
 	<import resource="classpath*:spring/spring-datasource.xml" />
 	<import resource="classpath*:spring/spring-mybatis.xml" />

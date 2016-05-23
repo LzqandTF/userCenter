@@ -8,4 +8,12 @@
     from wx_user_info
     where user_id = #{userId,jdbcType=VARCHAR}
   </select>
+
+  <select id="selectUserVO" parameterType="java.lang.String" resultType="com.yijiawang.web.platform.userCenter.vo.UserVO">
+    SELECT  a.user_id userId, a.open_id openId, a.avatar, a.nickname, b.mobile, b.vip
+    FROM wx_user_info a
+    LEFT JOIN user_info b
+    on a.user_id = b.user_id
+    WHERE a.user_id = #{userId,jdbcType=VARCHAR}
+  </select>
 </mapper>
