@@ -8,13 +8,7 @@
     from account_check
     where tran_id = #{tranId,jdbcType=VARCHAR}
   </select>
-
-  <select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.String">
-      select
-      <include refid="Base_Column_List" />
-      from account_check
-      where order_id = #{orderId,jdbcType=VARCHAR}
-  </select>
+    
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
       select
       <include refid="Base_Column_List" />
@@ -25,5 +19,12 @@
       </if>
       order by id DESC
       LIMIT #{count,jdbcType=INTEGER}
+  </select>
+
+  <select id="getOrderPayAccountCheck" resultMap="BaseResultMap" parameterType="java.lang.String">
+      select
+      <include refid="Base_Column_List" />
+      from account_check
+      WHERE trade_type=1 AND type=1 AND order_id=#{orderId,jdbcType=VARCHAR}
   </select>
 </mapper>
