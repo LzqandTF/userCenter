@@ -8,7 +8,7 @@
     from account_check
     where tran_id = #{tranId,jdbcType=VARCHAR}
   </select>
-    
+
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
       select
       <include refid="Base_Column_List" />
