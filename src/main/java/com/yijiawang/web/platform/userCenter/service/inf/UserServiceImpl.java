@@ -158,12 +158,13 @@ public class UserServiceImpl implements UserService {
     public int addAccountCheck(Map<String, String> param) {
         // 写入流水
         log.info("------------addAccountCheck-----------");
+        log.info("  ---- 传入参数 ------");
+        log.info(param.toString());
         AccountCheck accountCheck = new AccountCheck();
-        if (param.get("tran_id") == null) {
-            return 1;
+        if (param.get("tran_id") != null) {
+            log.info("tran_id == " + param.get("tran_id"));
+            accountCheck.setTranId(param.get("tran_id"));
         }
-        log.info("tran_id == " + param.get("tran_id"));
-        accountCheck.setTranId(param.get("tran_id"));
         if (param.get("open_id") == null) {
             return 2;
         }
@@ -187,11 +188,10 @@ public class UserServiceImpl implements UserService {
         log.info("trade_amount == " + param.get("trade_amount"));
         Integer amount = Integer.parseInt(param.get("trade_amount"));
         accountCheck.setTradeAmount(amount);
-        if (param.get("pay_type") == null) {
-            return 5;
+        if (param.get("pay_type") != null) {
+            log.info("pay_type == " + param.get("pay_type"));
+            accountCheck.setPayType(Integer.parseInt(param.get("pay_type")));
         }
-        log.info("pay_type == " + param.get("pay_type"));
-        accountCheck.setPayType(Integer.parseInt(param.get("pay_type")));
         if (param.get("lot_id") != null) {
             accountCheck.setLotId(param.get("lot_id"));
             log.info("lot_id == " + param.get("lot_id"));
