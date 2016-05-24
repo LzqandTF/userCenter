@@ -189,9 +189,10 @@ public class UserServiceImpl implements UserService {
         Integer amount = Integer.parseInt(param.get("trade_amount"));
         accountCheck.setTradeAmount(amount);
         if (param.get("pay_type") != null) {
-            log.info("pay_type == " + param.get("pay_type"));
-            accountCheck.setPayType(Integer.parseInt(param.get("pay_type")));
+            return 5;
         }
+        log.info("pay_type == " + param.get("pay_type"));
+        accountCheck.setPayType(Integer.parseInt(param.get("pay_type")));
         if (param.get("lot_id") != null) {
             accountCheck.setLotId(param.get("lot_id"));
             log.info("lot_id == " + param.get("lot_id"));
