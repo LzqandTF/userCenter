@@ -9,7 +9,7 @@
         where user_id = #{userId,jdbcType=VARCHAR}
     </select>
 
-    <update id="updateUserPayPassword" parameterType="com.yijiawang.web.platform.userCenter.po.UserAccount">
+    <update id="updateUserPayPassword">
         UPDATE user_account set pass_word = #{paypwd,jdbcType=VARCHAR}
         WHERE user_id = #{userId,jdbcType=VARCHAR}
     </update>
