@@ -85,31 +85,29 @@ public class UserInterestServiceImpl implements UserInterestService{
 
     @Override
     public List<RecommendSalerVO> recommendSaler(String userId) {
+        // 当前系统推荐卖家列表
         List<UserInfo> recommendList = userInfoMapper.getRecommendUserList();
+        // 返回客户端的列表
         List<RecommendSalerVO> retList = new ArrayList<>();
+        // 用户已经关注的用户id
         List<String> hasInterestSaler = userInterestMapper.getUserInterestEntityIdByType(userId, InterestType.USER.value());
-        Set<String> set = new HashSet<>();
+        // 已经处理过的推荐用户集合
         Set<String> retRecommendSet = new HashSet<>();
         UserInfo recommendUserInfo = null;
-        int count = 0;
         do{
-            count++;
             int index = new Random().nextInt(recommendList.size());
             recommendUserInfo = recommendList.get(index);
             if (!retRecommendSet.contains(recommendUserInfo.getUserId())) {
                 RecommendSalerVO vo = new RecommendSalerVO();
                 vo.setSalerId(recommendUserInfo.getUserId());
                 vo.setSalerName(recommendUserInfo.getName());
-                // // TODO: 16/5/9  avatar
                 if (hasInterestSaler.contains(recommendUserInfo.getUserId())) {
-                    vo.setInterested(1);
-                } else {
-                    vo.setInterested(0);
+                    continue;
                 }
                 retRecommendSet.add(recommendUserInfo.getUserId());
                 retList.add(vo);
             }
-        }while (set.size()<6 && count<recommendList.size());
+        }while (retList.size() < 6 && hasInterestSaler.size()<recommendList.size());
         return retList;
     }
 }
