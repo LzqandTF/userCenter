@@ -105,6 +105,7 @@ public class UserInterestServiceImpl implements UserInterestService{
                 if (hasInterestSaler.contains(recommendUserInfo.getUserId())) {
                     continue;
                 }
+                vo.setInterested(0);
                 retList.add(vo);
             }
         }while (retList.size() < 6 && retRecommendSet.size()<recommendList.size());
