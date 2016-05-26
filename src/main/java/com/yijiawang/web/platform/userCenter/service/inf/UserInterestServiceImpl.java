@@ -100,12 +100,14 @@ public class UserInterestServiceImpl implements UserInterestService{
                 recommendUserInfo = recommendList.get(index);
                 if (!retRecommendSet.contains(recommendUserInfo.getUserId())) {
                     retRecommendSet.add(recommendUserInfo.getUserId());
-                    RecommendSalerVO vo = new RecommendSalerVO();
-                    vo.setSalerId(recommendUserInfo.getUserId());
-                    vo.setSalerName(recommendUserInfo.getName());
-                    if (!hasInterestSaler.contains(recommendUserInfo.getUserId())) {
-                        vo.setInterested(0);
-                        retList.add(vo);
+                    if (!recommendUserInfo.getUserId().equals(userId)) {
+                        RecommendSalerVO vo = new RecommendSalerVO();
+                        vo.setSalerId(recommendUserInfo.getUserId());
+                        vo.setSalerName(recommendUserInfo.getName());
+                        if (!hasInterestSaler.contains(recommendUserInfo.getUserId())) {
+                            vo.setInterested(0);
+                            retList.add(vo);
+                        }
                     }
                 }
             }while (retList.size() < 6 && retRecommendSet.size()<recommendList.size());
