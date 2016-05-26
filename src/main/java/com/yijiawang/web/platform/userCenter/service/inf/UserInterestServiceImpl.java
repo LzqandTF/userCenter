@@ -87,27 +87,30 @@ public class UserInterestServiceImpl implements UserInterestService{
     public List<RecommendSalerVO> recommendSaler(String userId) {
         // 当前系统推荐卖家列表
         List<UserInfo> recommendList = userInfoMapper.getRecommendUserList();
-        // 返回客户端的列表
-        List<RecommendSalerVO> retList = new ArrayList<>();
-        // 用户已经关注的用户id
-        List<String> hasInterestSaler = userInterestMapper.getUserInterestEntityIdByType(userId, InterestType.USER.value());
-        // 已经处理过的推荐用户集合
-        Set<String> retRecommendSet = new HashSet<>();
-        UserInfo recommendUserInfo = null;
-        do{
-            int index = new Random().nextInt(recommendList.size());
-            recommendUserInfo = recommendList.get(index);
-            if (!retRecommendSet.contains(recommendUserInfo.getUserId())) {
-                retRecommendSet.add(recommendUserInfo.getUserId());
-                RecommendSalerVO vo = new RecommendSalerVO();
-                vo.setSalerId(recommendUserInfo.getUserId());
-                vo.setSalerName(recommendUserInfo.getName());
-                if (!hasInterestSaler.contains(recommendUserInfo.getUserId())) {
-                    vo.setInterested(0);
-                    retList.add(vo);
+        if (recommendList != null && recommendList.size() > 0) {
+            // 返回客户端的列表
+            List<RecommendSalerVO> retList = new ArrayList<>();
+            // 用户已经关注的用户id
+            List<String> hasInterestSaler = userInterestMapper.getUserInterestEntityIdByType(userId, InterestType.USER.value());
+            // 已经处理过的推荐用户集合
+            Set<String> retRecommendSet = new HashSet<>();
+            UserInfo recommendUserInfo = null;
+            do{
+                int index = new Random().nextInt(recommendList.size());
+                recommendUserInfo = recommendList.get(index);
+                if (!retRecommendSet.contains(recommendUserInfo.getUserId())) {
+                    retRecommendSet.add(recommendUserInfo.getUserId());
+                    RecommendSalerVO vo = new RecommendSalerVO();
+                    vo.setSalerId(recommendUserInfo.getUserId());
+                    vo.setSalerName(recommendUserInfo.getName());
+                    if (!hasInterestSaler.contains(recommendUserInfo.getUserId())) {
+                        vo.setInterested(0);
+                        retList.add(vo);
+                    }
                 }
-            }
-        }while (retList.size() < 6 && retRecommendSet.size()<recommendList.size());
-        return retList;
+            }while (retList.size() < 6 && retRecommendSet.size()<recommendList.size());
+            return retList;
+        }
+        return null;
     }
 }
