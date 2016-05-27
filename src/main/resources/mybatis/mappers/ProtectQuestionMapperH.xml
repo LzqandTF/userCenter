@@ -4,7 +4,7 @@
     <select id="userProtectQuestion" parameterType="java.lang.String" resultType="com.yijiawang.web.platform.userCenter.vo.UserProtectQuestionVO">
         select a.question_id questionId, a.question, a.group_id groupId, b.user_answer userAnswer
         FROM protect_question a
-        RIGHT JOIN protect_answer b
+        LEFT JOIN protect_answer b
         on a.question_id = b.question_id
         AND b.user_id=#{userId,jdbcType=VARCHAR}
     </select>
