@@ -75,11 +75,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserProtectQuestionVO> getProtectQuestion(String userId) {
-        UserAccount payInfo = getUserPayInfo(userId);
-        if (payInfo != null && payInfo.getPassWord() != null && payInfo.getPassWord().length() > 0) {
-            return protectQuestionMapper.userProtectQuestion(userId);
-        }
-        return protectQuestionMapper.userProtectQuestion(null);
+        return protectQuestionMapper.userProtectQuestion(userId);
     }
 
 

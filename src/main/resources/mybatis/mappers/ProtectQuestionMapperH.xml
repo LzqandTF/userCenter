@@ -5,10 +5,7 @@
         select a.question_id questionId, a.question, a.group_id groupId, b.user_answer userAnswer
         FROM protect_question a
         LEFT JOIN protect_answer b
-        on a.question_id = b.question_id
-        <if test="_parameter != null">
-            where b.user_id=#{_parameter,jdbcType=VARCHAR}
-        </if>
+        on a.question_id = b.question_id and b.user_id=#{userId,jdbcType=VARCHAR}
     </select>
 
 </mapper>
