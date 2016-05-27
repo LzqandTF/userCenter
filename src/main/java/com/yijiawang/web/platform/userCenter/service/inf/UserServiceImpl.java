@@ -155,8 +155,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public int addAccountCheck(Map<String, String> param) {
         // 写入流水
-        logger.info("------------addAccountCheck-----------");
-        logger.info("  ---- 传入参数 ------");
+        logger.info("--------------------------------------");
+        logger.info("********** [addAccountCheck] *********");
+        logger.info("********** 传入参数 **********");
         logger.info(param.toString());
         AccountCheck accountCheck = new AccountCheck();
         if (param.get("tran_id") != null) {
@@ -207,11 +208,11 @@ public class UserServiceImpl implements UserService {
             accountCheck.setBackSn(param.get("back_sn"));
             logger.info("back_sn == " + param.get("back_sn"));
         }
-        logger.info("----------- end addAccountCheck ------------");
+        logger.info("*********** [end addAccountCheck] **********");
         logger.info("*********** 开始流水处理操作 *****************");
         int result = changeBalance(accountCheck);
         if (result != 0) {
-            logger.info("*********** 流水处理操作结束   [失败]: "+result+"+*****************");
+            logger.info("*********** 流水处理操作结束   [失败]: "+result+"*****************");
             return 1;
         } else {
             logger.info("*********** 流水处理操作结束   [成功] *****************");
@@ -531,7 +532,13 @@ public class UserServiceImpl implements UserService {
     }
 
     private int insertInsurePriceInfo(AccountCheck accountCheck) {
+        if (accountCheck.getLotId() == null) {
+            logger.error(" 支付保证金, 未传入LotId");
+        }
         UserInfo salerInfo = insurePriceInfoMapper.getLotSalerInfo(accountCheck.getLotId());
+        if (salerInfo == null) {
+            logger.error(" 支付保证金, 未找到卖家信息");
+        }
         InsurePriceInfo info = new InsurePriceInfo();
         info.setTranId(accountCheck.getTranId());
         info.setSalerId(salerInfo.getUserId());
