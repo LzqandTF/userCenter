@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.yijiawang.web.platform.userCenter.service.UserService;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -75,7 +76,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserProtectQuestionVO> getProtectQuestion(String userId) {
-        return protectQuestionMapper.userProtectQuestion(userId);
+        List<UserProtectQuestionVO> list = protectQuestionMapper.userProtectQuestion(userId);
+        UserAccount userAccount = userAccountMapper.selectByUserId(userId);
+        if (userAccount != null && userAccount.getPassWord() != null) {
+            List<UserProtectQuestionVO> answerList = new ArrayList<>();
+            for (UserProtectQuestionVO vo : list) {
+                if (vo.getUserAnswer() != null && vo.getUserAnswer().length() > 0) {
+                    answerList.add(vo);
+                }
+            }
+            return answerList;
+        } else {
+            return list;
+        }
+
     }
 
 
