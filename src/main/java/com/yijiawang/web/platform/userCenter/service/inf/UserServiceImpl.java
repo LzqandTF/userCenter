@@ -268,95 +268,104 @@ public class UserServiceImpl implements UserService {
                 // 支付订单
                 // 1. 充值余额
                 logger.info(" 订单支付 ");
-                if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
-                    logger.info(" 订单支付, 余额增加完成");
-                    accountCheck.setType(BalanceChange.ADD.value());
-                    accountCheck.setTitle("充值");
-                    if (accountCheckMapper.insert(accountCheck) > 0) {
-                        logger.info(" 订单支付, 余额充值流水写入完成");
-                        // 充值成功, 2. 从余额支付订单
-                        if (userAccountMapper.updateBalance2UserAccount(userId, -1*amount) > 0) {
-                            logger.info(" 订单支付, 余额扣除完成");
-                            AccountCheck outAccountCheck = new AccountCheck();
-                            outAccountCheck.setUserId(accountCheck.getUserId());
-                            outAccountCheck.setOpenId(accountCheck.getOpenId());
-                            outAccountCheck.setTitle("订单支付");
-                            outAccountCheck.setTradeType(accountCheck.getTradeType());
-                            outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
-                            outAccountCheck.setType(BalanceChange.SUB.value());
-                            outAccountCheck.setPayType(PayType.BALANCE.value());
-                            outAccountCheck.setLotId(accountCheck.getLotId());
-                            outAccountCheck.setOrderId(accountCheck.getOrderId());
-                            if (accountCheckMapper.insert(outAccountCheck) > 0) {
-                                logger.info(" 订单支付, 余额扣除流水写入完成");
-                            } else {
-                                logger.info(" 订单支付, 余额扣除流水写入失败");
-                                return 3;
-                            }
+                if (accountCheck.getPayType().intValue() != PayType.BALANCE.value()) {
+                    // 使用第三方支付,先进行充值
+                    logger.info(" 订单支付 [非余额支付]");
+                    if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
+                        logger.info(" 订单支付, [非余额支付] 余额增加完成");
+                        accountCheck.setType(BalanceChange.ADD.value());
+                        accountCheck.setTitle("充值");
+                        if (accountCheckMapper.insert(accountCheck) > 0) {
+                            logger.info(" 订单支付, [非余额] 余额充值流水写入完成");
                         } else {
-                            logger.info(" 订单支付, 余额扣除失败");
-                            return 2;
+                            logger.info(" 订单支付, [非余额] 余额充值流水写入失败");
+                            return 3;
                         }
                     } else {
-                        logger.info(" 订单支付, 余额充值流水写入失败");
+                        logger.info(" 订单支付, [非余额] 余额增加失败");
+                        return 2;
+                    }
+                }
+                logger.info(" 订单支付 开始从余额支付订单 ");
+                if (userAccountMapper.updateBalance2UserAccount(userId, -1*amount) > 0) {
+                    logger.info(" 订单支付, [余额] 余额扣除完成");
+                    AccountCheck outAccountCheck = new AccountCheck();
+                    outAccountCheck.setUserId(accountCheck.getUserId());
+                    outAccountCheck.setOpenId(accountCheck.getOpenId());
+                    outAccountCheck.setTitle("订单支付");
+                    outAccountCheck.setTradeType(accountCheck.getTradeType());
+                    outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
+                    outAccountCheck.setType(BalanceChange.SUB.value());
+                    outAccountCheck.setPayType(PayType.BALANCE.value());
+                    outAccountCheck.setLotId(accountCheck.getLotId());
+                    outAccountCheck.setOrderId(accountCheck.getOrderId());
+                    if (accountCheckMapper.insert(outAccountCheck) > 0) {
+                        logger.info(" 订单支付, [余额] 余额扣除流水写入完成");
+                    } else {
+                        logger.info(" 订单支付, [余额] 余额扣除流水写入失败");
                         return 3;
                     }
                 } else {
-                    logger.info(" 订单支付, 余额增加失败");
+                    logger.info(" 订单支付, [余额] 余额扣除失败");
                     return 2;
                 }
             } else if (accountCheck.getTradeType() == TradeType.INSURE_PAY.value()) {
                 // 支付保证金
                 // 1. 充值到余额
                 logger.info(" 支付保证金 ");
-                if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
-                    logger.info(" 支付保证金, 余额增加完成");
-                    accountCheck.setType(BalanceChange.ADD.value());
-                    accountCheck.setTitle("充值");
-                    if (accountCheckMapper.insert(accountCheck) > 0) {
-                        logger.info(" 支付保证金, 余额充值流水写入完成");
-                        // 2. 从余额支付保证金
-                        if (userAccountMapper.updateBalance2UserAccount(userId, -1*amount)>0) {
-                            logger.info(" 支付保证金, 余额扣除完成");
+                if (accountCheck.getPayType().intValue() != PayType.BALANCE.value()) {
+                    // 第三方支付,先充值到余额
+                    logger.info(" 支付保证金, [非余额支付] ");
+                    if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
+                        logger.info(" 支付保证金, [非余额支付] 余额增加完成");
+                        accountCheck.setType(BalanceChange.ADD.value());
+                        accountCheck.setTitle("充值");
+                        if (accountCheckMapper.insert(accountCheck) > 0) {
+                            logger.info(" 支付保证金, [非余额支付] 余额充值流水写入完成");
                         } else {
-                            logger.info(" 支付保证金, 余额扣除失败");
-                            return 2;
-                        }
-                        if (userAccountMapper.updateFrozenMoney2UserAccount(userId, amount) > 0) {
-                            logger.info(" 支付保证金, 冻结保证金完成");
-                        } else {
-                            logger.info(" 支付保证金, 冻结保证金失败");
-                            return 2;
-                        }
-                        // 插入保证金表
-                        if (insertInsurePriceInfo(accountCheck) > 0) {
-                            logger.info(" 支付保证金, 写入保证金表完成");
-                        } else {
-                            logger.info(" 支付保证金, 写入保证金表失败");
-                            return 4;
-                        }
-                        AccountCheck outAccountCheck = new AccountCheck();
-                        outAccountCheck.setUserId(accountCheck.getUserId());
-                        outAccountCheck.setOpenId(accountCheck.getOpenId());
-                        outAccountCheck.setTitle("支付保证金");
-                        outAccountCheck.setTradeType(accountCheck.getTradeType());
-                        outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
-                        outAccountCheck.setType(BalanceChange.SUB.value());
-                        outAccountCheck.setPayType(PayType.BALANCE.value());
-                        outAccountCheck.setLotId(accountCheck.getLotId());
-                        if (accountCheckMapper.insert(outAccountCheck) > 0) {
-                            logger.info(" 支付保证金, 余额消费流水写入完成");
-                        } else {
-                            logger.info(" 支付保证金, 余额消费流水写入失败");
+                            logger.info(" 支付保证金, [非余额支付] 余额充值流水写入失败");
                             return 3;
                         }
                     } else {
-                        logger.info(" 支付保证金, 余额充值流水写入失败");
-                        return 3;
+                        logger.info(" 支付保证金, [非余额支付] 余额增加失败");
+                        return 2;
                     }
+                }
+                // 2. 从余额支付保证金
+                logger.info(" 支付保证金, 开始从余额支付保证金 ");
+                if (userAccountMapper.updateBalance2UserAccount(userId, -1*amount)>0) {
+                    logger.info(" 支付保证金, 余额扣除完成");
                 } else {
-                    logger.info(" 支付保证金, 余额增加失败");
+                    logger.info(" 支付保证金, 余额扣除失败");
                     return 2;
+                }
+                if (userAccountMapper.updateFrozenMoney2UserAccount(userId, amount) > 0) {
+                    logger.info(" 支付保证金, 冻结保证金完成");
+                } else {
+                    logger.info(" 支付保证金, 冻结保证金失败");
+                    return 2;
+                }
+                // 插入保证金表
+                if (insertInsurePriceInfo(accountCheck) > 0) {
+                    logger.info(" 支付保证金, 写入保证金表完成");
+                } else {
+                    logger.info(" 支付保证金, 写入保证金表失败");
+                    return 4;
+                }
+                AccountCheck outAccountCheck = new AccountCheck();
+                outAccountCheck.setUserId(accountCheck.getUserId());
+                outAccountCheck.setOpenId(accountCheck.getOpenId());
+                outAccountCheck.setTitle("支付保证金");
+                outAccountCheck.setTradeType(accountCheck.getTradeType());
+                outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
+                outAccountCheck.setType(BalanceChange.SUB.value());
+                outAccountCheck.setPayType(PayType.BALANCE.value());
+                outAccountCheck.setLotId(accountCheck.getLotId());
+                if (accountCheckMapper.insert(outAccountCheck) > 0) {
+                    logger.info(" 支付保证金, 余额消费流水写入完成");
+                } else {
+                    logger.info(" 支付保证金, 余额消费流水写入失败");
+                    return 3;
                 }
             } else if (accountCheck.getTradeType() == TradeType.CASH.value()) {
                 // 提现
