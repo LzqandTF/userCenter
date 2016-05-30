@@ -225,7 +225,7 @@ public class UserServiceImpl implements UserService {
             logObject.add("back_sn == " + param.get("back_sn"));
         }
         logObject.add("*********** [end addAccountCheck] **********");
-
+        userAccountLogService.asyncLoggerUserAccount(logObject);
         int result = changeBalance(accountCheck);
         if (result != 0) {
             return 1;
@@ -558,6 +558,7 @@ public class UserServiceImpl implements UserService {
         }
         //所有事务成功,返回0
         logObject.add("*********** 流水处理操作结束   [成功] *****************");
+        userAccountLogService.asyncLoggerUserAccount(logObject);
         return result;
     }
 
