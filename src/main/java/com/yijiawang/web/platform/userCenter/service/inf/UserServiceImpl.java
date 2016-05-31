@@ -453,51 +453,58 @@ public class UserServiceImpl implements UserService {
             } else if (accountCheck.getTradeType() == TradeType.INSURE_WITHDRAW.value()) {
                 // 退回保证金
                 logObject.add(" 退回保证金 ");
-                // 1.退款到余额
-                if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
-                    logObject.add(" 退回保证金 用户余额增加完成");
-                    accountCheck.setType(BalanceChange.ADD.value());
-                    accountCheck.setTitle("退回保证金");
-                    if (accountCheckMapper.insert(accountCheck) > 0) {
-                        logObject.add(" 退回保证金 用户余额增加流水写入完成");
-                        if (updateInsurePriceInfo(accountCheck.getUserId(), accountCheck.getLotId(), InsureStatus.REFUND.value()) > 0) {
-                            logObject.add(" 退回保证金 保证金表状态更新完成");
-                        } else {
-                            logObject.add(" 退回保证金 保证金表状态更新失败");
-                            result = 4;
-                        }
-                        // 2. 如果非余额付款,从余额扣除
-                        if (accountCheck.getPayType() != PayType.BALANCE.value()) {
-                            logObject.add("非余额支付的保证金,需要原路退回");
-                            if (userAccountMapper.updateBalance2UserAccount(userId, -1*amount) > 0) {
-                                logObject.add(" 退回保证金 用户余额扣除完成");
-                                AccountCheck outAccountCheck = new AccountCheck();
-                                outAccountCheck.setUserId(accountCheck.getUserId());
-                                outAccountCheck.setOpenId(accountCheck.getOpenId());
-                                outAccountCheck.setTitle("退回保证金");
-                                outAccountCheck.setTradeType(accountCheck.getTradeType());
-                                outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
-                                outAccountCheck.setType(BalanceChange.SUB.value());
-                                outAccountCheck.setPayType(PayType.BALANCE.value());
-                                outAccountCheck.setLotId(accountCheck.getLotId());
-                                if (accountCheckMapper.insert(outAccountCheck) > 0) {
-                                    logObject.add(" 退回保证金 从余额扣除退回的保证金流水写入完成");
-                                } else {
-                                    logObject.add(" 退回保证金 从余额扣除退回的保证金流水写入失败");
-                                    result = 3;
-                                }
+                // 0.先从冻结款中解冻
+                if (userAccountMapper.updateFrozenMoney2UserAccount(userId, -1*amount) > 0) {
+                    logObject.add(" 退回保证金 从冻结资金中解冻成功");
+                    // 1.退款到余额
+                    if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
+                        logObject.add(" 退回保证金 用户余额增加完成");
+                        accountCheck.setType(BalanceChange.ADD.value());
+                        accountCheck.setTitle("退回保证金");
+                        if (accountCheckMapper.insert(accountCheck) > 0) {
+                            logObject.add(" 退回保证金 用户余额增加流水写入完成");
+                            if (updateInsurePriceInfo(accountCheck.getUserId(), accountCheck.getLotId(), InsureStatus.REFUND.value()) > 0) {
+                                logObject.add(" 退回保证金 保证金表状态更新完成");
                             } else {
-                                logObject.add(" 退回保证金 用户余额扣除失败");
-                                result = 2;
+                                logObject.add(" 退回保证金 保证金表状态更新失败");
+                                result = 4;
                             }
+                            // 2. 如果非余额付款,从余额扣除
+                            if (accountCheck.getPayType() != PayType.BALANCE.value()) {
+                                logObject.add("非余额支付的保证金,需要原路退回");
+                                if (userAccountMapper.updateBalance2UserAccount(userId, -1*amount) > 0) {
+                                    logObject.add(" 退回保证金 用户余额扣除完成");
+                                    AccountCheck outAccountCheck = new AccountCheck();
+                                    outAccountCheck.setUserId(accountCheck.getUserId());
+                                    outAccountCheck.setOpenId(accountCheck.getOpenId());
+                                    outAccountCheck.setTitle("退回保证金");
+                                    outAccountCheck.setTradeType(accountCheck.getTradeType());
+                                    outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
+                                    outAccountCheck.setType(BalanceChange.SUB.value());
+                                    outAccountCheck.setPayType(PayType.BALANCE.value());
+                                    outAccountCheck.setLotId(accountCheck.getLotId());
+                                    if (accountCheckMapper.insert(outAccountCheck) > 0) {
+                                        logObject.add(" 退回保证金 从余额扣除退回的保证金流水写入完成");
+                                    } else {
+                                        logObject.add(" 退回保证金 从余额扣除退回的保证金流水写入失败");
+                                        result = 3;
+                                    }
+                                } else {
+                                    logObject.add(" 退回保证金 用户余额扣除失败");
+                                    result = 2;
+                                }
+                            }
+                        } else {
+                            logObject.add(" 退回保证金 用户余额增加流水写入失败");
+                            result = 3;
                         }
                     } else {
-                        logObject.add(" 退回保证金 用户余额增加流水写入失败");
-                        result = 3;
+                        logObject.add(" 退回保证金 用户余额增加失败");
+                        result = 2;
                     }
                 } else {
-                    logObject.add(" 退回保证金 用户余额增加失败");
-                    result = 2;
+                    logObject.add(" 退回保证金 从冻结资金中解冻失败");
+                    result = 3;
                 }
             } else if (accountCheck.getTradeType() == TradeType.INSURE_PUNISH.value()) {
                 // 扣除保证金
