@@ -169,6 +169,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int addAccountCheck(Map<String, String> param) {
+        int result = 0;
         List<String> logObject = new ArrayList<>();
         // 写入流水
         logObject.add("--------------------------------------");
@@ -181,12 +182,12 @@ public class UserServiceImpl implements UserService {
             accountCheck.setTranId(param.get("tran_id"));
         }
         if (param.get("open_id") == null) {
-            return 2;
+            result = 2;
         }
         logObject.add("open_id == " + param.get("open_id"));
         WxUserInfo wxUserInfo = wxUserInfoMapper.selectByPrimaryKey(param.get("open_id"));
         if (wxUserInfo == null) {
-            return 4;
+            result = 4;
         }
         accountCheck.setUserId(wxUserInfo.getUserId());
         accountCheck.setOpenId(wxUserInfo.getOpenId());
@@ -195,7 +196,7 @@ public class UserServiceImpl implements UserService {
         }
         logObject.add("title == " + param.get("title"));
         if (param.get("trade_type") == null || param.get("trade_amount") == null) {
-            return 3;
+            result = 3;
         }
         logObject.add("trade_type == " + param.get("trade_type"));
         Integer tradeType = Integer.parseInt(param.get("trade_type"));
@@ -204,7 +205,7 @@ public class UserServiceImpl implements UserService {
         Integer amount = Integer.parseInt(param.get("trade_amount"));
         accountCheck.setTradeAmount(amount);
         if (param.get("pay_type") == null) {
-            return 5;
+            result = 5;
         }
         logObject.add("pay_type == " + param.get("pay_type"));
         accountCheck.setPayType(Integer.parseInt(param.get("pay_type")));
@@ -226,12 +227,10 @@ public class UserServiceImpl implements UserService {
         }
         logObject.add("*********** [end addAccountCheck] **********");
         userAccountLogService.asyncLoggerUserAccount(logObject);
-        int result = changeBalance(accountCheck);
-        if (result != 0) {
-            return 1;
-        } else {
-            return 0;
+        if (result == 0) {
+            result = changeBalance(accountCheck);
         }
+        return result;
     }
 
     /**
