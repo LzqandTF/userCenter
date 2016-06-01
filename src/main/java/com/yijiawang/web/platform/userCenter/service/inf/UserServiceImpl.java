@@ -225,7 +225,7 @@ public class UserServiceImpl implements UserService {
             accountCheck.setBackSn(param.get("back_sn"));
             logObject.add("back_sn == " + param.get("back_sn"));
         }
-        logObject.add("*********** [end addAccountCheck] **********");
+        logObject.add("*********** [end addAccountCheck] result=["+result+"]**********");
         userAccountLogService.asyncLoggerUserAccount(logObject);
         if (result == 0) {
             result = changeBalance(accountCheck);
