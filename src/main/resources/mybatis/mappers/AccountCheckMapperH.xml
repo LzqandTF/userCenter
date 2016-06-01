@@ -6,7 +6,7 @@
     select 
     <include refid="Base_Column_List" />
     from account_check
-    where tran_id = #{tranId,jdbcType=VARCHAR}
+    where tran_id = #{tranId,jdbcType=VARCHAR} limit 1
   </select>
 
   <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
