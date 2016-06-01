@@ -171,64 +171,71 @@ public class UserServiceImpl implements UserService {
     public int addAccountCheck(Map<String, String> param) {
         int result = 0;
         List<String> logObject = new ArrayList<>();
-        // 写入流水
-        logObject.add("--------------------------------------");
-        logObject.add("********** [addAccountCheck] *********");
-        logObject.add("********** 传入参数 **********");
-        logObject.add(param.toString());
-        AccountCheck accountCheck = new AccountCheck();
-        if (param.get("tran_id") != null) {
-            logObject.add("tran_id == " + param.get("tran_id"));
-            accountCheck.setTranId(param.get("tran_id"));
-        }
-        if (param.get("open_id") == null) {
-            result = 2;
-        }
-        logObject.add("open_id == " + param.get("open_id"));
-        WxUserInfo wxUserInfo = wxUserInfoMapper.selectByPrimaryKey(param.get("open_id"));
-        if (wxUserInfo == null) {
-            result = 4;
-        }
-        accountCheck.setUserId(wxUserInfo.getUserId());
-        accountCheck.setOpenId(wxUserInfo.getOpenId());
-        if (param.get("title") != null) {
-            accountCheck.setTitle(param.get("title"));
-        }
-        logObject.add("title == " + param.get("title"));
-        if (param.get("trade_type") == null || param.get("trade_amount") == null) {
-            result = 3;
-        }
-        logObject.add("trade_type == " + param.get("trade_type"));
-        Integer tradeType = Integer.parseInt(param.get("trade_type"));
-        accountCheck.setTradeType(tradeType);
-        logObject.add("trade_amount == " + param.get("trade_amount"));
-        Integer amount = Integer.parseInt(param.get("trade_amount"));
-        accountCheck.setTradeAmount(amount);
-        if (param.get("pay_type") == null) {
-            result = 5;
-        }
-        logObject.add("pay_type == " + param.get("pay_type"));
-        accountCheck.setPayType(Integer.parseInt(param.get("pay_type")));
-        if (param.get("lot_id") != null) {
-            accountCheck.setLotId(param.get("lot_id"));
-            logObject.add("lot_id == " + param.get("lot_id"));
-        }
-        if (param.get("order_id") != null) {
-            accountCheck.setOrderId(param.get("order_id"));
-            logObject.add("order_id == " + param.get("order_id"));
-        }
-        if (param.get("order_sn") != null) {
-            accountCheck.setOrderSn(param.get("order_sn"));
-            logObject.add("order_sn == " + param.get("order_sn"));
-        }
-        if (param.get("back_sn") != null) {
-            accountCheck.setBackSn(param.get("back_sn"));
-            logObject.add("back_sn == " + param.get("back_sn"));
-        }
-        logObject.add("*********** [end addAccountCheck] result=["+result+"]**********");
-        userAccountLogService.asyncLoggerUserAccount(logObject);
-        if (result == 0) {
-            result = changeBalance(accountCheck);
+        try {
+            // 写入流水
+            logObject.add("--------------------------------------");
+            logObject.add("********** [addAccountCheck] *********");
+            logObject.add("********** 传入参数 **********");
+            logObject.add(param.toString());
+            AccountCheck accountCheck = new AccountCheck();
+            if (param.get("tran_id") != null) {
+                logObject.add("tran_id == " + param.get("tran_id"));
+                accountCheck.setTranId(param.get("tran_id"));
+            }
+            if (param.get("open_id") == null) {
+                result = 2;
+            }
+            logObject.add("open_id == " + param.get("open_id"));
+            WxUserInfo wxUserInfo = wxUserInfoMapper.selectByPrimaryKey(param.get("open_id"));
+            if (wxUserInfo == null) {
+                result = 4;
+            }
+            accountCheck.setUserId(wxUserInfo.getUserId());
+            accountCheck.setOpenId(wxUserInfo.getOpenId());
+            if (param.get("title") != null) {
+                accountCheck.setTitle(param.get("title"));
+            }
+            logObject.add("title == " + param.get("title"));
+            if (param.get("trade_type") == null || param.get("trade_amount") == null) {
+                result = 3;
+            }
+            logObject.add("trade_type == " + param.get("trade_type"));
+            Integer tradeType = Integer.parseInt(param.get("trade_type"));
+            accountCheck.setTradeType(tradeType);
+            logObject.add("trade_amount == " + param.get("trade_amount"));
+            Integer amount = Integer.parseInt(param.get("trade_amount"));
+            accountCheck.setTradeAmount(amount);
+            if (param.get("pay_type") == null) {
+                result = 5;
+            }
+            logObject.add("pay_type == " + param.get("pay_type"));
+            accountCheck.setPayType(Integer.parseInt(param.get("pay_type")));
+            if (param.get("lot_id") != null) {
+                accountCheck.setLotId(param.get("lot_id"));
+                logObject.add("lot_id == " + param.get("lot_id"));
+            }
+            if (param.get("order_id") != null) {
+                accountCheck.setOrderId(param.get("order_id"));
+                logObject.add("order_id == " + param.get("order_id"));
+            }
+            if (param.get("order_sn") != null) {
+                accountCheck.setOrderSn(param.get("order_sn"));
+                logObject.add("order_sn == " + param.get("order_sn"));
+            }
+            if (param.get("back_sn") != null) {
+                accountCheck.setBackSn(param.get("back_sn"));
+                logObject.add("back_sn == " + param.get("back_sn"));
+            }
+            logObject.add("*********** [end addAccountCheck] result=["+result+"]**********");
+            userAccountLogService.asyncLoggerUserAccount(logObject);
+            if (result == 0) {
+                result = changeBalance(accountCheck);
+            }
+
+        } catch (Exception e) {
+            logObject.add(e.getMessage());
+            userAccountLogService.asyncLoggerUserAccount(logObject);
+            result = 1;
         }
         return result;
     }
