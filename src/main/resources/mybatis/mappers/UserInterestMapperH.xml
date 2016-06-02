@@ -41,9 +41,9 @@
 
   <update id="setUserInterest" parameterType="com.yijiawang.web.platform.userCenter.po.UserInterest">
     REPLACE INTO user_interest (type, entity_id,
-    status, user_id)
+    status, user_id, update_time)
     values (#{type,jdbcType=TINYINT}, #{entityId,jdbcType=VARCHAR},
-    #{status,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR})
+    #{status,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
   </update>
 
   <select id="getUserInterestStatus" resultType="java.lang.Byte">
