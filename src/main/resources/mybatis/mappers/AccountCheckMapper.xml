@@ -16,11 +16,12 @@
       <result column="pay_type" property="payType" jdbcType="INTEGER" />
       <result column="lot_id" property="lotId" jdbcType="VARCHAR" />
       <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+      <result column="result_balance" property="resultBalance" jdbcType="INTEGER" />
       <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, tran_id, open_id, user_id, title, trade_type, trade_time, trade_amount, type, 
-    order_sn, back_sn, pay_type, lot_id, order_id, status
+    order_sn, back_sn, pay_type, lot_id, order_id, result_balance, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -37,14 +38,14 @@
       user_id, title, trade_type, 
       trade_time, trade_amount, type, 
       order_sn, back_sn, pay_type,
-      lot_id, order_id, status
-      )
+      lot_id, order_id, result_balance,
+      status)
     values (#{id,jdbcType=BIGINT}, #{tranId,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR},
       #{userId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{tradeType,jdbcType=INTEGER},
       #{tradeTime,jdbcType=TIMESTAMP}, #{tradeAmount,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},
       #{orderSn,jdbcType=VARCHAR}, #{backSn,jdbcType=VARCHAR}, #{payType,jdbcType=INTEGER},
-      #{lotId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
-      )
+      #{lotId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{resultBalance,jdbcType=INTEGER},
+      #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.AccountCheck" >
       insert into account_check
@@ -90,6 +91,9 @@
           </if>
           <if test="orderId != null" >
               order_id,
+          </if>
+          <if test="resultBalance != null" >
+              result_balance,
           </if>
           <if test="status != null" >
               status,
@@ -138,6 +142,9 @@
           <if test="orderId != null" >
               #{orderId,jdbcType=VARCHAR},
           </if>
+          <if test="resultBalance != null" >
+              #{resultBalance,jdbcType=INTEGER},
+          </if>
           <if test="status != null" >
               #{status,jdbcType=INTEGER},
           </if>
@@ -185,6 +192,9 @@
           <if test="orderId != null" >
               order_id = #{orderId,jdbcType=VARCHAR},
           </if>
+          <if test="resultBalance != null" >
+              result_balance = #{resultBalance,jdbcType=INTEGER},
+          </if>
           <if test="status != null" >
               status = #{status,jdbcType=INTEGER},
           </if>
@@ -206,6 +216,7 @@
       pay_type = #{payType,jdbcType=INTEGER},
       lot_id = #{lotId,jdbcType=VARCHAR},
       order_id = #{orderId,jdbcType=VARCHAR},
+      result_balance = #{resultBalance,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>

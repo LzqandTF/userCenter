@@ -247,24 +247,24 @@ public class UserServiceImpl implements UserService {
      * @return 0-所有操作成功  2-余额修改失败   3-流水写入失败   1-系统异常
      */
     private int changeBalance(AccountCheck accountCheck) {
+        // 判断该笔流水是否已经处理过,规则, trand_id + trade_type + type 为唯一键值
         List<String> logObject = new ArrayList<>();
         logObject.add("*********** 开始流水处理操作 *****************");
         int result = 0;
         try {
             String userId = accountCheck.getUserId();
-            logObject.add(" changeBalacne 获取用户id == " + userId);
             Integer amount = accountCheck.getTradeAmount();
-            logObject.add(" changeBalacne amount == " + amount);
+            logObject.add(" 处理流水前 ... 用户:"+userId+" 账户余额为: "+ userAccountMapper.selectByUserId(userId).getBalance());
             if (accountCheck.getTradeType() == TradeType.TOPUP.value()) {
                 // 充值到余额
                 logObject.add(" 充值到余额 ");
-                logObject.add(" 充值到余额 当前余额为 [" + userAccountMapper.selectByUserId(userId).getBalance() + " ]");
                 if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
                     logObject.add(" 充值到余额 余额增加完成!");
-                    logObject.add(" 充值到余额 当前余额为 [" + userAccountMapper.selectByUserId(userId).getBalance() + " ]");
                     accountCheck.setType(BalanceChange.ADD.value());
                     accountCheck.setTitle("充值");
+                    accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                     if (accountCheckMapper.insert(accountCheck) > 0) {
+                        // un_index : trand_id + 0 + 1
                         logObject.add(" 充值到余额, 余额充值流水写入完成");
                     } else {
                         logObject.add(" 充值到余额, 余额充值流水写入失败");
@@ -285,7 +285,9 @@ public class UserServiceImpl implements UserService {
                         logObject.add(" 订单支付 [非余额支付] 余额增加完成");
                         accountCheck.setType(BalanceChange.ADD.value());
                         accountCheck.setTitle("充值");
+                        accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                         if (accountCheckMapper.insert(accountCheck) > 0) {
+                            // un_index : trand_id + 1 + 1
                             logObject.add(" 订单支付, [非余额] 余额充值流水写入完成");
                         } else {
                             logObject.add(" 订单支付, [非余额] 余额充值流水写入失败");
@@ -302,7 +304,9 @@ public class UserServiceImpl implements UserService {
                     AccountCheck outAccountCheck = new AccountCheck();
                     outAccountCheck.setUserId(accountCheck.getUserId());
                     outAccountCheck.setOpenId(accountCheck.getOpenId());
+                    outAccountCheck.setTranId(accountCheck.getTranId());
                     outAccountCheck.setTitle("订单支付");
+                    outAccountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                     outAccountCheck.setTradeType(accountCheck.getTradeType());
                     outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
                     outAccountCheck.setType(BalanceChange.SUB.value());
@@ -310,6 +314,7 @@ public class UserServiceImpl implements UserService {
                     outAccountCheck.setLotId(accountCheck.getLotId());
                     outAccountCheck.setOrderId(accountCheck.getOrderId());
                     if (accountCheckMapper.insert(outAccountCheck) > 0) {
+                        // un_index : trand_id + 1 + 0
                         logObject.add(" 订单支付, [余额] 余额扣除流水写入完成");
                     } else {
                         logObject.add(" 订单支付, [余额] 余额扣除流水写入失败");
@@ -330,7 +335,9 @@ public class UserServiceImpl implements UserService {
                         logObject.add(" 支付保证金, [非余额支付] 余额增加完成");
                         accountCheck.setType(BalanceChange.ADD.value());
                         accountCheck.setTitle("充值");
+                        accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                         if (accountCheckMapper.insert(accountCheck) > 0) {
+                            // un_index : tran_id + 2 + 1
                             logObject.add(" 支付保证金, [非余额支付] 余额充值流水写入完成");
                         } else {
                             logObject.add(" 支付保证金, [非余额支付] 余额充值流水写入失败");
@@ -365,13 +372,16 @@ public class UserServiceImpl implements UserService {
                 AccountCheck outAccountCheck = new AccountCheck();
                 outAccountCheck.setUserId(accountCheck.getUserId());
                 outAccountCheck.setOpenId(accountCheck.getOpenId());
+                outAccountCheck.setTranId(accountCheck.getTranId());
                 outAccountCheck.setTitle("支付保证金");
+                outAccountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                 outAccountCheck.setTradeType(accountCheck.getTradeType());
                 outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
                 outAccountCheck.setType(BalanceChange.SUB.value());
                 outAccountCheck.setPayType(PayType.BALANCE.value());
                 outAccountCheck.setLotId(accountCheck.getLotId());
                 if (accountCheckMapper.insert(outAccountCheck) > 0) {
+                    // un_index : tranId + 2 + 0
                     logObject.add(" 支付保证金, 余额消费流水写入完成");
                 } else {
                     logObject.add(" 支付保证金, 余额消费流水写入失败");
@@ -384,7 +394,9 @@ public class UserServiceImpl implements UserService {
                     logObject.add(" 提现操作 余额扣除完成 !");
                     accountCheck.setType(BalanceChange.SUB.value());
                     accountCheck.setTitle("提现");
+                    accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                     if (accountCheckMapper.insert(accountCheck) > 0) {
+                        // un_index : tran_id + 3 + 0
                         logObject.add(" 提现操作 余额消费流水写入完成");
                     } else {
                         logObject.add(" 提现操作 余额消费流水写入失败");
@@ -402,7 +414,9 @@ public class UserServiceImpl implements UserService {
                     logObject.add(" 退款操作 买家余额增加完成");
                     accountCheck.setType(BalanceChange.ADD.value());
                     accountCheck.setTitle(" 退款 ");
+                    accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                     if (accountCheckMapper.insert(accountCheck) > 0) {
+                        // un_index : tran_id + 4 + 1
                         logObject.add(" 退款操作 退款给买家流水增加写入完成");
                         if (accountCheck.getPayType() != PayType.BALANCE.value()) {
                             // 2. 如果非余额付款,从余额扣除
@@ -412,6 +426,7 @@ public class UserServiceImpl implements UserService {
                                 outAccountCheck.setUserId(accountCheck.getUserId());
                                 outAccountCheck.setOpenId(accountCheck.getOpenId());
                                 outAccountCheck.setTitle(" 退款 ");
+                                outAccountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                                 outAccountCheck.setTradeType(accountCheck.getTradeType());
                                 outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
                                 outAccountCheck.setType(BalanceChange.SUB.value());
@@ -419,6 +434,7 @@ public class UserServiceImpl implements UserService {
                                 outAccountCheck.setLotId(accountCheck.getLotId());
                                 outAccountCheck.setOrderId(accountCheck.getOrderId());
                                 if (accountCheckMapper.insert(outAccountCheck) > 0) {
+                                    // un_index : tran_id + 4 + 0
                                     logObject.add(" 退款操作 卖家余额扣款流水写入完成");
                                 } else {
                                     logObject.add(" 退款操作 卖家余额扣款流水写入失败");
@@ -446,7 +462,9 @@ public class UserServiceImpl implements UserService {
                     // 添加流水
                     accountCheck.setType(BalanceChange.ADD.value());
                     accountCheck.setTitle("订单完成收款");
+                    accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                     if (accountCheckMapper.insert(accountCheck) > 0) {
+                        // un_index : tran_id(FIN前缀) + 8 + 1
                         logObject.add(" 订单完成 卖家余额增加流水写入完成");
                     } else {
                         logObject.add(" 订单完成 卖家余额增加流水写入失败");
@@ -467,7 +485,9 @@ public class UserServiceImpl implements UserService {
                         logObject.add(" 退回保证金 用户余额增加完成");
                         accountCheck.setType(BalanceChange.ADD.value());
                         accountCheck.setTitle("退回保证金");
+                        accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                         if (accountCheckMapper.insert(accountCheck) > 0) {
+                            // un_index : tran_id + 5 +1
                             logObject.add(" 退回保证金 用户余额增加流水写入完成");
                             if (updateInsurePriceInfo(accountCheck.getUserId(), accountCheck.getLotId(), InsureStatus.REFUND.value()) > 0) {
                                 logObject.add(" 退回保证金 保证金表状态更新完成");
@@ -483,6 +503,8 @@ public class UserServiceImpl implements UserService {
                                     AccountCheck outAccountCheck = new AccountCheck();
                                     outAccountCheck.setUserId(accountCheck.getUserId());
                                     outAccountCheck.setOpenId(accountCheck.getOpenId());
+                                    outAccountCheck.setTranId(accountCheck.getTranId());
+                                    outAccountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                                     outAccountCheck.setTitle("退回保证金");
                                     outAccountCheck.setTradeType(accountCheck.getTradeType());
                                     outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
@@ -490,6 +512,7 @@ public class UserServiceImpl implements UserService {
                                     outAccountCheck.setPayType(PayType.BALANCE.value());
                                     outAccountCheck.setLotId(accountCheck.getLotId());
                                     if (accountCheckMapper.insert(outAccountCheck) > 0) {
+                                        // un_index : tran_id + 5 + 0
                                         logObject.add(" 退回保证金 从余额扣除退回的保证金流水写入完成");
                                     } else {
                                         logObject.add(" 退回保证金 从余额扣除退回的保证金流水写入失败");
@@ -518,44 +541,37 @@ public class UserServiceImpl implements UserService {
                 // 从冻结保证金中扣除
                 if (userAccountMapper.updateFrozenMoney2UserAccount(userId, -1*amount) > 0) {
                     logObject.add(" 扣除保证金 用户冻结资金扣除完成");
-                    accountCheck.setType(BalanceChange.SUB.value());
-                    accountCheck.setTitle("扣除保证金");
-                    if (accountCheckMapper.insert(accountCheck) > 0) {
-                        logObject.add(" 扣除保证金 用户扣除保证金流水写入完成");
-                        // 把扣除的保证金加到卖家余额
-                        InsurePriceInfo info = insurePriceInfoMapper.selectByTranId(accountCheck.getTranId());
-                        if (userAccountMapper.updateBalance2UserAccount(info.getSalerId(), info.getInsurePrice()) > 0) {
-                            logObject.add(" 扣除保证金 给卖家余额增加完成");
-                            // 更新保证金状态
-                            if (updateInsurePriceInfo(accountCheck.getUserId(), accountCheck.getLotId(), InsureStatus.PUNISH.value()) > 0) {
-                                logObject.add(" 扣除保证金 更新保证金表状态完成");
-                            } else {
-                                logObject.add(" 扣除保证金 更新保证金表状态失败");
-                                result = 4;
-                            }
-                            AccountCheck salerAccountCheck = new AccountCheck();
-                            salerAccountCheck.setUserId(info.getUserId());
-                            salerAccountCheck.setOpenId(info.getOpenId());
-                            salerAccountCheck.setTitle("买家保证金退款");
-                            salerAccountCheck.setTradeType(TradeType.INSURE_GET.value());
-                            salerAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
-                            salerAccountCheck.setType(BalanceChange.ADD.value());
-                            salerAccountCheck.setPayType(PayType.BALANCE.value());
-                            salerAccountCheck.setLotId(accountCheck.getLotId());
-                            salerAccountCheck.setOrderId(accountCheck.getOrderId());
-                            if (accountCheckMapper.insert(salerAccountCheck) > 0) {
-                                logObject.add(" 扣除保证金 卖家获得保证金流水写入完成!");
-                            } else {
-                                logObject.add(" 扣除保证金 卖家获得保证金流水写入失败");
-                                result = 3;
-                            }
+                    // 把扣除的保证金加到卖家余额
+                    InsurePriceInfo info = insurePriceInfoMapper.selectByTranId(accountCheck.getTranId());
+                    if (userAccountMapper.updateBalance2UserAccount(info.getSalerId(), info.getInsurePrice()) > 0) {
+                        logObject.add(" 扣除保证金 给卖家余额增加完成");
+                        // 更新保证金状态
+                        if (updateInsurePriceInfo(accountCheck.getUserId(), accountCheck.getLotId(), InsureStatus.PUNISH.value()) > 0) {
+                            logObject.add(" 扣除保证金 更新保证金表状态完成");
                         } else {
-                            logObject.add(" 扣除保证金 给卖家余额增加失败");
-                            result = 2;
+                            logObject.add(" 扣除保证金 更新保证金表状态失败");
+                            result = 4;
+                        }
+                        AccountCheck salerAccountCheck = new AccountCheck();
+                        salerAccountCheck.setUserId(info.getUserId());
+                        salerAccountCheck.setOpenId(info.getOpenId());
+                        salerAccountCheck.setTitle("买家保证金退款");
+                        salerAccountCheck.setResultBalance(userAccountMapper.selectByUserId(info.getUserId()).getBalance());
+                        salerAccountCheck.setTradeType(TradeType.INSURE_GET.value());
+                        salerAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
+                        salerAccountCheck.setType(BalanceChange.ADD.value());
+                        salerAccountCheck.setPayType(PayType.BALANCE.value());
+                        salerAccountCheck.setLotId(accountCheck.getLotId());
+                        salerAccountCheck.setOrderId(accountCheck.getOrderId());
+                        if (accountCheckMapper.insert(salerAccountCheck) > 0) {
+                            logObject.add(" 扣除保证金 卖家获得保证金流水写入完成!");
+                        } else {
+                            logObject.add(" 扣除保证金 卖家获得保证金流水写入失败");
+                            result = 3;
                         }
                     } else {
-                        logObject.add(" 扣除保证金 用户扣除保证金流水写入失败");
-                        result = 3;
+                        logObject.add(" 扣除保证金 给卖家余额增加失败");
+                        result = 2;
                     }
                 } else {
                     logObject.add(" 扣除保证金 用户冻结资金扣除失败");
@@ -564,13 +580,16 @@ public class UserServiceImpl implements UserService {
             }
         } catch (Exception e) {
             logObject.add(e.getMessage());
-            logObject.add("*********** 流水处理操作结束   [失败]: "+result+"*****************");
-            userAccountLogService.asyncLoggerUserAccount(logObject);
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             result = 1;
         }
-        //所有事务成功,返回0
-        logObject.add("*********** 流水处理操作结束   [成功] *****************");
+        if (result != 0) {
+            logObject.add("*********** 流水处理操作结束   [失败]: "+result+"*****************");
+            // 如果失败,所有事物回滚
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+        } else {
+            //所有事务成功,返回0
+            logObject.add("*********** 流水处理操作结束   [成功] *****************");
+        }
         userAccountLogService.asyncLoggerUserAccount(logObject);
         return result;
     }
