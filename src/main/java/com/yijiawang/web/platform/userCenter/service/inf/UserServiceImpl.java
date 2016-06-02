@@ -302,6 +302,7 @@ public class UserServiceImpl implements UserService {
                     AccountCheck outAccountCheck = new AccountCheck();
                     outAccountCheck.setUserId(accountCheck.getUserId());
                     outAccountCheck.setOpenId(accountCheck.getOpenId());
+                    outAccountCheck.setTranId(accountCheck.getTranId());
                     outAccountCheck.setTitle("订单支付");
                     outAccountCheck.setTradeType(accountCheck.getTradeType());
                     outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
@@ -365,6 +366,7 @@ public class UserServiceImpl implements UserService {
                 AccountCheck outAccountCheck = new AccountCheck();
                 outAccountCheck.setUserId(accountCheck.getUserId());
                 outAccountCheck.setOpenId(accountCheck.getOpenId());
+                outAccountCheck.setTranId(accountCheck.getTranId());
                 outAccountCheck.setTitle("支付保证金");
                 outAccountCheck.setTradeType(accountCheck.getTradeType());
                 outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
@@ -483,6 +485,7 @@ public class UserServiceImpl implements UserService {
                                     AccountCheck outAccountCheck = new AccountCheck();
                                     outAccountCheck.setUserId(accountCheck.getUserId());
                                     outAccountCheck.setOpenId(accountCheck.getOpenId());
+                                    outAccountCheck.setTranId(accountCheck.getTranId());
                                     outAccountCheck.setTitle("退回保证金");
                                     outAccountCheck.setTradeType(accountCheck.getTradeType());
                                     outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
