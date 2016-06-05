@@ -262,6 +262,8 @@ public class UserServiceImpl implements UserService {
                     logObject.add(" 充值到余额 余额增加完成!");
                     accountCheck.setType(BalanceChange.ADD.value());
                     accountCheck.setTitle("充值");
+                    // 充值没有订单号
+                    accountCheck.setOrderId(null);
                     accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                     if (accountCheckMapper.insert(accountCheck) > 0) {
                         // un_index : trand_id + 0 + 1
