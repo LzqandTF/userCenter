@@ -227,15 +227,22 @@ public class UserServiceImpl implements UserService {
                 logObject.add("back_sn == " + param.get("back_sn"));
             }
             logObject.add("*********** [end addAccountCheck] result=["+result+"]**********");
-            userAccountLogService.asyncLoggerUserAccount(logObject);
+            // 判断该笔流水是否已经处理过,规则, trand_id + trade_type + type 为唯一键值
+            AccountCheck accountCheckChecker = accountCheckMapper.queryAccountUser(accountCheck);
             if (result == 0) {
-                result = changeBalance(accountCheck);
+                if (accountCheckChecker != null) {
+                    logObject.add("*********** 该比流水已经处理过 ID= "+ accountCheckChecker.getId());
+                    result = accountCheckChecker.getId();
+                } else {
+                    result = changeBalance(accountCheck);
+                }
             }
         } catch (Exception e) {
             logObject.add(e.getMessage());
             userAccountLogService.asyncLoggerUserAccount(logObject);
             result = -1;
         }
+        userAccountLogService.asyncLoggerUserAccount(logObject);
         return result;
     }
 
@@ -246,7 +253,6 @@ public class UserServiceImpl implements UserService {
      * @return 0-所有操作成功  2-余额修改失败   3-流水写入失败   1-系统异常
      */
     private long changeBalance(AccountCheck accountCheck) {
-        // 判断该笔流水是否已经处理过,规则, trand_id + trade_type + type 为唯一键值
         List<String> logObject = new ArrayList<>();
         logObject.add("*********** 开始流水处理操作 *****************");
         long result = 0;

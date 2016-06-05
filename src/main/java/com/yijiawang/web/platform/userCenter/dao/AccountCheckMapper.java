@@ -24,4 +24,10 @@ public interface AccountCheckMapper {
     List<AccountCheck> selectByUserId(@Param("userId") String userId, @Param("cursor") Long cursor, @Param("count") Integer count);
 
     AccountCheck getOrderPayAccountCheck(String orderId);
+
+    /**
+     * 判断该笔流水是否已经处理过,规则, trand_id + trade_type + type 为唯一键值
+     * @return
+     */
+    AccountCheck queryAccountUser(AccountCheck accountCheck);
 }
