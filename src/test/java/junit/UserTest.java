@@ -72,6 +72,7 @@ public class UserTest {
         param.put("trade_amount", "1");
         param.put("pay_type", PayType.WEIXIN.value().toString());
         param.put("lot_id", "5dda2035c980412c99dfc1e78848aecc");
-        userService.addAccountCheck(param);
+        long result = userService.addAccountCheck(param);
+        System.out.println("  ");
     }
 }

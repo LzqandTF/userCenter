@@ -33,10 +33,7 @@
     delete from account_check
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.AccountCheck" >
-    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
-        SELECT LAST_INSERT_ID()
-    </selectKey>
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yijiawang.web.platform.userCenter.po.AccountCheck" >
     insert into account_check (id, tran_id, open_id, 
       user_id, title, trade_type, 
       trade_time, trade_amount, type, 

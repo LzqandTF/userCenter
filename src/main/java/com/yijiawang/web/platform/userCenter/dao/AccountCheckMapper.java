@@ -8,7 +8,7 @@ import java.util.List;
 public interface AccountCheckMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(AccountCheck record);
+    long insert(AccountCheck record);
 
     int insertSelective(AccountCheck record);
 
