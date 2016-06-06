@@ -233,6 +233,7 @@ public class UserServiceImpl implements UserService {
                 if (accountCheckChecker != null) {
                     logObject.add("*********** 该比流水已经处理过 ID= "+ accountCheckChecker.getId());
                     result = accountCheckChecker.getId();
+                    userAccountLogService.asyncLoggerUserAccount(logObject);
                 } else {
                     result = changeBalance(accountCheck);
                 }
@@ -242,7 +243,6 @@ public class UserServiceImpl implements UserService {
             userAccountLogService.asyncLoggerUserAccount(logObject);
             result = -1;
         }
-        userAccountLogService.asyncLoggerUserAccount(logObject);
         return result;
     }
 
