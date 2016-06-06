@@ -32,6 +32,6 @@
       select
       <include refid="Base_Column_List" />
       from account_check
-      WHERE tran_id=#{tranId,jdbcType=VARCHAR} AND trade_type=#{trade_type,jdbcType=INTEGER} AND type=#{type,jdbcType=INTEGER}
+      WHERE tran_id=#{tranId,jdbcType=VARCHAR} AND trade_type=#{tradeType,jdbcType=INTEGER} AND type=#{type,jdbcType=INTEGER}
   </select>
 </mapper>
