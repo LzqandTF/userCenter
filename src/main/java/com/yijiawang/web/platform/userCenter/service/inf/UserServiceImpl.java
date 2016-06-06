@@ -270,7 +270,6 @@ public class UserServiceImpl implements UserService {
                     // 充值没有订单号
                     accountCheck.setOrderId(null);
                     accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
-
                     if (accountCheckMapper.insert(accountCheck) > 0) {
                         // un_index : trand_id + 0 + 1
                         result = accountCheck.getId();
@@ -613,13 +612,10 @@ public class UserServiceImpl implements UserService {
             result = -1;
         }
         if (result <= 0) {
-            logObject.add("*********** 流水处理操作结束   [失败]: "+result+"*****************");
             // 如果失败,所有事物回滚
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-        } else {
-            //所有事务成功,返回0
-            logObject.add("*********** 流水处理操作结束   [成功] *****************");
         }
+        logObject.add("*********** 流水处理操作结束   [result]="+result+" *****************");
         userAccountLogService.asyncLoggerUserAccount(logObject);
         return result;
     }
