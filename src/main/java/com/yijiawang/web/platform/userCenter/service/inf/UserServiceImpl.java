@@ -580,11 +580,12 @@ public class UserServiceImpl implements UserService {
                             logObject.add(" 扣除保证金 更新保证金表状态失败");
                             result = -4;
                         }
+                        WxUserInfo salerWxUserInfo = wxUserInfoMapper.selectWxUserInfoByUserId(info.getSalerId());
                         AccountCheck salerAccountCheck = new AccountCheck();
-                        salerAccountCheck.setUserId(info.getUserId());
-                        salerAccountCheck.setOpenId(info.getOpenId());
+                        salerAccountCheck.setUserId(salerWxUserInfo.getUserId());
+                        salerAccountCheck.setOpenId(salerWxUserInfo.getOpenId());
                         salerAccountCheck.setTitle("买家保证金退款");
-                        salerAccountCheck.setResultBalance(userAccountMapper.selectByUserId(info.getUserId()).getBalance());
+                        salerAccountCheck.setResultBalance(userAccountMapper.selectByUserId(salerWxUserInfo.getUserId()).getBalance());
                         salerAccountCheck.setTradeType(TradeType.INSURE_GET.value());
                         salerAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
                         salerAccountCheck.setType(BalanceChange.ADD.value());
