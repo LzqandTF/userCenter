@@ -25,7 +25,7 @@
       select
       <include refid="Base_Column_List" />
       from account_check
-      WHERE trade_type=1 AND type=1 AND order_id=#{orderId,jdbcType=VARCHAR}
+      WHERE trade_type=1 AND type=0 AND order_id=#{orderId,jdbcType=VARCHAR}
   </select>
 
   <select id="queryAccountUser" parameterType="com.yijiawang.web.platform.userCenter.po.AccountCheck"  resultMap="BaseResultMap">
