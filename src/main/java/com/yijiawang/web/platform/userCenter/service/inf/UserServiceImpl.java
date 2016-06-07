@@ -307,7 +307,7 @@ public class UserServiceImpl implements UserService {
                         result = -2;
                     }
                 }
-                if (result > 0) {
+                if (result >= 0) {
                     // 如果以上步骤操作成功
                     logObject.add(" 订单支付 开始从余额支付订单 ");
                     if (userAccountMapper.updateBalance2UserAccount(userId, -1*amount) > 0) {
@@ -365,7 +365,7 @@ public class UserServiceImpl implements UserService {
                         result = -2;
                     }
                 }
-                if (result > 0) {
+                if (result >= 0) {
                     // 2. 从余额支付保证金
                     logObject.add(" 支付保证金, 开始从余额支付保证金 ");
                     if (userAccountMapper.updateBalance2UserAccount(userId, -1*amount)>0) {
