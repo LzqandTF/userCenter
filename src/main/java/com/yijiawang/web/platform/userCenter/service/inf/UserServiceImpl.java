@@ -235,6 +235,7 @@ public class UserServiceImpl implements UserService {
                     result = accountCheckChecker.getId();
                     userAccountLogService.asyncLoggerUserAccount(logObject);
                 } else {
+                    userAccountLogService.asyncLoggerUserAccount(logObject);
                     result = changeBalance(accountCheck);
                 }
             }
