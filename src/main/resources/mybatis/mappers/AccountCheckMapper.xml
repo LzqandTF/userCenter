@@ -2,26 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yijiawang.web.platform.userCenter.dao.AccountCheckMapper" >
   <resultMap id="BaseResultMap" type="com.yijiawang.web.platform.userCenter.po.AccountCheck" >
-      <id column="id" property="id" jdbcType="BIGINT" />
-      <result column="tran_id" property="tranId" jdbcType="VARCHAR" />
-      <result column="open_id" property="openId" jdbcType="VARCHAR" />
-      <result column="user_id" property="userId" jdbcType="VARCHAR" />
-      <result column="title" property="title" jdbcType="VARCHAR" />
-      <result column="trade_type" property="tradeType" jdbcType="INTEGER" />
-      <result column="trade_time" property="tradeTime" jdbcType="TIMESTAMP" />
-      <result column="trade_amount" property="tradeAmount" jdbcType="INTEGER" />
-      <result column="type" property="type" jdbcType="INTEGER" />
-      <result column="order_sn" property="orderSn" jdbcType="VARCHAR" />
-      <result column="back_sn" property="backSn" jdbcType="VARCHAR" />
-      <result column="pay_type" property="payType" jdbcType="INTEGER" />
-      <result column="lot_id" property="lotId" jdbcType="VARCHAR" />
-      <result column="order_id" property="orderId" jdbcType="VARCHAR" />
-      <result column="result_balance" property="resultBalance" jdbcType="INTEGER" />
-      <result column="status" property="status" jdbcType="INTEGER" />
+      <id column="id" jdbcType="BIGINT" property="id" />
+      <result column="tran_id" jdbcType="VARCHAR" property="tranId" />
+      <result column="open_id" jdbcType="VARCHAR" property="openId" />
+      <result column="user_id" jdbcType="VARCHAR" property="userId" />
+      <result column="title" jdbcType="VARCHAR" property="title" />
+      <result column="trade_type" jdbcType="INTEGER" property="tradeType" />
+      <result column="trade_time" jdbcType="TIMESTAMP" property="tradeTime" />
+      <result column="trade_amount" jdbcType="INTEGER" property="tradeAmount" />
+      <result column="type" jdbcType="INTEGER" property="type" />
+      <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
+      <result column="back_sn" jdbcType="VARCHAR" property="backSn" />
+      <result column="pay_type" jdbcType="INTEGER" property="payType" />
+      <result column="lot_id" jdbcType="VARCHAR" property="lotId" />
+      <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+      <result column="result_balance" jdbcType="INTEGER" property="resultBalance" />
+      <result column="result_frozen" jdbcType="INTEGER" property="resultFrozen" />
+      <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, tran_id, open_id, user_id, title, trade_type, trade_time, trade_amount, type, 
-    order_sn, back_sn, pay_type, lot_id, order_id, result_balance, status
+    order_sn, back_sn, pay_type, lot_id, order_id, result_balance, result_frozen, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -39,163 +40,172 @@
       trade_time, trade_amount, type, 
       order_sn, back_sn, pay_type,
       lot_id, order_id, result_balance,
-      status)
+      result_frozen, status)
     values (#{id,jdbcType=BIGINT}, #{tranId,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR},
       #{userId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{tradeType,jdbcType=INTEGER},
       #{tradeTime,jdbcType=TIMESTAMP}, #{tradeAmount,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},
       #{orderSn,jdbcType=VARCHAR}, #{backSn,jdbcType=VARCHAR}, #{payType,jdbcType=INTEGER},
       #{lotId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{resultBalance,jdbcType=INTEGER},
-      #{status,jdbcType=INTEGER})
+      #{resultFrozen,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.AccountCheck" >
       insert into account_check
-      <trim prefix="(" suffix=")" suffixOverrides="," >
-          <if test="id != null" >
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+          <if test="id != null">
               id,
           </if>
-          <if test="tranId != null" >
+          <if test="tranId != null">
               tran_id,
           </if>
-          <if test="openId != null" >
+          <if test="openId != null">
               open_id,
           </if>
-          <if test="userId != null" >
+          <if test="userId != null">
               user_id,
           </if>
-          <if test="title != null" >
+          <if test="title != null">
               title,
           </if>
-          <if test="tradeType != null" >
+          <if test="tradeType != null">
               trade_type,
           </if>
-          <if test="tradeTime != null" >
+          <if test="tradeTime != null">
               trade_time,
           </if>
-          <if test="tradeAmount != null" >
+          <if test="tradeAmount != null">
               trade_amount,
           </if>
-          <if test="type != null" >
+          <if test="type != null">
               type,
           </if>
-          <if test="orderSn != null" >
+          <if test="orderSn != null">
               order_sn,
           </if>
-          <if test="backSn != null" >
+          <if test="backSn != null">
               back_sn,
           </if>
-          <if test="payType != null" >
+          <if test="payType != null">
               pay_type,
           </if>
-          <if test="lotId != null" >
+          <if test="lotId != null">
               lot_id,
           </if>
-          <if test="orderId != null" >
+          <if test="orderId != null">
               order_id,
           </if>
-          <if test="resultBalance != null" >
+          <if test="resultBalance != null">
               result_balance,
           </if>
-          <if test="status != null" >
+          <if test="resultFrozen != null">
+              result_frozen,
+          </if>
+          <if test="status != null">
               status,
           </if>
       </trim>
-      <trim prefix="values (" suffix=")" suffixOverrides="," >
-          <if test="id != null" >
+      <trim prefix="values (" suffix=")" suffixOverrides=",">
+          <if test="id != null">
               #{id,jdbcType=BIGINT},
           </if>
-          <if test="tranId != null" >
+          <if test="tranId != null">
               #{tranId,jdbcType=VARCHAR},
           </if>
-          <if test="openId != null" >
+          <if test="openId != null">
               #{openId,jdbcType=VARCHAR},
           </if>
-          <if test="userId != null" >
+          <if test="userId != null">
               #{userId,jdbcType=VARCHAR},
           </if>
-          <if test="title != null" >
+          <if test="title != null">
               #{title,jdbcType=VARCHAR},
           </if>
-          <if test="tradeType != null" >
+          <if test="tradeType != null">
               #{tradeType,jdbcType=INTEGER},
           </if>
-          <if test="tradeTime != null" >
+          <if test="tradeTime != null">
               #{tradeTime,jdbcType=TIMESTAMP},
           </if>
-          <if test="tradeAmount != null" >
+          <if test="tradeAmount != null">
               #{tradeAmount,jdbcType=INTEGER},
           </if>
-          <if test="type != null" >
+          <if test="type != null">
               #{type,jdbcType=INTEGER},
           </if>
-          <if test="orderSn != null" >
+          <if test="orderSn != null">
               #{orderSn,jdbcType=VARCHAR},
           </if>
-          <if test="backSn != null" >
+          <if test="backSn != null">
               #{backSn,jdbcType=VARCHAR},
           </if>
-          <if test="payType != null" >
+          <if test="payType != null">
               #{payType,jdbcType=INTEGER},
           </if>
-          <if test="lotId != null" >
+          <if test="lotId != null">
               #{lotId,jdbcType=VARCHAR},
           </if>
-          <if test="orderId != null" >
+          <if test="orderId != null">
               #{orderId,jdbcType=VARCHAR},
           </if>
-          <if test="resultBalance != null" >
+          <if test="resultBalance != null">
               #{resultBalance,jdbcType=INTEGER},
           </if>
-          <if test="status != null" >
+          <if test="resultFrozen != null">
+              #{resultFrozen,jdbcType=INTEGER},
+          </if>
+          <if test="status != null">
               #{status,jdbcType=INTEGER},
           </if>
       </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.yijiawang.web.platform.userCenter.po.AccountCheck" >
       update account_check
-      <set >
-          <if test="tranId != null" >
+      <set>
+          <if test="tranId != null">
               tran_id = #{tranId,jdbcType=VARCHAR},
           </if>
-          <if test="openId != null" >
+          <if test="openId != null">
               open_id = #{openId,jdbcType=VARCHAR},
           </if>
-          <if test="userId != null" >
+          <if test="userId != null">
               user_id = #{userId,jdbcType=VARCHAR},
           </if>
-          <if test="title != null" >
+          <if test="title != null">
               title = #{title,jdbcType=VARCHAR},
           </if>
-          <if test="tradeType != null" >
+          <if test="tradeType != null">
               trade_type = #{tradeType,jdbcType=INTEGER},
           </if>
-          <if test="tradeTime != null" >
+          <if test="tradeTime != null">
               trade_time = #{tradeTime,jdbcType=TIMESTAMP},
           </if>
-          <if test="tradeAmount != null" >
+          <if test="tradeAmount != null">
               trade_amount = #{tradeAmount,jdbcType=INTEGER},
           </if>
-          <if test="type != null" >
+          <if test="type != null">
               type = #{type,jdbcType=INTEGER},
           </if>
-          <if test="orderSn != null" >
+          <if test="orderSn != null">
               order_sn = #{orderSn,jdbcType=VARCHAR},
           </if>
-          <if test="backSn != null" >
+          <if test="backSn != null">
               back_sn = #{backSn,jdbcType=VARCHAR},
           </if>
-          <if test="payType != null" >
+          <if test="payType != null">
               pay_type = #{payType,jdbcType=INTEGER},
           </if>
-          <if test="lotId != null" >
+          <if test="lotId != null">
               lot_id = #{lotId,jdbcType=VARCHAR},
           </if>
-          <if test="orderId != null" >
+          <if test="orderId != null">
               order_id = #{orderId,jdbcType=VARCHAR},
           </if>
-          <if test="resultBalance != null" >
+          <if test="resultBalance != null">
               result_balance = #{resultBalance,jdbcType=INTEGER},
           </if>
-          <if test="status != null" >
+          <if test="resultFrozen != null">
+              result_frozen = #{resultFrozen,jdbcType=INTEGER},
+          </if>
+          <if test="status != null">
               status = #{status,jdbcType=INTEGER},
           </if>
       </set>
@@ -217,6 +227,7 @@
       lot_id = #{lotId,jdbcType=VARCHAR},
       order_id = #{orderId,jdbcType=VARCHAR},
       result_balance = #{resultBalance,jdbcType=INTEGER},
+      result_frozen = #{resultFrozen,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>

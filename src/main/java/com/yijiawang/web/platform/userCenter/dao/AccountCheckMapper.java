@@ -29,5 +29,7 @@ public interface AccountCheckMapper {
      * 判断该笔流水是否已经处理过,规则, trand_id + trade_type + type 为唯一键值
      * @return
      */
-    AccountCheck queryAccountUser(AccountCheck accountCheck);
+    AccountCheck queryAccountCheck(AccountCheck accountCheck);
+
+    AccountCheck selectFrozenAccountCheck(String orderId);
 }
