@@ -21,7 +21,7 @@ public interface AccountCheckMapper {
     // -------- 自定义 -------
     AccountCheck selectByTranId(String tranId);
 
-    List<AccountCheck> selectByUserId(@Param("userId") String userId, @Param("cursor") Long cursor, @Param("count") Integer count);
+    List<AccountCheck> selectByUserId(@Param("userId") String userId, @Param("status") Integer status, @Param("cursor") Long cursor, @Param("count") Integer count);
 
     AccountCheck getOrderPayAccountCheck(String orderId);
 

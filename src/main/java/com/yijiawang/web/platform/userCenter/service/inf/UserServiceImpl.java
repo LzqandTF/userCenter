@@ -408,6 +408,7 @@ public class UserServiceImpl implements UserService {
                     logObject.add(" 提现操作 余额扣除完成 !");
                     accountCheck.setType(BalanceChange.SUB.value());
                     accountCheck.setTitle("提现");
+                    accountCheck.setStatus(AccountCheckStatus.GETCASH.value());
                     accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                     if (accountCheckMapper.insert(accountCheck) > 0) {
                         // un_index : tran_id + 3 + 0
@@ -483,7 +484,7 @@ public class UserServiceImpl implements UserService {
                         if (userAccountMapper.updateFrozenMoney2UserAccount(accountCheck.getUserId(),-1*accountCheck.getTradeAmount()) > 0) {
                             logObject.add(" 订单完成 更新卖家冻结余额完成");
                             // 更新流水状态
-                            frozenAccountCheck.setStatus(FrozenChange.UNFREEZE.value());
+                            frozenAccountCheck.setStatus(AccountCheckStatus.UNFREEZE.value());
                             if (accountCheckMapper.updateByPrimaryKeySelective(accountCheck) > 0) {
                                 result = accountCheck.getId();
                                 logObject.add(" 订单完成 卖家余额增加流水更新完成");
@@ -518,7 +519,7 @@ public class UserServiceImpl implements UserService {
                 logObject.add(" 订单货款冻结 ");
                 // 修改冻结余额
                 if (userAccountMapper.updateFrozenMoney2UserAccount(userId, amount) > 0) {
-                    accountCheck.setStatus(FrozenChange.FROZEN.value());
+                    accountCheck.setStatus(AccountCheckStatus.FROZEN.value());
                     accountCheck.setType(BalanceChange.ADD.value());
                     accountCheck.setTitle("货款到账");
                     accountCheck.setResultFrozen(userAccountMapper.selectByUserId(userId).getFrozenMoney());
@@ -668,8 +669,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<AccountCheck> getAccountCheckByUserId(String userId, Long cursor, Integer count) {
-        return accountCheckMapper.selectByUserId(userId, cursor, count);
+    public List<AccountCheck> getAccountCheckByUserId(String userId, Integer status, Long cursor, Integer count) {
+        return accountCheckMapper.selectByUserId(userId, status, cursor, count);
     }
 
     @Override
