@@ -38,7 +38,7 @@
       WHERE tran_id=#{tranId,jdbcType=VARCHAR} AND trade_type=#{tradeType,jdbcType=INTEGER} AND type=#{type,jdbcType=INTEGER}
   </select>
 
-  <select id="selectFrozenAccountCheck" parameterType="java.lang.String">
+  <select id="selectFrozenAccountCheck" parameterType="java.lang.String" resultMap="BaseResultMap">
       SELECT
       <include refid="Base_Column_List" />
       from account_check
