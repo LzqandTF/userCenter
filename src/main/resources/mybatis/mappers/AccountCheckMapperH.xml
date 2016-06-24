@@ -50,7 +50,7 @@
         <include refid="Base_Column_List" />
         from account_check
         where
-        <![CDATA[ trade_time >= #{tradeTimeBegin,jdbcType=TIMESTAMP} and trade_time < #{tradeTimeEnd,jdbcType=TIMESTAMP} ]]>
+        <![CDATA[ trade_time >= #{tradeTimeBegin,jdbcType=TIMESTAMP} and trade_time <= #{tradeTimeEnd,jdbcType=TIMESTAMP} ]]>
     </select>
 
 </mapper>
