@@ -32,4 +32,12 @@ public interface AccountCheckMapper {
     AccountCheck queryAccountCheck(AccountCheck accountCheck);
 
     AccountCheck selectFrozenAccountCheck(String orderId);
+
+    /**
+     * 根据交易时间段获取列表
+     * @param tradeTimeBegin
+     * @param tradeTimeEnd
+     * @return
+     */
+    List<AccountCheck> queryListByTranTime(@Param("tradeTimeBegin") String tradeTimeBegin, @Param("tradeTimeEnd") String tradeTimeEnd);
 }
