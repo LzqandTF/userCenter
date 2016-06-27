@@ -628,6 +628,27 @@ public class UserServiceImpl implements UserService {
                     logObject.add(" 扣除保证金 给卖家余额增加失败");
                     result = -2;
                 }
+            } else if (accountCheck.getTradeType() == TradeType.CASH_WITHDRAW.value()) {
+                // 提现失败,退回余额
+                logObject.add(" 退回余额 ");
+                if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
+                    logObject.add(" 退回余额 余额增加完成 !");
+                    accountCheck.setType(BalanceChange.ADD.value());
+                    accountCheck.setTitle("退回余额");
+                    accountCheck.setStatus(AccountCheckStatus.GETCASH.value());
+                    accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
+                    if (accountCheckMapper.insert(accountCheck) > 0) {
+                        // un_index : tran_id + 10 + 1
+                        result = accountCheck.getId();
+                        logObject.add(" 退回余额 余额回退流水写入完成");
+                    } else {
+                        logObject.add(" 退回余额 余额回退流水写入失败");
+                        result = -3;
+                    }
+                } else {
+                    logObject.add(" 退回余额 余额增加失败");
+                    result = -2;
+                }
             }
         } catch (Exception e) {
             logObject.add(e.getMessage());
