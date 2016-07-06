@@ -485,7 +485,7 @@ public class UserServiceImpl implements UserService {
                             logObject.add(" 订单完成 更新卖家冻结余额完成");
                             // 更新流水状态
                             frozenAccountCheck.setStatus(AccountCheckStatus.UNFREEZE.value());
-                            if (accountCheckMapper.updateByPrimaryKeySelective(accountCheck) > 0) {
+                            if (accountCheckMapper.updateByPrimaryKeySelective(frozenAccountCheck) > 0) {
                                 result = accountCheck.getId();
                                 logObject.add(" 订单完成 卖家余额增加流水更新完成");
                             } else {
