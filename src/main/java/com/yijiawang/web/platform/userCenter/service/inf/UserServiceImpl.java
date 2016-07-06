@@ -724,4 +724,9 @@ public class UserServiceImpl implements UserService {
     public List<AccountCheck> queryListByTranTime(String tradeTimeBegin, String tradeTimeEnd) {
         return accountCheckMapper.queryListByTranTime(tradeTimeBegin,tradeTimeEnd);
     }
+
+    @Override
+    public AccountCheck getLastAccountCheckByOrderId(String orderId) {
+        return accountCheckMapper.getLastAccountCheckByOrderId(orderId);
+    }
 }

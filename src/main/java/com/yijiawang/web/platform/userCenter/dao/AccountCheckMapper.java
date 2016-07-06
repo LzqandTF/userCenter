@@ -31,6 +31,11 @@ public interface AccountCheckMapper {
      */
     AccountCheck queryAccountCheck(AccountCheck accountCheck);
 
+    /**
+     * 根据订单id获取冻结流水
+     * @param orderId
+     * @return
+     */
     AccountCheck selectFrozenAccountCheck(String orderId);
 
     /**
@@ -40,4 +45,11 @@ public interface AccountCheckMapper {
      * @return
      */
     List<AccountCheck> queryListByTranTime(@Param("tradeTimeBegin") String tradeTimeBegin, @Param("tradeTimeEnd") String tradeTimeEnd);
+
+    /**
+     * 根据订单id获取最后一条流水
+     * @param orderId
+     * @return
+     */
+    AccountCheck getLastAccountCheckByOrderId(String orderId);
 }

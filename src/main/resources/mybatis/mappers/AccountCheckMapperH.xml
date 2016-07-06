@@ -53,4 +53,14 @@
         <![CDATA[ trade_time >= #{tradeTimeBegin,jdbcType=TIMESTAMP} and trade_time <= #{tradeTimeEnd,jdbcType=TIMESTAMP} ]]>
     </select>
 
+  <select id="getLastAccountCheckByOrderId" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from account_check
+      where
+      order_id = #{orderId,jdbcType=VARCHAR}
+      ORDER BY id desc
+      LIMIT 1
+  </select>
+
 </mapper>
