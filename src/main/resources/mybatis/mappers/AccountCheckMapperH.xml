@@ -17,6 +17,9 @@
       <if test="status != null">
           <![CDATA[and status = #{status,jdbcType=BIGINT} ]]>
       </if>
+      <if test="status == null">
+          <![CDATA[and status != 1 ]]>
+      </if>
       <if test="cursor != 0">
           <![CDATA[and id <= #{cursor,jdbcType=BIGINT} ]]>
       </if>
