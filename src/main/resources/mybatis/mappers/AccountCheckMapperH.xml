@@ -14,14 +14,14 @@
       <include refid="Base_Column_List" />
       from account_check
       where user_id = #{userId,jdbcType=VARCHAR}
-      <if test="status != null">
-          <![CDATA[and status = #{status,jdbcType=BIGINT} ]]>
+      <if test="status == 0">
+          <![CDATA[ and status != 1 ]]>
       </if>
-      <if test="status == null">
-          <![CDATA[and status != 1 ]]>
+      <if test="status != 0">
+          <![CDATA[ and status = #{status,jdbcType=BIGINT} ]]>
       </if>
       <if test="cursor != 0">
-          <![CDATA[and id <= #{cursor,jdbcType=BIGINT} ]]>
+          <![CDATA[ and id <= #{cursor,jdbcType=BIGINT} ]]>
       </if>
       order by id DESC
       LIMIT #{count,jdbcType=INTEGER}
