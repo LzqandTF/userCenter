@@ -15,10 +15,10 @@
       from account_check
       where user_id = #{userId,jdbcType=VARCHAR}
       <if test="status == 0">
-          <![CDATA[ and status != 1 ]]>
+          <![CDATA[ and (status is null or status != 1) ]]>
       </if>
       <if test="status != 0">
-          <![CDATA[ and status = #{status,jdbcType=BIGINT} ]]>
+          <![CDATA[ and status = #{status,jdbcType=INTEGER} ]]>
       </if>
       <if test="cursor != 0">
           <![CDATA[ and id <= #{cursor,jdbcType=BIGINT} ]]>
