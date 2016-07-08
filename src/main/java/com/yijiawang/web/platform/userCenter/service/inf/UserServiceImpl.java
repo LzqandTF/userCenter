@@ -521,7 +521,7 @@ public class UserServiceImpl implements UserService {
                 if (userAccountMapper.updateFrozenMoney2UserAccount(userId, amount) > 0) {
                     accountCheck.setStatus(AccountCheckStatus.FROZEN.value());
                     accountCheck.setType(BalanceChange.ADD.value());
-                    accountCheck.setTitle("货款到账");
+                    accountCheck.setTitle("货款冻结中");
                     accountCheck.setResultFrozen(userAccountMapper.selectByUserId(userId).getFrozenMoney());
                     if (accountCheckMapper.insert(accountCheck) > 0) {
                         // un_index : tran_id + 9 + 1
