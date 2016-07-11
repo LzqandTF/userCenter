@@ -439,11 +439,11 @@ public class UserServiceImpl implements UserService {
                         unFrozenCheck.setTitle("7天无理由退款");
                         unFrozenCheck.setResultBalance(userAccountMapper.selectByUserId(frozenAccountCheck.getUserId()).getBalance());
                         unFrozenCheck.setTradeType(TradeType.ORDER_WITHDRAW.value());
-                        unFrozenCheck.setTradeAmount(unFrozenCheck.getTradeAmount());
+                        unFrozenCheck.setTradeAmount(frozenAccountCheck.getTradeAmount());
                         unFrozenCheck.setType(BalanceChange.SUB.value());
                         unFrozenCheck.setPayType(PayType.BALANCE.value());
-                        unFrozenCheck.setLotId(unFrozenCheck.getLotId());
-                        unFrozenCheck.setOrderId(unFrozenCheck.getOrderId());
+                        unFrozenCheck.setLotId(frozenAccountCheck.getLotId());
+                        unFrozenCheck.setOrderId(frozenAccountCheck.getOrderId());
                         if (accountCheckMapper.insert(unFrozenCheck) > 0) {
                             result = unFrozenCheck.getId();
                             logObject.add(" 退款操作 7天无理由退款 卖家冻结资金退款解冻流水写入完成");
