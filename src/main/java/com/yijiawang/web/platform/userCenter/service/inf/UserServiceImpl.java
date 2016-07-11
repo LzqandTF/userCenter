@@ -425,52 +425,86 @@ public class UserServiceImpl implements UserService {
             } else if (accountCheck.getTradeType() == TradeType.ORDER_WITHDRAW.value()) {
                 // 退款
                 logObject.add(" 退款操作 ");
-                // 1.退款到余额
-                if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
-                    logObject.add(" 退款操作 买家余额增加完成");
-                    accountCheck.setType(BalanceChange.ADD.value());
-                    accountCheck.setTitle(" 退款 ");
-                    accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
-                    if (accountCheckMapper.insert(accountCheck) > 0) {
-                        // un_index : tran_id + 4 + 1
-                        result = accountCheck.getId();
-                        logObject.add(" 退款操作 退款给买家流水增加写入完成");
-                        if (accountCheck.getPayType() != PayType.BALANCE.value()) {
-                            // 2. 如果非余额付款,从余额扣除
-                            if (userAccountMapper.updateBalance2UserAccount(userId, -1*amount) > 0) {
-                                logObject.add(" 退款操作 卖家余额扣除完成 !");
-                                AccountCheck outAccountCheck = new AccountCheck();
-                                outAccountCheck.setUserId(accountCheck.getUserId());
-                                outAccountCheck.setOpenId(accountCheck.getOpenId());
-                                outAccountCheck.setTitle(" 退款 ");
-                                outAccountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
-                                outAccountCheck.setTradeType(accountCheck.getTradeType());
-                                outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
-                                outAccountCheck.setType(BalanceChange.SUB.value());
-                                outAccountCheck.setPayType(PayType.BALANCE.value());
-                                outAccountCheck.setLotId(accountCheck.getLotId());
-                                outAccountCheck.setOrderId(accountCheck.getOrderId());
-                                if (accountCheckMapper.insert(outAccountCheck) > 0) {
-                                    // un_index : tran_id + 4 + 0
-                                    result = outAccountCheck.getId();
-                                    logObject.add(" 退款操作 卖家余额扣款流水写入完成");
-                                } else {
-                                    logObject.add(" 退款操作 卖家余额扣款流水写入失败");
-                                    result = -3;
-                                }
-                            } else {
-                                logObject.add(" 退款操作 卖家余额扣除失败");
-                                result = -2;
-                            }
+                // 如果是7天无理由退款,订单状态为Finish,先解冻保证金
+                AccountCheck frozenAccountCheck = accountCheckMapper.selectFrozenAccountCheck(accountCheck.getOrderId());
+                if (frozenAccountCheck != null) {
+                    logObject.add(" 退款操作 7天无理由退款 ");
+                    // 有冻结金额,先更新卖家冻结金额
+                    if (userAccountMapper.updateFrozenMoney2UserAccount(frozenAccountCheck.getUserId(),-1*frozenAccountCheck.getTradeAmount()) > 0) {
+                        logObject.add(" 退款操作 7天无理由退款 更新卖家冻结余额完成");
+                        // 新增一条解冻的流水
+                        AccountCheck unFrozenCheck = new AccountCheck();
+                        unFrozenCheck.setUserId(frozenAccountCheck.getUserId());
+                        unFrozenCheck.setOpenId(frozenAccountCheck.getOpenId());
+                        unFrozenCheck.setTitle("7天无理由退款");
+                        unFrozenCheck.setResultBalance(userAccountMapper.selectByUserId(frozenAccountCheck.getUserId()).getBalance());
+                        unFrozenCheck.setTradeType(TradeType.ORDER_WITHDRAW.value());
+                        unFrozenCheck.setTradeAmount(unFrozenCheck.getTradeAmount());
+                        unFrozenCheck.setType(BalanceChange.SUB.value());
+                        unFrozenCheck.setPayType(PayType.BALANCE.value());
+                        unFrozenCheck.setLotId(unFrozenCheck.getLotId());
+                        unFrozenCheck.setOrderId(unFrozenCheck.getOrderId());
+                        if (accountCheckMapper.insert(unFrozenCheck) > 0) {
+                            result = unFrozenCheck.getId();
+                            logObject.add(" 退款操作 7天无理由退款 卖家冻结资金退款解冻流水写入完成");
+                        } else {
+                            logObject.add(" 退款操作 7天无理由退款 卖家冻结资金退款解冻流水写入失败");
+                            result = -5;
                         }
                     } else {
-                        logObject.add(" 退款操作 退款给买家流水增加写入失败");
-                        result = -3;
+                        logObject.add(" 退款操作 7天无理由退款 更新卖家冻结余额失败");
+                        result = -6;
                     }
-                } else {
-                    logObject.add(" 退款操作 买家余额增加失败");
-                    result = -2;
                 }
+                if (result >= 0) {
+                    // 1.退款到余额
+                    if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
+                        logObject.add(" 退款操作 买家余额增加完成");
+                        accountCheck.setType(BalanceChange.ADD.value());
+                        accountCheck.setTitle(" 退款 ");
+                        accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
+                        if (accountCheckMapper.insert(accountCheck) > 0) {
+                            // un_index : tran_id + 4 + 1
+                            result = accountCheck.getId();
+                            logObject.add(" 退款操作 退款给买家流水增加写入完成");
+                            if (accountCheck.getPayType() != PayType.BALANCE.value()) {
+                                // 2. 如果非余额付款,从余额扣除
+                                if (userAccountMapper.updateBalance2UserAccount(userId, -1*amount) > 0) {
+                                    logObject.add(" 退款操作 卖家余额扣除完成 !");
+                                    AccountCheck outAccountCheck = new AccountCheck();
+                                    outAccountCheck.setUserId(accountCheck.getUserId());
+                                    outAccountCheck.setOpenId(accountCheck.getOpenId());
+                                    outAccountCheck.setTitle(" 退款 ");
+                                    outAccountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
+                                    outAccountCheck.setTradeType(accountCheck.getTradeType());
+                                    outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
+                                    outAccountCheck.setType(BalanceChange.SUB.value());
+                                    outAccountCheck.setPayType(PayType.BALANCE.value());
+                                    outAccountCheck.setLotId(accountCheck.getLotId());
+                                    outAccountCheck.setOrderId(accountCheck.getOrderId());
+                                    if (accountCheckMapper.insert(outAccountCheck) > 0) {
+                                        // un_index : tran_id + 4 + 0
+                                        result = outAccountCheck.getId();
+                                        logObject.add(" 退款操作 卖家余额扣款流水写入完成");
+                                    } else {
+                                        logObject.add(" 退款操作 卖家余额扣款流水写入失败");
+                                        result = -3;
+                                    }
+                                } else {
+                                    logObject.add(" 退款操作 卖家余额扣除失败");
+                                    result = -2;
+                                }
+                            }
+                        } else {
+                            logObject.add(" 退款操作 退款给买家流水增加写入失败");
+                            result = -3;
+                        }
+                    } else {
+                        logObject.add(" 退款操作 买家余额增加失败");
+                        result = -2;
+                    }
+                }
+
             } else if (accountCheck.getTradeType() == TradeType.ORDER_FINISH.value()) {
                 // 订单完成
                 logObject.add(" 订单完成 ");
@@ -483,10 +517,20 @@ public class UserServiceImpl implements UserService {
                         // 已经有冻结的流水,先更新冻结余额
                         if (userAccountMapper.updateFrozenMoney2UserAccount(accountCheck.getUserId(),-1*accountCheck.getTradeAmount()) > 0) {
                             logObject.add(" 订单完成 更新卖家冻结余额完成");
-                            // 更新流水状态
-                            frozenAccountCheck.setStatus(AccountCheckStatus.UNFREEZE.value());
-                            if (accountCheckMapper.updateByPrimaryKeySelective(frozenAccountCheck) > 0) {
-                                result = accountCheck.getId();
+                            // 新增一条解冻的流水
+                            AccountCheck unFrozenCheck = new AccountCheck();
+                            unFrozenCheck.setUserId(frozenAccountCheck.getUserId());
+                            unFrozenCheck.setOpenId(frozenAccountCheck.getOpenId());
+                            unFrozenCheck.setTitle("货款解冻");
+                            unFrozenCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
+                            unFrozenCheck.setTradeType(TradeType.ORDER_FINISH.value());
+                            unFrozenCheck.setTradeAmount(unFrozenCheck.getTradeAmount());
+                            unFrozenCheck.setType(BalanceChange.ADD.value());
+                            unFrozenCheck.setPayType(PayType.BALANCE.value());
+                            unFrozenCheck.setLotId(unFrozenCheck.getLotId());
+                            unFrozenCheck.setOrderId(unFrozenCheck.getOrderId());
+                            if (accountCheckMapper.insert(unFrozenCheck) > 0) {
+                                result = unFrozenCheck.getId();
                                 logObject.add(" 订单完成 卖家余额增加流水更新完成");
                             } else {
                                 logObject.add(" 订单完成 卖家余额增加流水更新失败");

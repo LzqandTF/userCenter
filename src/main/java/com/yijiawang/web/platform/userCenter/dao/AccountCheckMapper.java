@@ -6,17 +6,12 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface AccountCheckMapper {
-    int deleteByPrimaryKey(Long id);
 
     long insert(AccountCheck record);
 
     int insertSelective(AccountCheck record);
 
     AccountCheck selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(AccountCheck record);
-
-    int updateByPrimaryKey(AccountCheck record);
 
     // -------- 自定义 -------
     AccountCheck selectByTranId(String tranId);
