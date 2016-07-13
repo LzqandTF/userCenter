@@ -525,11 +525,11 @@ public class UserServiceImpl implements UserService {
                             unFrozenCheck.setTitle("货款解冻");
                             unFrozenCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                             unFrozenCheck.setTradeType(TradeType.ORDER_FINISH.value());
-                            unFrozenCheck.setTradeAmount(unFrozenCheck.getTradeAmount());
+                            unFrozenCheck.setTradeAmount(frozenAccountCheck.getTradeAmount());
                             unFrozenCheck.setType(BalanceChange.ADD.value());
                             unFrozenCheck.setPayType(PayType.BALANCE.value());
-                            unFrozenCheck.setLotId(unFrozenCheck.getLotId());
-                            unFrozenCheck.setOrderId(unFrozenCheck.getOrderId());
+                            unFrozenCheck.setLotId(frozenAccountCheck.getLotId());
+                            unFrozenCheck.setOrderId(frozenAccountCheck.getOrderId());
                             unFrozenCheck.setStatus(AccountCheckStatus.UNFREEZE.value());
                             if (accountCheckMapper.insert(unFrozenCheck) > 0) {
                                 result = unFrozenCheck.getId();
