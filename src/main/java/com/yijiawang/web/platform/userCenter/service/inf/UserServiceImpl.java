@@ -259,14 +259,12 @@ public class UserServiceImpl implements UserService {
             Integer amount = accountCheck.getTradeAmount();
             logObject.add(" 处理流水前 ... 用户:"+userId+" 账户余额为: "+ userAccountMapper.selectByUserId(userId).getBalance());
             if (accountCheck.getTradeType() == TradeType.TOPUP.value()) {
-                // 充值到余额
+                // 充值到余额, 充值系统生成一笔提交给微信的订单号,该订单号跟拍品订单无关
                 logObject.add(" 充值到余额 ");
                 if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
                     logObject.add(" 充值到余额 余额增加完成!");
                     accountCheck.setType(BalanceChange.ADD.value());
                     accountCheck.setTitle("充值");
-                    // 充值没有订单号
-                    accountCheck.setOrderId(null);
                     accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                     if (accountCheckMapper.insert(accountCheck) > 0) {
                         // un_index : trand_id + 0 + 1
