@@ -67,7 +67,7 @@
   </select>
 
     <!-- 根据流水号、资金流向、金额、交易类型判断交易流水表中是否存在此条记录 -->
-    <select id="verifyAccountCheck" parameterType="package com.yijiawang.web.platform.userCenter.param.AccountCheckParam" resultMap="BaseResultMap">
+    <select id="verifyAccountCheck" parameterType="com.yijiawang.web.platform.userCenter.param.AccountCheckParam" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from account_check
