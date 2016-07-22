@@ -3,6 +3,7 @@ package com.yijiawang.web.platform.userCenter.service.inf;
 import com.yijiawang.web.platform.userCenter.cache.JedisPoolManager;
 import com.yijiawang.web.platform.userCenter.cache.UserCacheNameSpace;
 import com.yijiawang.web.platform.userCenter.dao.*;
+import com.yijiawang.web.platform.userCenter.param.AccountCheckParam;
 import com.yijiawang.web.platform.userCenter.po.*;
 import com.yijiawang.web.platform.userCenter.service.UserAccountLogService;
 import com.yijiawang.web.platform.userCenter.type.*;
@@ -773,4 +774,10 @@ public class UserServiceImpl implements UserService {
     public AccountCheck getLastAccountCheckByOrderId(String orderId) {
         return accountCheckMapper.getLastAccountCheckByOrderId(orderId);
     }
+
+    @Override
+    public List<AccountCheck> verifyAccountCheck(AccountCheckParam param) {
+        return accountCheckMapper.verifyAccountCheck(param);
+    }
+
 }

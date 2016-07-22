@@ -66,4 +66,27 @@
       LIMIT 1
   </select>
 
+    <!-- 根据流水号、资金流向、金额、交易类型判断交易流水表中是否存在此条记录 -->
+    <select id="verifyAccountCheck" parameterType="package com.yijiawang.web.platform.userCenter.param.AccountCheckParam" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from account_check
+        where 1 = 1
+        <if test="tranId != null and tranId != ''">
+            and tran_id = #{tranId,jdbcType=VARCHAR}
+        </if>
+        <if test="type != null">
+            and `type` = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="tradeAmount != null">
+            and trade_amount = #{tradeAmount,jdbcType=INTEGER}
+        </if>
+        <if test="tradeTypeList != null">
+            and trade_type in
+            <foreach item="item" index="index" collection="tradeTypeList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
 </mapper>

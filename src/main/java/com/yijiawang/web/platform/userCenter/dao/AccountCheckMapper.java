@@ -1,5 +1,6 @@
 package com.yijiawang.web.platform.userCenter.dao;
 
+import com.yijiawang.web.platform.userCenter.param.AccountCheckParam;
 import com.yijiawang.web.platform.userCenter.po.AccountCheck;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,6 +13,8 @@ public interface AccountCheckMapper {
     int insertSelective(AccountCheck record);
 
     AccountCheck selectByPrimaryKey(Long id);
+
+    int updateByPrimaryKeySelective(AccountCheck record);
 
     // -------- 自定义 -------
     AccountCheck selectByTranId(String tranId);
@@ -47,4 +50,11 @@ public interface AccountCheckMapper {
      * @return
      */
     AccountCheck getLastAccountCheckByOrderId(String orderId);
+
+    /**
+     * 根据流水号、资金流向、金额、交易类型判断交易流水表中是否存在此条记录
+     * @param param
+     * @return
+     */
+    List<AccountCheck> verifyAccountCheck(AccountCheckParam param);
 }
