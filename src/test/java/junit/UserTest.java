@@ -1,5 +1,7 @@
 package junit;
 
+import com.yijiawang.web.platform.userCenter.param.AccountCheckParam;
+import com.yijiawang.web.platform.userCenter.po.AccountCheck;
 import com.yijiawang.web.platform.userCenter.service.UserService;
 import com.yijiawang.web.platform.userCenter.type.PayType;
 import com.yijiawang.web.platform.userCenter.type.TradeType;
@@ -73,6 +75,29 @@ public class UserTest {
         param.put("pay_type", PayType.WEIXIN.value().toString());
         param.put("lot_id", "5dda2035c980412c99dfc1e78848aecc");
         long result = userService.addAccountCheck(param);
+        System.out.println("  ");
+    }
+
+    @Test
+    public void verifyAccountCheck() {
+        AccountCheckParam param = new AccountCheckParam();
+        // 流水号
+        param.setTranId("4006972001201606288026169226");
+        // 资金流向
+        param.setType(0);
+        // 金额
+        Double amount = Double.parseDouble("2.00");
+        param.setTradeAmount(amount.intValue() * 100);
+        // 交易类型
+        List<Integer> tradeTypeList = new ArrayList<>();
+
+        tradeTypeList.add(TradeType.TOPUP.value());
+        tradeTypeList.add(TradeType.ORDER_PAY.value());
+        tradeTypeList.add(TradeType.INSURE_PAY.value());
+        param.setTradeTypeList(tradeTypeList);
+        // 验证平台账目表中是否有此项交易记录
+        List<AccountCheck> accountCheckList = userService.verifyAccountCheck(param);
+
         System.out.println("  ");
     }
 }
