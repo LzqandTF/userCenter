@@ -100,6 +100,10 @@ public class UserInterestServiceImpl implements UserInterestService{
             Iterator<UserInfo> itor = recommendList.iterator();
             while(itor.hasNext()) {
                 UserInfo saler = itor.next();
+                // 是否是自己
+                if (saler.getUserId().equals(userId)) {
+                    continue;
+                }
                 // 已经关注了该卖家
                 if (hasInterestSaler.contains(saler.getUserId())) {
                     continue;
