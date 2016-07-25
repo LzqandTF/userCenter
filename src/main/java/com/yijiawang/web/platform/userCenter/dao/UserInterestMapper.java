@@ -9,6 +9,7 @@ import com.yijiawang.web.platform.userCenter.vo.InterestUserVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 public interface UserInterestMapper {
     int deleteByPrimaryKey(Long id);
@@ -37,5 +38,5 @@ public interface UserInterestMapper {
     
     List<UserInterest> getInterestFansList(String entityId);
 
-    List<String> getUserInterestEntityIdByType(@Param("userId") String userId, @Param("type") Byte type);
+    Set<String> getUserInterestEntityIdByType(@Param("userId") String userId, @Param("type") Byte type);
 }

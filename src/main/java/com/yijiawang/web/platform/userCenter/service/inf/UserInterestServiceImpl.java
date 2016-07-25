@@ -1,5 +1,7 @@
 package com.yijiawang.web.platform.userCenter.service.inf;
 
+import com.yijiawang.web.platform.userCenter.cache.JedisPoolManager;
+import com.yijiawang.web.platform.userCenter.cache.UserCacheNameSpace;
 import com.yijiawang.web.platform.userCenter.dao.UserInfoMapper;
 import com.yijiawang.web.platform.userCenter.dao.UserInterestMapper;
 import com.yijiawang.web.platform.userCenter.dao.WxUserInfoMapper;
@@ -29,6 +31,8 @@ public class UserInterestServiceImpl implements UserInterestService{
     private WxUserInfoMapper wxUserInfoMapper;
     @Autowired
     private UserInfoMapper userInfoMapper;
+    @Autowired
+    private JedisPoolManager jedisPoolManager;
 
     @Override
     public int setUserInterest(UserInterest userInterest) {
@@ -84,33 +88,43 @@ public class UserInterestServiceImpl implements UserInterestService{
 	}
 
     @Override
-    public List<RecommendSalerVO> recommendSaler(String userId) {
+    public List<RecommendSalerVO> recommendSaler(String userId, Integer next, Integer count) {
         // 当前系统推荐卖家列表
-        List<UserInfo> recommendList = userInfoMapper.getRecommendUserList();
+        Set<UserInfo> recommendList = userInfoMapper.getRecommendUserList();
         if (recommendList != null && recommendList.size() > 0) {
             // 返回客户端的列表
             List<RecommendSalerVO> retList = new ArrayList<>();
             // 用户已经关注的用户id
-            List<String> hasInterestSaler = userInterestMapper.getUserInterestEntityIdByType(userId, InterestType.USER.value());
-            // 已经处理过的推荐用户集合
-            Set<String> retRecommendSet = new HashSet<>();
-            UserInfo recommendUserInfo = null;
-            do{
-                int index = new Random().nextInt(recommendList.size());
-                recommendUserInfo = recommendList.get(index);
-                if (!retRecommendSet.contains(recommendUserInfo.getUserId())) {
-                    retRecommendSet.add(recommendUserInfo.getUserId());
-                    if (!recommendUserInfo.getUserId().equals(userId)) {
-                        RecommendSalerVO vo = new RecommendSalerVO();
-                        vo.setSalerId(recommendUserInfo.getUserId());
-                        vo.setSalerName(recommendUserInfo.getName());
-                        if (!hasInterestSaler.contains(recommendUserInfo.getUserId())) {
-                            vo.setInterested(0);
-                            retList.add(vo);
-                        }
-                    }
+            Set<String> hasInterestSaler = userInterestMapper.getUserInterestEntityIdByType(userId, InterestType.USER.value());
+            String jedisKey = String.format(UserCacheNameSpace.RECOMMEND_SALER_LIST, userId);
+            Iterator<UserInfo> itor = recommendList.iterator();
+            while(itor.hasNext()) {
+                UserInfo saler = itor.next();
+                // 已经关注了该卖家
+                if (hasInterestSaler.contains(saler.getUserId())) {
+                    continue;
                 }
-            }while (retList.size() < 6 && retRecommendSet.size()<recommendList.size());
+                // 是否已经返回给前端
+                if (next > 0) {
+                    // 非第一次请求,已经返回过
+                    if (jedisPoolManager.sismember(jedisKey, saler.getUserId())) {
+                        continue;
+                    }
+                } else {
+                    // 第一次请求,清空缓存
+                    jedisPoolManager.del(jedisKey);
+                }
+                RecommendSalerVO vo = new RecommendSalerVO();
+                vo.setSalerId(saler.getUserId());
+                vo.setSalerName(saler.getName());
+                vo.setInterested(0);
+                retList.add(vo);
+                // 放入缓存中
+                jedisPoolManager.sadd(jedisKey, saler.getUserId());
+                if (retList.size() == count) {
+                    return retList;
+                }
+            }
             return retList;
         }
         return null;

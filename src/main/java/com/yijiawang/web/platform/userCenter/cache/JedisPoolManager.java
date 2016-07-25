@@ -647,4 +647,76 @@ public class JedisPoolManager<K, V> {
 		}
 		return count;
 	}
+
+    /**
+     * 往缓存set中加入成员
+     * @param key
+     * @param members
+     * @return
+     */
+    public Long sadd(String key, String... members) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            Long result = jedis.sadd(key, members);
+            return result;
+        } catch (Exception e) {
+            log.error(e);
+            if (jedis != null) {
+                jedisPool.returnBrokenResource(jedis);
+            }
+            throw new JedisException(e);
+        }finally{
+            if(jedis != null ) {
+                jedisPool.returnResource(jedis);
+            }
+        }
+    }
+
+    /**
+     * 返回redis集合中对象数量
+     * @param key
+     * @return
+     */
+    public Long scard(String key) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            return jedis.scard(key);
+        } catch (Exception e) {
+            log.error(e);
+            if (jedis != null) {
+                jedisPool.returnBrokenResource(jedis);
+            }
+            throw new JedisException(e);
+        }finally{
+            if(jedis != null ) {
+                jedisPool.returnResource(jedis);
+            }
+        }
+    }
+
+    /**
+     * 判断指定值是否存在于指定set中
+     * @param key
+     * @param member
+     * @return
+     */
+    public Boolean sismember(String key, String member) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            return jedis.sismember(key, member);
+        } catch (Exception e) {
+            log.error(e);
+            if (jedis != null) {
+                jedisPool.returnBrokenResource(jedis);
+            }
+            throw new JedisException(e);
+        }finally{
+            if(jedis != null ) {
+                jedisPool.returnResource(jedis);
+            }
+        }
+    }
 }
