@@ -43,6 +43,8 @@ public class UserServiceImpl implements UserService {
     private JedisPoolManager jedisPoolManager;
     @Autowired
     private UserAccountLogService userAccountLogService;
+    @Autowired
+    private ApplyVipMapper applyVipMapper;
 	
 	
 	@Override
@@ -790,4 +792,13 @@ public class UserServiceImpl implements UserService {
         return userAccountMapper.selectAllFrozenMoneySum();
     }
 
+    @Override
+    public int applyVip(ApplyVip applyVip) {
+        return applyVipMapper.insertSelective(applyVip);
+    }
+
+    @Override
+    public ApplyVip queryUserApplyVip(String userId) {
+        return applyVipMapper.queryUserApplyVip(userId);
+    }
 }
