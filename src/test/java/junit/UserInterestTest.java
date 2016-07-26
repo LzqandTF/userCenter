@@ -8,6 +8,7 @@ import com.yijiawang.web.platform.userCenter.service.UserInterestService;
 import com.yijiawang.web.platform.userCenter.vo.InterestCountVO;
 import com.yijiawang.web.platform.userCenter.vo.InterestListItemVO;
 
+import com.yijiawang.web.platform.userCenter.vo.RecommendSalerVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,12 @@ public class UserInterestTest {
     public void testInterestCount() {
     	InterestCountVO vo = userInterestMapper.getInterestCount("33");
     	System.out.println(vo);
+    }
+
+    @Test
+    public void testRecommendSalerList() {
+        String userId = "00011607201132zCwAD6hM";
+        List<RecommendSalerVO> list = userInterestService.recommendSaler(userId, 0, 3);
+        System.out.println(list.size());
     }
 }

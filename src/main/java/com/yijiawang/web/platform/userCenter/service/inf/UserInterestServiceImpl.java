@@ -97,6 +97,10 @@ public class UserInterestServiceImpl implements UserInterestService{
             // 用户已经关注的用户id
             Set<String> hasInterestSaler = userInterestMapper.getUserInterestEntityIdByType(userId, InterestType.USER.value());
             String jedisKey = String.format(UserCacheNameSpace.RECOMMEND_SALER_LIST, userId);
+            if (next == 0) {
+                // 第一次请求,清空缓存
+                jedisPoolManager.del(jedisKey);
+            }
             Iterator<UserInfo> itor = recommendList.iterator();
             while(itor.hasNext()) {
                 UserInfo saler = itor.next();
@@ -114,9 +118,6 @@ public class UserInterestServiceImpl implements UserInterestService{
                     if (jedisPoolManager.sismember(jedisKey, saler.getUserId())) {
                         continue;
                     }
-                } else {
-                    // 第一次请求,清空缓存
-                    jedisPoolManager.del(jedisKey);
                 }
                 RecommendSalerVO vo = new RecommendSalerVO();
                 vo.setSalerId(saler.getUserId());
