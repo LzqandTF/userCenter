@@ -24,4 +24,14 @@ public interface UserAccountMapper {
     int updateBalance2UserAccount(@Param("userId") String userId, @Param("amount") Integer amount);
 
     int updateFrozenMoney2UserAccount(@Param("userId") String userId, @Param("amount") Integer amount);
+
+    /**
+     * 获取所有用户的账户余额总额
+     */
+    Long selectAllBalanceSum();
+
+    /**
+     * 获取所有用户冻结总额
+     */
+    Long selectAllFrozenMoneySum();
 }

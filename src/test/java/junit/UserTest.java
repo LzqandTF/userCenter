@@ -2,6 +2,7 @@ package junit;
 
 import com.yijiawang.web.platform.userCenter.param.AccountCheckParam;
 import com.yijiawang.web.platform.userCenter.po.AccountCheck;
+import com.yijiawang.web.platform.userCenter.service.UserInsurePriceService;
 import com.yijiawang.web.platform.userCenter.service.UserService;
 import com.yijiawang.web.platform.userCenter.type.PayType;
 import com.yijiawang.web.platform.userCenter.type.TradeType;
@@ -26,6 +27,9 @@ public class UserTest {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserInsurePriceService userInsurePriceService;
 
     @Test
     public void getProtectQuestionTest() {
@@ -99,5 +103,20 @@ public class UserTest {
         List<AccountCheck> accountCheckList = userService.verifyAccountCheck(param);
 
         System.out.println("  ");
+    }
+
+    @Test
+    public void selectAllBalanceSumTest() {
+        System.out.println("用户余额总额：" + userService.selectAllBalanceSum());
+    }
+
+    @Test
+    public void selectAllFrozenMoneySumTest() {
+        System.out.println("用户冻结总额：" + userService.selectAllFrozenMoneySum());
+    }
+
+    @Test
+    public void selectLotingInsurePriceSumTest() {
+        System.out.println("正在热拍拍品保证金总额：" + userInsurePriceService.selectLotingInsurePriceSum());
     }
 }

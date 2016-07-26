@@ -52,4 +52,9 @@
     where open_id = #{openId,jdbcType=VARCHAR} and lot_id = #{lotId,jdbcType=VARCHAR} and status = '0'
     limit 1
   </select>
+
+    <!-- 正在热拍拍品保证金总额 -->
+    <select id="selectLotingInsurePriceSum" resultType="java.lang.Long">
+        SELECT sum(insure_price) from insure_price_info where status=0
+    </select>
 </mapper>

@@ -780,4 +780,14 @@ public class UserServiceImpl implements UserService {
         return accountCheckMapper.verifyAccountCheck(param);
     }
 
+    @Override
+    public Long selectAllBalanceSum() {
+        return userAccountMapper.selectAllBalanceSum();
+    }
+
+    @Override
+    public Long selectAllFrozenMoneySum() {
+        return userAccountMapper.selectAllFrozenMoneySum();
+    }
+
 }

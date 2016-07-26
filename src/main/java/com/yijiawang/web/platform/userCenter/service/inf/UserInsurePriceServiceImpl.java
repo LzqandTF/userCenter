@@ -33,6 +33,11 @@ public class UserInsurePriceServiceImpl implements UserInsurePriceService{
 	}
 
 	@Override
+	public Long selectLotingInsurePriceSum() {
+		return insurePriceInfoMapper.selectLotingInsurePriceSum();
+	}
+
+	@Override
 	public List<InsurePriceInfo> getInsurePriceListByLotId(String lotId,
 			Integer type) {
 		return insurePriceInfoMapper.getInsurePriceListByLotId(lotId, type);

@@ -32,4 +32,9 @@ public interface InsurePriceInfoMapper {
     List<InsurePriceInfo> getInsurePriceListByLotId(@Param("lotId")String lotId, @Param("type")Integer type);
     
     int updateInsurePrice(@Param("lotId")String lotId, @Param("openId")String openId);
+
+    /**
+     * 获取正在热拍拍品保证金总额
+     */
+    Long selectLotingInsurePriceSum();
 }

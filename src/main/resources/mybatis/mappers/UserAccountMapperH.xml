@@ -23,4 +23,14 @@
         UPDATE user_account set frozen_money = frozen_money + #{amount, jdbcType=INTEGER}
         WHERE user_id = #{userId, jdbcType=VARCHAR}
     </update>
+
+    <!-- 获取所有用户的账户余额总额 -->
+    <select id="selectAllBalanceSum" resultType="java.lang.Long">
+        SELECT sum(balance) FROM user_account
+    </select>
+
+    <!-- 获取所有用户冻结总额 -->
+    <select id="selectAllFrozenMoneySum" resultType="java.lang.Long">
+        SELECT sum(frozen_money) FROM user_account
+    </select>
 </mapper>
