@@ -17,6 +17,7 @@ import com.yijiawang.web.platform.userCenter.service.UserService;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -794,7 +795,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int applyVip(ApplyVip applyVip) {
-        return applyVipMapper.insertSelective(applyVip);
+        ApplyVip curr = applyVipMapper.queryUserApplyVip(applyVip.getUserId());
+        if (curr == null) {
+            return applyVipMapper.insertSelective(applyVip);
+        } else {
+            applyVip.setUpdateTime(new Date());
+            return applyVipMapper.updateByPrimaryKeySelective(applyVip);
+        }
     }
 
     @Override
