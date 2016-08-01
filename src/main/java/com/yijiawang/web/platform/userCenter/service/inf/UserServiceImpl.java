@@ -321,7 +321,7 @@ public class UserServiceImpl implements UserService {
                         outAccountCheck.setTradeType(accountCheck.getTradeType());
                         outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
                         outAccountCheck.setType(BalanceChange.SUB.value());
-                        outAccountCheck.setPayType(PayType.BALANCE.value());
+                        outAccountCheck.setPayType(accountCheck.getPayType());
                         outAccountCheck.setLotId(accountCheck.getLotId());
                         outAccountCheck.setOrderId(accountCheck.getOrderId());
                         if (accountCheckMapper.insert(outAccountCheck) > 0) {
