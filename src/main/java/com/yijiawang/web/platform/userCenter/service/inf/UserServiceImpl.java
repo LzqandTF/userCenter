@@ -477,7 +477,7 @@ public class UserServiceImpl implements UserService {
                                     AccountCheck outAccountCheck = new AccountCheck();
                                     outAccountCheck.setUserId(accountCheck.getUserId());
                                     outAccountCheck.setOpenId(accountCheck.getOpenId());
-                                    outAccountCheck.setTitle(" 退款 ");
+                                    outAccountCheck.setTitle(" 退款 原支付方式退回");
                                     outAccountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
                                     outAccountCheck.setTradeType(accountCheck.getTradeType());
                                     outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
@@ -507,7 +507,6 @@ public class UserServiceImpl implements UserService {
                         result = -2;
                     }
                 }
-
             } else if (accountCheck.getTradeType() == TradeType.ORDER_FINISH.value()) {
                 // 订单完成
                 logObject.add(" 订单完成 ");
@@ -612,7 +611,7 @@ public class UserServiceImpl implements UserService {
                                 outAccountCheck.setOpenId(accountCheck.getOpenId());
                                 outAccountCheck.setTranId(accountCheck.getTranId());
                                 outAccountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
-                                outAccountCheck.setTitle("退回保证金");
+                                outAccountCheck.setTitle("退回保证金 原支付方式退回");
                                 outAccountCheck.setTradeType(accountCheck.getTradeType());
                                 outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
                                 outAccountCheck.setType(BalanceChange.SUB.value());
