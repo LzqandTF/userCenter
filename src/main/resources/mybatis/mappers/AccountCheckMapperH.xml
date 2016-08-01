@@ -15,7 +15,7 @@
       from account_check
       where user_id = #{userId,jdbcType=VARCHAR}
       <if test="status == 0">
-          <![CDATA[ and status is null ]]>
+          <![CDATA[ and (status is null or status=2) ]]>
       </if>
       <if test="status != 0">
           <![CDATA[ and (status = 1 or status=0) ]]>
