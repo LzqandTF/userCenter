@@ -16,4 +16,15 @@
     on a.user_id = b.user_id
     WHERE a.user_id = #{userId,jdbcType=VARCHAR}
   </select>
+  
+  <select id="getAllOpenId" parameterType="java.lang.Integer">
+    select
+     open_id
+    from wx_user_info
+    <where>
+    <if test="subcribe == 1">
+    	subscrib_status = 1
+    </if>
+    </where>
+  </select>
 </mapper>

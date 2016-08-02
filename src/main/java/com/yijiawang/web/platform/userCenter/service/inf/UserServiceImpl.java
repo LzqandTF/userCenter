@@ -9,11 +9,13 @@ import com.yijiawang.web.platform.userCenter.service.UserAccountLogService;
 import com.yijiawang.web.platform.userCenter.type.*;
 import com.yijiawang.web.platform.userCenter.vo.UserProtectQuestionVO;
 import com.yijiawang.web.platform.userCenter.vo.UserVO;
+
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yijiawang.web.platform.userCenter.service.UserService;
+
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.ArrayList;
@@ -807,4 +809,10 @@ public class UserServiceImpl implements UserService {
     public ApplyVip queryUserApplyVip(String userId) {
         return applyVipMapper.queryUserApplyVip(userId);
     }
+
+
+	@Override
+	public List<String> getAllOpenId(Integer subcribe) {
+		return userInfoMapper.getAllOpenId(subcribe);
+	}
 }
