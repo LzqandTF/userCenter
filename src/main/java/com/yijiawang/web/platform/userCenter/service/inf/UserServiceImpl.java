@@ -48,8 +48,7 @@ public class UserServiceImpl implements UserService {
     private UserAccountLogService userAccountLogService;
     @Autowired
     private ApplyVipMapper applyVipMapper;
-	
-	
+		
 	@Override
 	public UserInfo getUserByUserId(String userId) {
 		return userInfoMapper.getUserByUserId(userId);
@@ -813,6 +812,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<String> getAllOpenId(Integer subcribe) {
-		return userInfoMapper.getAllOpenId(subcribe);
+		return wxUserInfoMapper.getAllOpenId(subcribe);
 	}
 }

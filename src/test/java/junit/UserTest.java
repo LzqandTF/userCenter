@@ -1,5 +1,7 @@
 package junit;
 
+import com.yijiawang.web.platform.userCenter.dao.UserInfoMapper;
+import com.yijiawang.web.platform.userCenter.dao.WxUserInfoMapper;
 import com.yijiawang.web.platform.userCenter.param.AccountCheckParam;
 import com.yijiawang.web.platform.userCenter.po.AccountCheck;
 import com.yijiawang.web.platform.userCenter.service.UserInsurePriceService;
@@ -7,6 +9,7 @@ import com.yijiawang.web.platform.userCenter.service.UserService;
 import com.yijiawang.web.platform.userCenter.type.PayType;
 import com.yijiawang.web.platform.userCenter.type.TradeType;
 import com.yijiawang.web.platform.userCenter.vo.UserProtectQuestionVO;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +33,16 @@ public class UserTest {
 
     @Autowired
     private UserInsurePriceService userInsurePriceService;
+    @Autowired
+    private WxUserInfoMapper userInfoMapper;
 
-    @Test
+    //@Test
     public void getProtectQuestionTest() {
-        String userId = "31229a9e544c431d9d9b294064ac1f2b";
-
-        List<UserProtectQuestionVO> list = userService.getProtectQuestion(userId);
-
-        System.out.println("  ");
+        List<String> openIds = userInfoMapper.getAllOpenId(1);
+        System.out.println(openIds);
     }
 
-    @Test
+    //@Test
     public void saveUserProtectInfoTest() {
         String userId = "31229a9e544c431d9d9b294064ac1f2b";
         String paypwd = "123456";
@@ -59,7 +61,7 @@ public class UserTest {
         System.out.println("   ");
     }
 
-    @Test
+    //@Test
     public void updateUserPayPasswordTest() {
         String userId = "31229a9e544c431d9d9b294064ac1f2b";
         String oldPassword = "e3ceb5881a0a1fdaad01296d7554868d";
@@ -68,7 +70,7 @@ public class UserTest {
         System.out.println("result=="+result);
     }
 
-    @Test
+    //@Test
     public void testAddAccountCheck() {
         Map<String, String> param = new HashMap<>();
         param.put("tran_id", "123456789");
@@ -82,7 +84,7 @@ public class UserTest {
         System.out.println("  ");
     }
 
-    @Test
+    //@Test
     public void verifyAccountCheck() {
         AccountCheckParam param = new AccountCheckParam();
         // 流水号
@@ -105,17 +107,17 @@ public class UserTest {
         System.out.println("  ");
     }
 
-    @Test
+    //@Test
     public void selectAllBalanceSumTest() {
         System.out.println("用户余额总额：" + userService.selectAllBalanceSum());
     }
 
-    @Test
+   // @Test
     public void selectAllFrozenMoneySumTest() {
         System.out.println("用户冻结总额：" + userService.selectAllFrozenMoneySum());
     }
 
-    @Test
+    //@Test
     public void selectLotingInsurePriceSumTest() {
         System.out.println("正在热拍拍品保证金总额：" + userInsurePriceService.selectLotingInsurePriceSum());
     }

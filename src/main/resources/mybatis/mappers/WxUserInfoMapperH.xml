@@ -17,7 +17,7 @@
     WHERE a.user_id = #{userId,jdbcType=VARCHAR}
   </select>
   
-  <select id="getAllOpenId" parameterType="java.lang.Integer">
+  <select id="getAllOpenId" parameterType="java.lang.Integer" resultType="java.lang.String">
     select
      open_id
     from wx_user_info
