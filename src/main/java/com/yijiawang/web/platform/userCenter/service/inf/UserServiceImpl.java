@@ -824,6 +824,7 @@ public class UserServiceImpl implements UserService {
         if (wxUserInfo != null) {
             UserStatus userStatus = userStatusMapper.selectUserStatusByUserId(userId);
             if (userStatus == null) {
+                userStatus = new UserStatus();
                 userStatus.setUserId(wxUserInfo.getUserId());
                 userStatus.setOpenId(wxUserInfo.getOpenId());
                 userStatus.setDtBid(bidStatus);
