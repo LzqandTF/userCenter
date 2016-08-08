@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.yijiapai.web.manage.dao.UserStatusMapper" >
+<mapper namespace="com.yijiawang.web.platform.userCenter.dao.UserStatusMapper" >
   <resultMap id="BaseResultMap" type="com.yijiawang.web.platform.userCenter.po.UserStatus" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
