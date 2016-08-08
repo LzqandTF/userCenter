@@ -22,7 +22,7 @@
     delete from user_status
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.yijiapai.web.manage.bean.po.UserStatus" >
+  <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.UserStatus" >
     insert into user_status (id, user_id, open_id, 
       dt_bid, dt_delivery, updateTime
       )
@@ -30,7 +30,7 @@
       #{dtBid,jdbcType=INTEGER}, #{dtDelivery,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.yijiapai.web.manage.bean.po.UserStatus" >
+  <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserStatus" >
       insert into user_status
       <trim prefix="(" suffix=")" suffixOverrides="," >
           <if test="id != null" >
@@ -73,7 +73,7 @@
           </if>
       </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yijiapai.web.manage.bean.po.UserStatus" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserStatus" >
       update user_status
       <set >
           <if test="userId != null" >
@@ -94,7 +94,7 @@
       </set>
       where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.yijiapai.web.manage.bean.po.UserStatus" >
+  <update id="updateByPrimaryKey" parameterType="com.yijiawang.web.platform.userCenter.po.UserStatus" >
     update user_status
     set user_id = #{userId,jdbcType=VARCHAR},
       open_id = #{openId,jdbcType=VARCHAR},
