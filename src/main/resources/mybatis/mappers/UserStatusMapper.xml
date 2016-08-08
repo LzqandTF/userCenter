@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yijiapai.web.manage.dao.UserStatusMapper" >
+  <resultMap id="BaseResultMap" type="com.yijiawang.web.platform.userCenter.po.UserStatus" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="dt_bid" property="dtBid" jdbcType="INTEGER" />
+    <result column="dt_delivery" property="dtDelivery" jdbcType="VARCHAR" />
+      <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, open_id, dt_bid, dt_delivery, updateTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_status
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_status
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yijiapai.web.manage.bean.po.UserStatus" >
+    insert into user_status (id, user_id, open_id, 
+      dt_bid, dt_delivery, updateTime
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR},
+      #{dtBid,jdbcType=INTEGER}, #{dtDelivery,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yijiapai.web.manage.bean.po.UserStatus" >
+      insert into user_status
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null" >
+              id,
+          </if>
+          <if test="userId != null" >
+              user_id,
+          </if>
+          <if test="openId != null" >
+              open_id,
+          </if>
+          <if test="dtBid != null" >
+              dt_bid,
+          </if>
+          <if test="dtDelivery != null" >
+              dt_delivery,
+          </if>
+          <if test="updatetime != null" >
+              updateTime,
+          </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null" >
+              #{id,jdbcType=INTEGER},
+          </if>
+          <if test="userId != null" >
+              #{userId,jdbcType=VARCHAR},
+          </if>
+          <if test="openId != null" >
+              #{openId,jdbcType=VARCHAR},
+          </if>
+          <if test="dtBid != null" >
+              #{dtBid,jdbcType=INTEGER},
+          </if>
+          <if test="dtDelivery != null" >
+              #{dtDelivery,jdbcType=VARCHAR},
+          </if>
+          <if test="updatetime != null" >
+              #{updatetime,jdbcType=TIMESTAMP},
+          </if>
+      </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yijiapai.web.manage.bean.po.UserStatus" >
+      update user_status
+      <set >
+          <if test="userId != null" >
+              user_id = #{userId,jdbcType=VARCHAR},
+          </if>
+          <if test="openId != null" >
+              open_id = #{openId,jdbcType=VARCHAR},
+          </if>
+          <if test="dtBid != null" >
+              dt_bid = #{dtBid,jdbcType=INTEGER},
+          </if>
+          <if test="dtDelivery != null" >
+              dt_delivery = #{dtDelivery,jdbcType=VARCHAR},
+          </if>
+          <if test="updatetime != null" >
+              updateTime = #{updatetime,jdbcType=TIMESTAMP},
+          </if>
+      </set>
+      where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yijiapai.web.manage.bean.po.UserStatus" >
+    update user_status
+    set user_id = #{userId,jdbcType=VARCHAR},
+      open_id = #{openId,jdbcType=VARCHAR},
+      dt_bid = #{dtBid,jdbcType=INTEGER},
+      dt_delivery = #{dtDelivery,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

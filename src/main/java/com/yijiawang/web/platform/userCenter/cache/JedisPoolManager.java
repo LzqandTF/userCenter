@@ -719,4 +719,25 @@ public class JedisPoolManager<K, V> {
             }
         }
     }
+
+    /**
+     * 移除集合中的元素
+     */
+    public Long srem(String key, String... members) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            return jedis.srem(key, members);
+        } catch (Exception e) {
+            log.error(e);
+            if (jedis != null) {
+                jedisPool.returnBrokenResource(jedis);
+            }
+            throw new JedisException(e);
+        }finally{
+            if(jedis != null ) {
+                jedisPool.returnResource(jedis);
+            }
+        }
+    }
 }

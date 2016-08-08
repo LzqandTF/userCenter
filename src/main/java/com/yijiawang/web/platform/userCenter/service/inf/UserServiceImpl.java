@@ -48,6 +48,8 @@ public class UserServiceImpl implements UserService {
     private UserAccountLogService userAccountLogService;
     @Autowired
     private ApplyVipMapper applyVipMapper;
+    @Autowired
+    private UserStatusMapper userStatusMapper;
 		
 	@Override
 	public UserInfo getUserByUserId(String userId) {
@@ -814,4 +816,53 @@ public class UserServiceImpl implements UserService {
 	public List<String> getAllOpenId(Integer subcribe) {
 		return wxUserInfoMapper.getAllOpenId(subcribe);
 	}
+
+    @Override
+    public int setUserStatusBid(String userId, Integer bidStatus) {
+        int result = 0;
+        WxUserInfo wxUserInfo = wxUserInfoMapper.selectWxUserInfoByUserId(userId);
+        if (wxUserInfo != null) {
+            UserStatus userStatus = userStatusMapper.selectUserStatusByUserId(userId);
+            if (userStatus == null) {
+                userStatus.setUserId(wxUserInfo.getUserId());
+                userStatus.setOpenId(wxUserInfo.getOpenId());
+                userStatus.setDtBid(bidStatus);
+                userStatus.setUpdatetime(new Date());
+                result = userStatusMapper.insertSelective(userStatus);
+            } else {
+                userStatus.setDtBid(bidStatus);
+                userStatus.setUpdatetime(new Date());
+                result = userStatusMapper.updateByPrimaryKeySelective(userStatus);
+            }
+        }
+        if (result > 0) {
+            // 设置缓存
+            if(bidStatus.intValue() == BidStatus.ALLOW.value()) {
+                jedisPoolManager.srem(UserCacheNameSpace.FORBIDDEN_BID_USER_SET, userId);
+            } else if (bidStatus.intValue() == BidStatus.FORBIDDEN.value()) {
+                jedisPoolManager.sadd(UserCacheNameSpace.FORBIDDEN_BID_USER_SET, userId);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public int setUserStatusDelivery(String userId, String delivery) {
+        WxUserInfo wxUserInfo = wxUserInfoMapper.selectWxUserInfoByUserId(userId);
+        if (wxUserInfo != null) {
+            UserStatus userStatus = userStatusMapper.selectUserStatusByUserId(userId);
+            if (userStatus == null) {
+                userStatus.setUserId(wxUserInfo.getUserId());
+                userStatus.setOpenId(wxUserInfo.getOpenId());
+                userStatus.setDtDelivery(delivery);
+                userStatus.setUpdatetime(new Date());
+                return userStatusMapper.insertSelective(userStatus);
+            } else {
+                userStatus.setDtDelivery(delivery);
+                userStatus.setUpdatetime(new Date());
+                return userStatusMapper.updateByPrimaryKeySelective(userStatus);
+            }
+        }
+        return 0;
+    }
 }
