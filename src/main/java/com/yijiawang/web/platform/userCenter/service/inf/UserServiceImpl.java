@@ -865,4 +865,9 @@ public class UserServiceImpl implements UserService {
         }
         return 0;
     }
+
+    @Override
+    public UserStatus getUserStatusByUserId(String userId) {
+        return userStatusMapper.selectUserStatusByUserId(userId);
+    }
 }
