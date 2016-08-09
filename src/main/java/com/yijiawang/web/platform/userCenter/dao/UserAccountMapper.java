@@ -35,5 +35,5 @@ public interface UserAccountMapper {
      */
     Long selectAllFrozenMoneySum();
 
-    int getUserOrderSum(@Param("userId")String userId, @Param("status")String status);
+    Integer getUserOrderSum(@Param("userId")String userId, @Param("status")String status);
 }

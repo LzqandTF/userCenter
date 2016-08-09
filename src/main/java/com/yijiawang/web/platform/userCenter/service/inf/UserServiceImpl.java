@@ -874,7 +874,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int getUserOrderSum(String userId, String status) {
-        return userAccountMapper.getUserOrderSum(userId, status);
+    public Integer getUserOrderSum(String userId, String status) {
+        Integer sum = userAccountMapper.getUserOrderSum(userId, status);
+        if(sum != null) {
+            return sum;
+        } else {
+            return 0;
+        }
     }
 }
