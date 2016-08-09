@@ -872,4 +872,9 @@ public class UserServiceImpl implements UserService {
     public UserStatus getUserStatusByUserId(String userId) {
         return userStatusMapper.selectUserStatusByUserId(userId);
     }
+
+    @Override
+    public int getUserOrderSum(String userId, String status) {
+        return userAccountMapper.getUserOrderSum(userId, status);
+    }
 }

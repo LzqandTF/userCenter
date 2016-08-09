@@ -34,4 +34,6 @@ public interface UserAccountMapper {
      * 获取所有用户冻结总额
      */
     Long selectAllFrozenMoneySum();
+
+    int getUserOrderSum(@Param("userId")String userId, @Param("status")String status);
 }

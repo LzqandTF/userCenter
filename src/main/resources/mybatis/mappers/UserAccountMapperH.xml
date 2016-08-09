@@ -33,4 +33,9 @@
     <select id="selectAllFrozenMoneySum" resultType="java.lang.Long">
         SELECT sum(frozen_money) FROM user_account
     </select>
+
+    <select id="getUserOrderSum" resultType="java.lang.Integer">
+        SELECT sum(deal_price) from order_info
+        WHERE owner_id=#{userId,jdbcType=VARCHAR} AND status=#{status,jdbcType=VARCHAR}
+    </select>
 </mapper>
