@@ -2,17 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yijiawang.web.platform.userCenter.dao.ApplyVipMapper" >
   <resultMap id="BaseResultMap" type="com.yijiawang.web.platform.userCenter.po.ApplyVip" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="VARCHAR" />
-    <result column="open_id" property="openId" jdbcType="VARCHAR" />
-    <result column="full_name" property="fullName" jdbcType="VARCHAR" />
-    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
-    <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="status" property="status" jdbcType="INTEGER" />
+      <id column="id" property="id" jdbcType="INTEGER" />
+      <result column="user_id" property="userId" jdbcType="VARCHAR" />
+      <result column="open_id" property="openId" jdbcType="VARCHAR" />
+      <result column="full_name" property="fullName" jdbcType="VARCHAR" />
+      <result column="weixin" property="weixin" jdbcType="VARCHAR" />
+      <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+      <result column="business" property="business" jdbcType="VARCHAR" />
+      <result column="apply_time" property="applyTime" jdbcType="TIMESTAMP" />
+      <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+      <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, open_id, full_name, mobile, apply_time, update_time, status
+    id, user_id, open_id, full_name, weixin, mobile, business, apply_time, update_time,
+    status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -26,100 +29,122 @@
   </delete>
   <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.ApplyVip" >
     insert into apply_vip (id, user_id, open_id, 
-      full_name, mobile, apply_time, 
-      update_time, status)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR}, 
-      #{fullName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+      full_name, weixin, mobile,
+      business, apply_time, update_time,
+      status)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR},
+      #{fullName,jdbcType=VARCHAR}, #{weixin,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
+      #{business,jdbcType=VARCHAR}, #{applyTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+      #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.ApplyVip" >
-    insert into apply_vip
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="openId != null" >
-        open_id,
-      </if>
-      <if test="fullName != null" >
-        full_name,
-      </if>
-      <if test="mobile != null" >
-        mobile,
-      </if>
-      <if test="applyTime != null" >
-        apply_time,
-      </if>
-      <if test="updateTime != null" >
-        update_time,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=VARCHAR},
-      </if>
-      <if test="openId != null" >
-        #{openId,jdbcType=VARCHAR},
-      </if>
-      <if test="fullName != null" >
-        #{fullName,jdbcType=VARCHAR},
-      </if>
-      <if test="mobile != null" >
-        #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="applyTime != null" >
-        #{applyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=INTEGER},
-      </if>
-    </trim>
+      insert into apply_vip
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null" >
+              id,
+          </if>
+          <if test="userId != null" >
+              user_id,
+          </if>
+          <if test="openId != null" >
+              open_id,
+          </if>
+          <if test="fullName != null" >
+              full_name,
+          </if>
+          <if test="weixin != null" >
+              weixin,
+          </if>
+          <if test="mobile != null" >
+              mobile,
+          </if>
+          <if test="business != null" >
+              business,
+          </if>
+          <if test="applyTime != null" >
+              apply_time,
+          </if>
+          <if test="updateTime != null" >
+              update_time,
+          </if>
+          <if test="status != null" >
+              status,
+          </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="id != null" >
+              #{id,jdbcType=INTEGER},
+          </if>
+          <if test="userId != null" >
+              #{userId,jdbcType=VARCHAR},
+          </if>
+          <if test="openId != null" >
+              #{openId,jdbcType=VARCHAR},
+          </if>
+          <if test="fullName != null" >
+              #{fullName,jdbcType=VARCHAR},
+          </if>
+          <if test="weixin != null" >
+              #{weixin,jdbcType=VARCHAR},
+          </if>
+          <if test="mobile != null" >
+              #{mobile,jdbcType=VARCHAR},
+          </if>
+          <if test="business != null" >
+              #{business,jdbcType=VARCHAR},
+          </if>
+          <if test="applyTime != null" >
+              #{applyTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="updateTime != null" >
+              #{updateTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="status != null" >
+              #{status,jdbcType=INTEGER},
+          </if>
+      </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.yijiawang.web.platform.userCenter.po.ApplyVip" >
-    update apply_vip
-    <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=VARCHAR},
-      </if>
-      <if test="openId != null" >
-        open_id = #{openId,jdbcType=VARCHAR},
-      </if>
-      <if test="fullName != null" >
-        full_name = #{fullName,jdbcType=VARCHAR},
-      </if>
-      <if test="mobile != null" >
-        mobile = #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="applyTime != null" >
-        apply_time = #{applyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
+      update apply_vip
+      <set >
+          <if test="userId != null" >
+              user_id = #{userId,jdbcType=VARCHAR},
+          </if>
+          <if test="openId != null" >
+              open_id = #{openId,jdbcType=VARCHAR},
+          </if>
+          <if test="fullName != null" >
+              full_name = #{fullName,jdbcType=VARCHAR},
+          </if>
+          <if test="weixin != null" >
+              weixin = #{weixin,jdbcType=VARCHAR},
+          </if>
+          <if test="mobile != null" >
+              mobile = #{mobile,jdbcType=VARCHAR},
+          </if>
+          <if test="business != null" >
+              business = #{business,jdbcType=VARCHAR},
+          </if>
+          <if test="applyTime != null" >
+              apply_time = #{applyTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="updateTime != null" >
+              update_time = #{updateTime,jdbcType=TIMESTAMP},
+          </if>
+          <if test="status != null" >
+              status = #{status,jdbcType=INTEGER},
+          </if>
+      </set>
+      where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yijiawang.web.platform.userCenter.po.ApplyVip" >
     update apply_vip
     set user_id = #{userId,jdbcType=VARCHAR},
       open_id = #{openId,jdbcType=VARCHAR},
       full_name = #{fullName,jdbcType=VARCHAR},
+      weixin = #{weixin,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
+      business = #{business,jdbcType=VARCHAR},
       apply_time = #{applyTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=INTEGER}
