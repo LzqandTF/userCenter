@@ -848,6 +848,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int setUserStatusPublish(String userId, Integer publishStatus) {
+        int result = 0;
+        WxUserInfo wxUserInfo = wxUserInfoMapper.selectWxUserInfoByUserId(userId);
+        if (wxUserInfo != null) {
+            UserStatus userStatus = userStatusMapper.selectUserStatusByUserId(userId);
+            if (userStatus == null) {
+                userStatus = new UserStatus();
+                userStatus.setUserId(wxUserInfo.getUserId());
+                userStatus.setOpenId(wxUserInfo.getOpenId());
+                userStatus.setDtPublish(publishStatus);
+                userStatus.setUpdatetime(new Date());
+                result = userStatusMapper.insertSelective(userStatus);
+            } else {
+                userStatus.setDtPublish(publishStatus);
+                userStatus.setUpdatetime(new Date());
+                result = userStatusMapper.updateByPrimaryKeySelective(userStatus);
+            }
+        }
+        if (result > 0) {
+            // 设置缓存
+            if(publishStatus.intValue() == PublishStatus.ALLOW.value()) {
+                jedisPoolManager.srem(UserCacheNameSpace.FORBIDDEN_PUBLISH_USER_SET, userId);
+            } else if (publishStatus.intValue() == PublishStatus.FORBIDDEN.value()) {
+                jedisPoolManager.sadd(UserCacheNameSpace.FORBIDDEN_PUBLISH_USER_SET, userId);
+            }
+        }
+        return result;
+    }
+
+    @Override
     public int setUserStatusDelivery(String userId, String delivery) {
         WxUserInfo wxUserInfo = wxUserInfoMapper.selectWxUserInfoByUserId(userId);
         if (wxUserInfo != null) {
