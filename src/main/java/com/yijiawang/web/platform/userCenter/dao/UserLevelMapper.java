@@ -14,8 +14,8 @@ public interface UserLevelMapper {
 
     List<UserLevelSaler> selectAllUserLevelSaler();
 
-    int getUserSellSocre(String userId);
+    Integer getUserSellSocre(String userId);
 
-    int getUserBuyerScore(String userId);
+    Integer getUserBuyerScore(String userId);
 
 }
