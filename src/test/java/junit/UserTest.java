@@ -1,10 +1,10 @@
 package junit;
 
-import com.yijiawang.web.platform.userCenter.dao.UserInfoMapper;
 import com.yijiawang.web.platform.userCenter.dao.WxUserInfoMapper;
 import com.yijiawang.web.platform.userCenter.param.AccountCheckParam;
 import com.yijiawang.web.platform.userCenter.po.AccountCheck;
 import com.yijiawang.web.platform.userCenter.service.UserInsurePriceService;
+import com.yijiawang.web.platform.userCenter.service.UserLevelService;
 import com.yijiawang.web.platform.userCenter.service.UserService;
 import com.yijiawang.web.platform.userCenter.type.PayType;
 import com.yijiawang.web.platform.userCenter.type.TradeType;
@@ -35,6 +35,8 @@ public class UserTest {
     private UserInsurePriceService userInsurePriceService;
     @Autowired
     private WxUserInfoMapper userInfoMapper;
+    @Autowired
+    private UserLevelService userLevelService;
 
     //@Test
     public void getProtectQuestionTest() {
@@ -120,5 +122,13 @@ public class UserTest {
     //@Test
     public void selectLotingInsurePriceSumTest() {
         System.out.println("正在热拍拍品保证金总额：" + userInsurePriceService.selectLotingInsurePriceSum());
+    }
+
+    @Test
+    public void testUserLevel() {
+        //userLevelService.initUserLevelBuyer();
+        System.out.println(userLevelService.getUserLevelBuyer("122344"));
+        userLevelService.initUserLevelSaler();
+        System.out.println(userLevelService.getUserLevelSaler("122344"));
     }
 }
