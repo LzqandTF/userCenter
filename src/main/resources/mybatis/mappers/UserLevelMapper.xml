@@ -28,11 +28,11 @@
         from user_level_saler
     </select>
 
-  <select id="getUserSellSocre"  parameterType="java.lang.String">
+  <select id="getUserSellSocre"  parameterType="java.lang.Integer">
     select sum(deal_price) from order_info WHERE owner_id=#{userId,jdbcType=VARCHAR} AND status = '4'
   </select>
 
-    <select id="getUserBuyerScore"  parameterType="java.lang.String">
+    <select id="getUserBuyerScore"  parameterType="java.lang.Integer">
       select sum(deal_price) from order_info WHERE buyer_id=#{userId,jdbcType=VARCHAR} AND status = '4'
     </select>
 </mapper>
