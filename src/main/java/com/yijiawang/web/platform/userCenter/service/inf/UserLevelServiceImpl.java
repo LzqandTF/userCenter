@@ -78,23 +78,22 @@ public class UserLevelServiceImpl implements UserLevelService{
         Integer score = userInfo.getBuyScore();
         if (score == null) {
             score = initUserBuyerScore(userId, UserRoleType.BUYER.value());
-        }
-        if (score != null) {
-            Set<String> levelSet = jedisPoolManager.zrangeByscore(UserCacheNameSpace.USER_LEVEL_BUYER_SORT_SET, score.toString(), "+inf", 0, 1);
-            if(levelSet != null) {
-                String levelStr = null;
-                Iterator<String> it = levelSet.iterator();
-                while(it.hasNext()){
-                    levelStr = it.next();
-                }
-                String level = levelStr.substring(0,levelStr.lastIndexOf("_"));
-                UserLevelVO vo = new UserLevelVO();
-                vo.setLevel(Integer.parseInt(level));
-                vo.setName(jedisPoolManager.hget(UserCacheNameSpace.USER_LEVEL_BUYER_NAME_HSET, level));
-                return vo;
-            } else {
-                return null;
+            if (score == null) {
+                score = 0;
             }
+        }
+        Set<String> levelSet = jedisPoolManager.zrangeByscore(UserCacheNameSpace.USER_LEVEL_BUYER_SORT_SET, score.toString(), "+inf", 0, 1);
+        if(levelSet != null) {
+            String levelStr = null;
+            Iterator<String> it = levelSet.iterator();
+            while(it.hasNext()){
+                levelStr = it.next();
+            }
+            String level = levelStr.substring(0,levelStr.lastIndexOf("_"));
+            UserLevelVO vo = new UserLevelVO();
+            vo.setLevel(Integer.parseInt(level));
+            vo.setName(jedisPoolManager.hget(UserCacheNameSpace.USER_LEVEL_BUYER_NAME_HSET, level));
+            return vo;
         } else {
             return null;
         }
@@ -110,22 +109,18 @@ public class UserLevelServiceImpl implements UserLevelService{
                 score = 0;
             }
         }
-        if (score != null) {
-            Set<String> levelSet = jedisPoolManager.zrangeByscore(UserCacheNameSpace.USER_LEVEL_SALER_SORT_SET, score.toString(), "+inf", 0, 1);
-            if(levelSet != null) {
-                String levelStr = null;
-                Iterator<String> it = levelSet.iterator();
-                while(it.hasNext()){
-                    levelStr = it.next();
-                }
-                String level = levelStr.substring(0,levelStr.lastIndexOf("_"));
-                UserLevelVO vo = new UserLevelVO();
-                vo.setLevel(Integer.parseInt(level));
-                vo.setName(jedisPoolManager.hget(UserCacheNameSpace.USER_LEVEL_SALER_NAME_HSET, level));
-                return vo;
-            } else {
-                return null;
+        Set<String> levelSet = jedisPoolManager.zrangeByscore(UserCacheNameSpace.USER_LEVEL_SALER_SORT_SET, score.toString(), "+inf", 0, 1);
+        if(levelSet != null) {
+            String levelStr = null;
+            Iterator<String> it = levelSet.iterator();
+            while(it.hasNext()){
+                levelStr = it.next();
             }
+            String level = levelStr.substring(0,levelStr.lastIndexOf("_"));
+            UserLevelVO vo = new UserLevelVO();
+            vo.setLevel(Integer.parseInt(level));
+            vo.setName(jedisPoolManager.hget(UserCacheNameSpace.USER_LEVEL_SALER_NAME_HSET, level));
+            return vo;
         } else {
             return null;
         }
