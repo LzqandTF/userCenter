@@ -106,6 +106,9 @@ public class UserLevelServiceImpl implements UserLevelService{
         Integer score = userInfo.getSellScore();
         if (score == null) {
             score = initUserBuyerScore(userId, UserRoleType.SALER.value());
+            if (score == null) {
+                score = 0;
+            }
         }
         if (score != null) {
             Set<String> levelSet = jedisPoolManager.zrangeByscore(UserCacheNameSpace.USER_LEVEL_SALER_SORT_SET, score.toString(), "+inf", 0, 1);
