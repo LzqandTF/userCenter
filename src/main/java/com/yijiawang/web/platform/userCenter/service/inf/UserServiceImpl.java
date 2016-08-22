@@ -912,4 +912,9 @@ public class UserServiceImpl implements UserService {
             return 0;
         }
     }
+
+    @Override
+    public int addUserScore(String userId, Integer role, Integer amount) {
+        return userInfoMapper.addUserScore(userId, role, amount);
+    }
 }

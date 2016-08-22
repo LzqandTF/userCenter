@@ -740,4 +740,60 @@ public class JedisPoolManager<K, V> {
             }
         }
     }
+
+    /**
+     * 插入有序数据
+     * @param key
+     * @param score
+     * @param member
+     * @return
+     */
+    public Long zadd(String key, Double score, String member) {
+        Jedis jedis = null;
+        Long count = 0L;
+        try {
+            jedis = jedisPool.getResource();
+            count = jedis.zadd(key, score, member);
+        } catch (Exception e) {
+            log.error(e);
+            if (jedis != null) {
+                jedisPool.returnBrokenResource(jedis);
+            }
+            throw new JedisException(e);
+        }finally{
+            if(jedis != null ) {
+                jedisPool.returnResource(jedis);
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 获取有序数据范围值
+     * @param key
+     * @param min
+     * @param max
+     * @param offset
+     * @param count
+     * @return
+     */
+    public Set<String> zrangeByscore(String key, String min, String max, Integer offset, Integer count) {
+        Jedis jedis = null;
+        Set<String> result = null;
+        try {
+            jedis = jedisPool.getResource();
+            result = jedis.zrangeByScore(key, min, max, offset, count);
+        } catch (Exception e) {
+            log.error(e);
+            if (jedis != null) {
+                jedisPool.returnBrokenResource(jedis);
+            }
+            throw new JedisException(e);
+        }finally{
+            if(jedis != null ) {
+                jedisPool.returnResource(jedis);
+            }
+        }
+        return result;
+    }
 }

@@ -8,4 +8,17 @@
     from user_info
     where recommend=1 AND status = "0"
   </select>
+
+    <update id="addUserScore">
+        update user_info
+        SET
+        <if test="role == 0">
+            buy_score = buy_score+#{amount,jdbcType=INTEGER}
+        </if>
+        <if test="role == 1">
+            sell_score = sell_score+#{amount,jdbcType=INTEGER}
+        </if>
+        WHERE user_id=#{userId,jdbcType=VARCHAR}
+    </update>
+
 </mapper>
