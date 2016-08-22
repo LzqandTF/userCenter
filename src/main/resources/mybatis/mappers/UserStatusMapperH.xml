@@ -8,4 +8,9 @@
         from user_status
         where user_id = #{userId,jdbcType=VARCHAR}
     </select>
+
+    <update id="setBidCondition">
+        update user_status
+        SET bid_condition=#{bidCondition,jdbcType=VARCHAR}
+    </update>
 </mapper>

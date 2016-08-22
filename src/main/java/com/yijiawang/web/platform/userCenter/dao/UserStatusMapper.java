@@ -19,4 +19,6 @@ public interface UserStatusMapper {
 
     // ---------- 手动添加方法
     UserStatus selectUserStatusByUserId(String userId);
+
+    int setBidCondition(@Param("userId")String userId, @Param("bidCondition")String bidCondition);
 }

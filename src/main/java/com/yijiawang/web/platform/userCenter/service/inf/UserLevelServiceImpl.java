@@ -82,6 +82,8 @@ public class UserLevelServiceImpl implements UserLevelService{
                 score = 0;
             }
         }
+        // 转化为元
+        score = score/100;
         Set<String> levelSet = jedisPoolManager.zrangeByscore(UserCacheNameSpace.USER_LEVEL_BUYER_SORT_SET, score.toString(), "+inf", 0, 1);
         if(levelSet != null) {
             String levelStr = null;
@@ -109,6 +111,8 @@ public class UserLevelServiceImpl implements UserLevelService{
                 score = 0;
             }
         }
+        //转化为元
+        score = score/100;
         Set<String> levelSet = jedisPoolManager.zrangeByscore(UserCacheNameSpace.USER_LEVEL_SALER_SORT_SET, score.toString(), "+inf", 0, 1);
         if(levelSet != null) {
             String levelStr = null;

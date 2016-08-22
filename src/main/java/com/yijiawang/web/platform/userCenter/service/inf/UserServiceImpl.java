@@ -917,4 +917,25 @@ public class UserServiceImpl implements UserService {
     public int addUserScore(String userId, Integer role, Integer amount) {
         return userInfoMapper.addUserScore(userId, role, amount);
     }
+
+    @Override
+    public int setBidCondition(String userId, String bidCondition) {
+        WxUserInfo wxUserInfo = wxUserInfoMapper.selectWxUserInfoByUserId(userId);
+        if (wxUserInfo != null) {
+            UserStatus userStatus = userStatusMapper.selectUserStatusByUserId(userId);
+            if (userStatus == null) {
+                userStatus = new UserStatus();
+                userStatus.setUserId(wxUserInfo.getUserId());
+                userStatus.setOpenId(wxUserInfo.getOpenId());
+                userStatus.setBidCondition(bidCondition);
+                userStatus.setUpdatetime(new Date());
+                return userStatusMapper.insertSelective(userStatus);
+            } else {
+                userStatus.setBidCondition(bidCondition);
+                userStatus.setUpdatetime(new Date());
+                return userStatusMapper.updateByPrimaryKeySelective(userStatus);
+            }
+        }
+        return 0;
+    }
 }

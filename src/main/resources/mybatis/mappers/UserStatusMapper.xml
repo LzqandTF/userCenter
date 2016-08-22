@@ -7,10 +7,11 @@
     <result column="open_id" property="openId" jdbcType="VARCHAR" />
     <result column="dt_bid" property="dtBid" jdbcType="INTEGER" />
     <result column="dt_delivery" property="dtDelivery" jdbcType="VARCHAR" />
+      <result column="bid_condition" property="bidCondition" jdbcType="VARCHAR" />
       <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, open_id, dt_bid, dt_delivery, updateTime
+    id, user_id, open_id, dt_bid, dt_delivery, dt_publish, bid_condition, updateTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,11 +25,11 @@
   </delete>
   <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.UserStatus" >
     insert into user_status (id, user_id, open_id, 
-      dt_bid, dt_delivery, updateTime
-      )
+      dt_bid, dt_delivery, dt_publish,
+      bid_condition, updateTime)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=VARCHAR}, #{openId,jdbcType=VARCHAR},
-      #{dtBid,jdbcType=INTEGER}, #{dtDelivery,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}
-      )
+      #{dtBid,jdbcType=INTEGER}, #{dtDelivery,jdbcType=VARCHAR}, #{dtPublish,jdbcType=INTEGER},
+      #{bidCondition,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserStatus" >
       insert into user_status
@@ -47,6 +48,12 @@
           </if>
           <if test="dtDelivery != null" >
               dt_delivery,
+          </if>
+          <if test="dtPublish != null" >
+              dt_publish,
+          </if>
+          <if test="bidCondition != null" >
+              bid_condition,
           </if>
           <if test="updatetime != null" >
               updateTime,
@@ -68,6 +75,12 @@
           <if test="dtDelivery != null" >
               #{dtDelivery,jdbcType=VARCHAR},
           </if>
+          <if test="dtPublish != null" >
+              #{dtPublish,jdbcType=INTEGER},
+          </if>
+          <if test="bidCondition != null" >
+              #{bidCondition,jdbcType=VARCHAR},
+          </if>
           <if test="updatetime != null" >
               #{updatetime,jdbcType=TIMESTAMP},
           </if>
@@ -88,6 +101,12 @@
           <if test="dtDelivery != null" >
               dt_delivery = #{dtDelivery,jdbcType=VARCHAR},
           </if>
+          <if test="dtPublish != null" >
+              dt_publish = #{dtPublish,jdbcType=INTEGER},
+          </if>
+          <if test="bidCondition != null" >
+              bid_condition = #{bidCondition,jdbcType=VARCHAR},
+          </if>
           <if test="updatetime != null" >
               updateTime = #{updatetime,jdbcType=TIMESTAMP},
           </if>
@@ -100,6 +119,8 @@
       open_id = #{openId,jdbcType=VARCHAR},
       dt_bid = #{dtBid,jdbcType=INTEGER},
       dt_delivery = #{dtDelivery,jdbcType=VARCHAR},
+      dt_publish = #{dtPublish,jdbcType=INTEGER},
+      bid_condition = #{bidCondition,jdbcType=VARCHAR},
       updateTime = #{updatetime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
