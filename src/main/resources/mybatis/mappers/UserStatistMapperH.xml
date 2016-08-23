@@ -16,4 +16,54 @@
         updateTime = CURRENT_TIMESTAMP
         userId = #{userId,jdbcType=VARCHAR} AND role = #{role,jdbcType=INTEGER} AND type=#{type,jdbcType=INTEGER}
     </update>
+
+    <select id="initSalerUserStatist" resultType="java.lang.Integer">
+        <if test="type == 1">
+          select count(l.id) FROM lot_info l
+          LEFT join goods_info g ON l.goods_id=g.goods_id
+          where g.owner_id=#{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="type == 2">
+          select count(id) from lot_performance where user_id=#{userId,jdbcType=VARCHAR} AND status != '0'
+        </if>
+        <if test="type == 3">
+          select count(id) from order_info where owner_id=#{userId,jdbcType=VARCHAR} AND status != '10'
+        </if>
+        <if test="type == 4">
+          select count(l.id) from order_time_log l
+          LEFT  JOIN order_info o on o.order_id = l.order_id
+          WHERE o.owner_id=#{userId,jdbcType=VARCHAR} AND l.delivery_time is not NULL
+        </if>
+        <if test="type == 5">
+          select count(id) from order_info where owner_id=#{userId,jdbcType=VARCHAR} AND status = '3'
+        </if>
+        <if test="type == 10">
+          select count(id) from order_info where owner_id=#{userId,jdbcType=VARCHAR} AND status = '4'
+        </if>
+    </select>
+
+    <select id="initBuyerUserStatist" resultType="java.lang.Integer">
+        <if test="type == 1">
+            select count(id) from bid_info where user_id=#{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="type == 2">
+            select count(id) from order_info where buyer_id=#{userId,jdbcType=VARCHAR} AND status != '10'
+        </if>
+        <if test="type == 3">
+            select count(l.id) from order_time_log l
+            LEFT  JOIN order_info o on o.order_id = l.order_id
+            WHERE o.buyer_id=#{userId,jdbcType=VARCHAR} AND l.pay_time is NULL AND o.status = '3'
+        </if>
+        <if test="type == 4">
+            select count(l.id) from order_time_log l
+            LEFT  JOIN order_info o on o.order_id = l.order_id
+            WHERE o.buyer_id=#{userId,jdbcType=VARCHAR} AND l.pay_time is not NULL
+        </if>
+        <if test="type == 5">
+            select count(id) from order_info where buyer_id=#{userId,jdbcType=VARCHAR} AND status = '3'
+        </if>
+        <if test="type == 10">
+            select count(id) from order_info where buyer_id=#{userId,jdbcType=VARCHAR} AND status = '4'
+        </if>
+    </select>
 </mapper>
