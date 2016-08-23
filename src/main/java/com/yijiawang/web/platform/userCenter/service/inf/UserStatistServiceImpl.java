@@ -21,12 +21,12 @@ public class UserStatistServiceImpl implements UserStatistService {
     private UserStatistMapper userStatistMapper;
 
     @Override
-    public int addUserStatist(String userId, Integer role, Integer type) {
+    public int addUserStatist(String userId, Integer role, Integer type, Integer count) {
         UserStatist userStatist = getUserStatist(userId, role, type);
         if (userStatist == null) {
             initUserStatic(userId, role, type);
         }
-        return userStatistMapper.addUserStatist(userId, role, type);
+        return userStatistMapper.addUserStatist(userId, role, type, count);
     }
 
     @Override
@@ -51,21 +51,25 @@ public class UserStatistServiceImpl implements UserStatistService {
 
             } else if (BuyerStatistType.ORDER.value() == type.intValue()) {
 
+            } else if (BuyerStatistType.NOTPAY.value() == type.intValue()) {
+
             } else if (BuyerStatistType.PAY.value() == type.intValue()) {
 
-            } else if (BuyerStatistType.FAILD.value() == type.intValue()) {
+            } else if (BuyerStatistType.RETURN.value() == type.intValue()) {
 
             } else if (BuyerStatistType.FINISH.value() == type.intValue()) {
 
             }
         } else if (role.intValue() == UserRoleType.SALER.value()) {
-            if (SalerStatistType.PUBLISH.value() == type.intValue()) {
+            if (SalerStatistType.PUBLISH_LOT.value() == type.intValue()) {
+
+            } else if (SalerStatistType.PUBLISH_PERFORMANCE.value() == type.intValue()) {
 
             } else if (SalerStatistType.ORDER.value() == type.intValue()) {
 
             } else if (SalerStatistType.DELIVERY.value() == type.intValue()) {
 
-            } else if (SalerStatistType.FAILD.value() == type.intValue()) {
+            } else if (SalerStatistType.RETURN.value() == type.intValue()) {
 
             } else if (SalerStatistType.FINISH.value() == type.intValue()) {
 

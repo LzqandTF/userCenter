@@ -12,7 +12,7 @@
     <update id="addUserStatist">
         update user_statist
         set
-        count = count + 1,
+        count = count + #{count,jdbcType=INTEGER},
         updateTime = CURRENT_TIMESTAMP
         userId = #{userId,jdbcType=VARCHAR} AND role = #{role,jdbcType=INTEGER} AND type=#{type,jdbcType=INTEGER}
     </update>

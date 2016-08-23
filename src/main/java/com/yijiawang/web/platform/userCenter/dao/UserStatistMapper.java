@@ -22,5 +22,5 @@ public interface UserStatistMapper {
 
     UserStatist getUserStatist(@Param("userId")String userId, @Param("role")Integer role, @Param("type")Integer type);
 
-    int addUserStatist(@Param("userId")String userId, @Param("role")Integer role, @Param("type")Integer type);
+    int addUserStatist(@Param("userId")String userId, @Param("role")Integer role, @Param("type")Integer type, @Param("count")Integer count);
 }
