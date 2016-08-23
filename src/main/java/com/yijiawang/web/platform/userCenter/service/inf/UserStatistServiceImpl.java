@@ -52,33 +52,9 @@ public class UserStatistServiceImpl implements UserStatistService {
         userStatist.setRole(role);
         userStatist.setType(type);
         if(role.intValue() == UserRoleType.BUYER.value()) {
-            if (BuyerStatistType.BID.value() == type.intValue()) {
-
-            } else if (BuyerStatistType.ORDER.value() == type.intValue()) {
-
-            } else if (BuyerStatistType.NOTPAY.value() == type.intValue()) {
-
-            } else if (BuyerStatistType.PAY.value() == type.intValue()) {
-
-            } else if (BuyerStatistType.RETURN.value() == type.intValue()) {
-
-            } else if (BuyerStatistType.FINISH.value() == type.intValue()) {
-
-            }
+            userStatist.setCount(userStatistMapper.initBuyerUserStatist(userId, type));
         } else if (role.intValue() == UserRoleType.SALER.value()) {
-            if (SalerStatistType.PUBLISH_LOT.value() == type.intValue()) {
-
-            } else if (SalerStatistType.PUBLISH_PERFORMANCE.value() == type.intValue()) {
-
-            } else if (SalerStatistType.ORDER.value() == type.intValue()) {
-
-            } else if (SalerStatistType.DELIVERY.value() == type.intValue()) {
-
-            } else if (SalerStatistType.RETURN.value() == type.intValue()) {
-
-            } else if (SalerStatistType.FINISH.value() == type.intValue()) {
-
-            }
+            userStatist.setCount(userStatistMapper.initSalerUserStatist(userId, type));
         }
         if (userStatist.getCount() != null) {
             userStatistMapper.insertSelective(userStatist);
