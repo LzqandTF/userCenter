@@ -31,7 +31,12 @@ public class UserStatistServiceImpl implements UserStatistService {
 
     @Override
     public UserStatist getUserStatist(String userId, Integer role, Integer type) {
-        return userStatistMapper.getUserStatist(userId, role, type);
+        UserStatist userStatist = userStatistMapper.getUserStatist(userId, role, type);
+        if (userStatist == null) {
+            initUserStatic(userId, role, type);
+            userStatist = userStatistMapper.getUserStatist(userId, role, type);
+        }
+        return userStatist;
     }
 
     /**
