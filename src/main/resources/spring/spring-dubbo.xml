@@ -16,4 +16,5 @@
     <dubbo:service interface="com.yijiawang.web.platform.userCenter.service.UserInterestService" ref="userInterestService" />
     <dubbo:service interface="com.yijiawang.web.platform.userCenter.service.UserInsurePriceService" ref="userInsurePriceService" />
     <dubbo:service interface="com.yijiawang.web.platform.userCenter.service.UserLevelService" ref="userLevelService" />
+    <dubbo:service interface="com.yijiawang.web.platform.userCenter.service.UserStatistService" ref="userStatistService" />
 </beans>
