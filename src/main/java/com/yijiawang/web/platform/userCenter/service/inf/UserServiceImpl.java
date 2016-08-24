@@ -18,10 +18,7 @@ import com.yijiawang.web.platform.userCenter.service.UserService;
 
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {

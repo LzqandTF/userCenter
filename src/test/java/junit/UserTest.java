@@ -10,6 +10,7 @@ import com.yijiawang.web.platform.userCenter.type.PayType;
 import com.yijiawang.web.platform.userCenter.type.TradeType;
 import com.yijiawang.web.platform.userCenter.vo.UserProtectQuestionVO;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,5 +131,20 @@ public class UserTest {
         System.out.println(userLevelService.getUserLevelBuyer("122344"));
         userLevelService.initUserLevelSaler();
         System.out.println(userLevelService.getUserLevelSaler("122344"));
+    }
+
+    @Test
+    public void testjson() {
+        String json = "{\"contract\":{\"switch\":1,\"type\":1},\"returnGoods\":{\"switch\":1,\"type\":0}}";
+        ObjectMapper mapper = new ObjectMapper();
+        Map configMap = null;
+        try {
+            configMap = mapper.readValue(json, Map.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Map contractMap = (Map)configMap.get("contract");
+        System.out.println(configMap);
+        System.out.println(contractMap);
     }
 }
