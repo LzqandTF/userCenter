@@ -22,4 +22,6 @@ public interface UserInfoMapper {
     Set<UserInfo> getRecommendUserList();
 
     int addUserScore(@Param("userId")String userId, @Param("role")Integer role, @Param("amount")Integer amount);
+
+    int setUserScore(@Param("userId")String userId, @Param("role")Integer role, @Param("amount")Integer amount);
 }

@@ -81,6 +81,7 @@ public class UserLevelServiceImpl implements UserLevelService{
             if (score == null) {
                 score = 0;
             }
+            userService.setUserScore(userId, UserRoleType.BUYER.value(), score);
         }
         // 转化为元
         score = score/100;
@@ -110,6 +111,7 @@ public class UserLevelServiceImpl implements UserLevelService{
             if (score == null) {
                 score = 0;
             }
+            userService.setUserScore(userId, UserRoleType.SALER.value(), score);
         }
         //转化为元
         score = score/100;

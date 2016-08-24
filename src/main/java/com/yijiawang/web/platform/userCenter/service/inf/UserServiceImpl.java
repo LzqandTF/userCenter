@@ -916,6 +916,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int setUserScore(String userId, Integer role, Integer amount) {
+        return userInfoMapper.setUserScore(userId, role, amount);
+    }
+
+    @Override
     public int setBidCondition(String userId, String bidCondition) {
         WxUserInfo wxUserInfo = wxUserInfoMapper.selectWxUserInfoByUserId(userId);
         if (wxUserInfo != null) {
