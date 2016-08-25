@@ -51,13 +51,18 @@ public class UserStatistServiceImpl implements UserStatistService {
         userStatist.setUpdatetime(new Date());
         userStatist.setRole(role);
         userStatist.setType(type);
+        userStatist.setCount(0);
+        Integer count = null;
         if(role.intValue() == UserRoleType.BUYER.value()) {
-            userStatist.setCount(userStatistMapper.initBuyerUserStatist(userId, type));
+            if (type.intValue() != BuyerStatistType.NOTPAY.value()) {
+                count = userStatistMapper.initBuyerUserStatist(userId, type);
+            }
         } else if (role.intValue() == UserRoleType.SALER.value()) {
-            userStatist.setCount(userStatistMapper.initSalerUserStatist(userId, type));
+            count = userStatistMapper.initSalerUserStatist(userId, type);
         }
-        if (userStatist.getCount() != null) {
-            userStatistMapper.insertSelective(userStatist);
+        if (count != null) {
+            userStatist.setCount(count);
         }
+        userStatistMapper.insertSelective(userStatist);
     }
 }

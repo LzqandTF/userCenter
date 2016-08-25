@@ -22,9 +22,9 @@ public interface UserStatistMapper {
 
     UserStatist getUserStatist(@Param("userId")String userId, @Param("role")Integer role, @Param("type")Integer type);
 
-    int addUserStatist(@Param("userId")String userId, @Param("role")Integer role, @Param("type")Integer type, @Param("count")Integer count);
+    Integer addUserStatist(@Param("userId")String userId, @Param("role")Integer role, @Param("type")Integer type, @Param("count")Integer count);
 
-    int initSalerUserStatist(@Param("userId")String userId, @Param("type")Integer type);
+    Integer initSalerUserStatist(@Param("userId")String userId, @Param("type")Integer type);
 
-    int initBuyerUserStatist(@Param("userId")String userId, @Param("type")Integer type);
+    Integer initBuyerUserStatist(@Param("userId")String userId, @Param("type")Integer type);
 }
