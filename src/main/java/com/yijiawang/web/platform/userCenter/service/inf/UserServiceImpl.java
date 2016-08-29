@@ -798,6 +798,8 @@ public class UserServiceImpl implements UserService {
         if (curr == null) {
             return applyVipMapper.insertSelective(applyVip);
         } else {
+            applyVip.setId(curr.getId());
+            applyVip.setStatus(ApplyVipStatus.applyIng.value());
             applyVip.setUpdateTime(new Date());
             return applyVipMapper.updateByPrimaryKeySelective(applyVip);
         }
