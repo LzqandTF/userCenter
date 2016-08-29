@@ -37,4 +37,6 @@ public interface InsurePriceInfoMapper {
      * 获取正在热拍拍品保证金总额
      */
     Long selectLotingInsurePriceSum();
+
+    InsurePriceInfo getLotInsurePriceByUserId(@Param("lotId")String lotId, @Param("userId") String userId);
 }

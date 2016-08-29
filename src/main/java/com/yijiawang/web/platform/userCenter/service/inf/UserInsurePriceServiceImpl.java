@@ -21,18 +21,6 @@ public class UserInsurePriceServiceImpl implements UserInsurePriceService{
 	}
 
 	@Override
-	public void refundInsurePrice(String lotId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void fineInsurePrice(String buyerId, String sellerId, String lotId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public Long selectLotingInsurePriceSum() {
 		return insurePriceInfoMapper.selectLotingInsurePriceSum();
 	}
@@ -48,4 +36,8 @@ public class UserInsurePriceServiceImpl implements UserInsurePriceService{
 		return insurePriceInfoMapper.updateInsurePrice(lotId, openId);
 	}
 
+    @Override
+    public InsurePriceInfo getLotInsurePriceByUserId(String lotId, String userId) {
+        return insurePriceInfoMapper.getLotInsurePriceByUserId(lotId, userId);
+    }
 }
