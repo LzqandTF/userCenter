@@ -643,37 +643,42 @@ public class UserServiceImpl implements UserService {
                 logObject.add(" 扣除保证金 ");
                 // 把扣除的保证金加到卖家余额
                 InsurePriceInfo info = insurePriceInfoMapper.selectByTranId(accountCheck.getTranId());
-                if (userAccountMapper.updateBalance2UserAccount(info.getSalerId(), info.getInsurePrice()) > 0) {
-                    logObject.add(" 扣除保证金 给卖家余额增加完成");
-                    // 更新保证金状态
-                    if (updateInsurePriceInfo(accountCheck.getUserId(), accountCheck.getLotId(), InsureStatus.PUNISH.value()) > 0) {
-                        logObject.add(" 扣除保证金 更新保证金表状态完成");
+                if (info != null) {
+                    if (userAccountMapper.updateBalance2UserAccount(info.getSalerId(), info.getInsurePrice()) > 0) {
+                        logObject.add(" 扣除保证金 给卖家余额增加完成");
+                        // 更新保证金状态
+                        if (updateInsurePriceInfo(accountCheck.getUserId(), accountCheck.getLotId(), InsureStatus.PUNISH.value()) > 0) {
+                            logObject.add(" 扣除保证金 更新保证金表状态完成");
+                        } else {
+                            logObject.add(" 扣除保证金 更新保证金表状态失败");
+                            result = -4;
+                        }
+                        WxUserInfo salerWxUserInfo = wxUserInfoMapper.selectWxUserInfoByUserId(info.getSalerId());
+                        AccountCheck salerAccountCheck = new AccountCheck();
+                        salerAccountCheck.setUserId(salerWxUserInfo.getUserId());
+                        salerAccountCheck.setOpenId(salerWxUserInfo.getOpenId());
+                        salerAccountCheck.setTitle("买家保证金退款");
+                        salerAccountCheck.setResultBalance(userAccountMapper.selectByUserId(salerWxUserInfo.getUserId()).getBalance());
+                        salerAccountCheck.setTradeType(TradeType.INSURE_GET.value());
+                        salerAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
+                        salerAccountCheck.setType(BalanceChange.ADD.value());
+                        salerAccountCheck.setPayType(PayType.BALANCE.value());
+                        salerAccountCheck.setLotId(accountCheck.getLotId());
+                        salerAccountCheck.setOrderId(accountCheck.getOrderId());
+                        if (accountCheckMapper.insert(salerAccountCheck) > 0) {
+                            result = salerAccountCheck.getId();
+                            logObject.add(" 扣除保证金 卖家获得保证金流水写入完成!");
+                        } else {
+                            logObject.add(" 扣除保证金 卖家获得保证金流水写入失败");
+                            result = -3;
+                        }
                     } else {
-                        logObject.add(" 扣除保证金 更新保证金表状态失败");
-                        result = -4;
-                    }
-                    WxUserInfo salerWxUserInfo = wxUserInfoMapper.selectWxUserInfoByUserId(info.getSalerId());
-                    AccountCheck salerAccountCheck = new AccountCheck();
-                    salerAccountCheck.setUserId(salerWxUserInfo.getUserId());
-                    salerAccountCheck.setOpenId(salerWxUserInfo.getOpenId());
-                    salerAccountCheck.setTitle("买家保证金退款");
-                    salerAccountCheck.setResultBalance(userAccountMapper.selectByUserId(salerWxUserInfo.getUserId()).getBalance());
-                    salerAccountCheck.setTradeType(TradeType.INSURE_GET.value());
-                    salerAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
-                    salerAccountCheck.setType(BalanceChange.ADD.value());
-                    salerAccountCheck.setPayType(PayType.BALANCE.value());
-                    salerAccountCheck.setLotId(accountCheck.getLotId());
-                    salerAccountCheck.setOrderId(accountCheck.getOrderId());
-                    if (accountCheckMapper.insert(salerAccountCheck) > 0) {
-                        result = salerAccountCheck.getId();
-                        logObject.add(" 扣除保证金 卖家获得保证金流水写入完成!");
-                    } else {
-                        logObject.add(" 扣除保证金 卖家获得保证金流水写入失败");
-                        result = -3;
+                        logObject.add(" 扣除保证金 给卖家余额增加失败");
+                        result = -2;
                     }
                 } else {
-                    logObject.add(" 扣除保证金 给卖家余额增加失败");
-                    result = -2;
+                    logObject.add(" 扣除保证金 该拍品没有保证金");
+                    result = -4;
                 }
             } else if (accountCheck.getTradeType() == TradeType.CASH_WITHDRAW.value()) {
                 // 提现失败,退回余额
