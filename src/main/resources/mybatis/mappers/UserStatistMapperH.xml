@@ -60,7 +60,9 @@
             WHERE o.buyer_id=#{userId,jdbcType=VARCHAR} AND l.pay_time is not NULL
         </if>
         <if test="type == 5">
-            select count(id) from order_info where buyer_id=#{userId,jdbcType=VARCHAR} AND status = '3'
+            select count(l.id) from order_time_log l
+            LEFT  JOIN order_info o on o.order_id = l.order_id
+            WHERE o.buyer_id=#{userId,jdbcType=VARCHAR} AND l.pay_time is NOT NULL AND o.status = '3'
         </if>
         <if test="type == 10">
             select count(id) from order_info where buyer_id=#{userId,jdbcType=VARCHAR} AND status = '4'
