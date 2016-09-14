@@ -1,6 +1,8 @@
 package junit;
 
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import com.yijiawang.web.platform.userCenter.po.UserInfo;
 import com.yijiawang.web.platform.userCenter.po.WxUserInfo;
 import com.yijiawang.web.platform.userCenter.service.UserService;
 import com.yijiawang.web.platform.userCenter.service.WxUserService;
+import com.yijiawang.web.platform.userCenter.vo.XUserVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring/spring.xml" })
@@ -20,7 +23,7 @@ public class WxUserInfoTest {
 	@Autowired
 	private UserService userService;
 
-	@Test
+	//@Test
 	public void main(){
 		testWxUser();
 	}
@@ -29,10 +32,15 @@ public class WxUserInfoTest {
 	
 	}
 
-	@Test
+	//@Test
 	public void testSelectWxuserByUserId() {
 		WxUserInfo wxUserInfo = wxUserService.getUserByUserId("12345");
 		System.out.println("   ");
+	}
+	@Test
+	public void testxuser(){
+		List<XUserVO> list =userService.queryUserByParam("00011608191504axGPkk1B", null, 20, 1);
+		System.out.println(list.size());
 	}
 
 }

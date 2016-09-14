@@ -27,4 +27,15 @@
     </if>
     </where>
   </select>
+  <select id="queryUserByParam" resultType="com.yijiawang.web.platform.userCenter.vo.XUserVO">
+     select user_id AS userId,nickname,avatar from wx_user_info where 1=1 
+     <if test="param!=null and param !=''">
+     and nickname like '%${param}%' 
+     </if>
+     limit #{start},#{page}
+  </select>
+  <select id="findShieldUserByUserId" parameterType="string" resultType="string">
+  
+    select shielduserid  from user_shield where userid=#{userid}
+  </select>
 </mapper>

@@ -3,6 +3,7 @@ package com.yijiawang.web.platform.userCenter.dao;
 import java.util.List;
 
 import com.yijiawang.web.platform.userCenter.vo.UserVO;
+import com.yijiawang.web.platform.userCenter.vo.XUserVO;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -26,5 +27,9 @@ public interface WxUserInfoMapper {
     UserVO selectUserVOByUserId(String userId);
        
     List<String> getAllOpenId(@Param("subcribe")Integer subcribe);
+
+	List<XUserVO> queryUserByParam(@Param("param")String param, @Param("start")Integer start, @Param("page")Integer page);
+
+	List<String> findShieldUserByUserId(String userid);
 }
 
