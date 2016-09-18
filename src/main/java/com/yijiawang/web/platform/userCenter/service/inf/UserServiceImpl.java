@@ -976,4 +976,16 @@ public class UserServiceImpl implements UserService {
 
 		return list;
 	}
+
+	@Override
+	public Integer changeUserStatusById(String userId, String shielduserid, String status) {
+		
+		
+	     if(status.equals("1")){
+	    	 wxUserInfoMapper.addshielduseByUserId(userId,shielduserid);
+	     }else{
+	    	 wxUserInfoMapper.deleteshielduseByUserId(userId,shielduserid);
+	     }
+		return 1;
+	}
 }
