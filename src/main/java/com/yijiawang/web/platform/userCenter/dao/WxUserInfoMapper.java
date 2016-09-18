@@ -35,5 +35,7 @@ public interface WxUserInfoMapper {
 	void addshielduseByUserId(@Param("userId")String userId, @Param("shielduserid")String shielduserid);
 
 	void deleteshielduseByUserId(@Param("userId")String userId, @Param("shielduserid")String shielduserid);
+
+	List<XUserVO> queryUserByParamForSatus(@Param("param")String param, @Param("start")Integer start, @Param("page")Integer size, @Param("userid")String userid);
 }
 
