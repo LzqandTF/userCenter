@@ -957,7 +957,7 @@ public class UserServiceImpl implements UserService {
 	public List<XUserVO> queryUserByParam(String userid, String param, Integer size, Integer page) {
 
 		Integer start = (page - 1) * size;
-		List<XUserVO> list = wxUserInfoMapper.queryUserByParam(param, start, size);
+		List<XUserVO> list = wxUserInfoMapper.queryUserByParam(param, start, size,userid);
 
 //		for (XUserVO vo : list) {
 //			List<String> shielduserid = wxUserInfoMapper.findShieldUserByUserId(userid);

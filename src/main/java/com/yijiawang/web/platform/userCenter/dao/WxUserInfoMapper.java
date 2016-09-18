@@ -28,7 +28,7 @@ public interface WxUserInfoMapper {
        
     List<String> getAllOpenId(@Param("subcribe")Integer subcribe);
 
-	List<XUserVO> queryUserByParam(@Param("param")String param, @Param("start")Integer start, @Param("page")Integer page);
+	List<XUserVO> queryUserByParam(@Param("param")String param, @Param("start")Integer start, @Param("page")Integer page,@Param("userid")String userid);
 
 	List<String> findShieldUserByUserId(String userid);
 
