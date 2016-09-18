@@ -39,8 +39,8 @@ public class WxUserInfoTest {
 	}
 	@Test
 	public void testxuser(){
-		List<XUserVO> list =userService.queryUserByParam(null, "刘洋", 20, 1);
-		System.out.println(list.size());
+	userService.changeUserStatusById("11","222","0");
 	}
+	
 
 }
