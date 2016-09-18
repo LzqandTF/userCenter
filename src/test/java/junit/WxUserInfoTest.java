@@ -39,7 +39,7 @@ public class WxUserInfoTest {
 	}
 	@Test
 	public void testxuser(){
-		List<XUserVO> list =userService.queryUserByParam("00011608191504axGPkk1B", null, 20, 1);
+		List<XUserVO> list =userService.queryUserByParam(null, "刘洋", 20, 1);
 		System.out.println(list.size());
 	}
 

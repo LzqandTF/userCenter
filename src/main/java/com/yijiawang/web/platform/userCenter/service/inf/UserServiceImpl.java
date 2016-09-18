@@ -959,20 +959,20 @@ public class UserServiceImpl implements UserService {
 		Integer start = (page - 1) * size;
 		List<XUserVO> list = wxUserInfoMapper.queryUserByParam(param, start, size);
 
-		for (XUserVO vo : list) {
-			List<String> shielduserid = wxUserInfoMapper.findShieldUserByUserId(userid);
-			if (shielduserid.size() != 0) {
-				for (String shield : shielduserid) {
-
-					if (vo.getUserId().equals(shield)) {
-						vo.setStatus("0");
-					} else {
-						vo.setStatus("1");
-					}
-				}
-
-			}
-		}
+//		for (XUserVO vo : list) {
+//			List<String> shielduserid = wxUserInfoMapper.findShieldUserByUserId(userid);
+//			if (shielduserid.size() != 0) {
+//				for (String shield : shielduserid) {
+//
+//					if (vo.getUserId().equals(shield)) {
+//						vo.setStatus("0");
+//					} else {
+//						vo.setStatus("1");
+//					}
+//				}
+//
+//			}
+//		}
 
 		return list;
 	}
