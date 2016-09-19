@@ -39,7 +39,10 @@ public class WxUserInfoTest {
 	}
 	@Test
 	public void testxuser(){
-	userService.changeUserStatusById("11","222","0");
+		
+		Integer count=userService.findUserForShield("222","11");
+	System.out.println(count);
+	
 	}
 	
 

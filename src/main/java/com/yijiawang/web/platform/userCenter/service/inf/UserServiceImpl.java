@@ -995,4 +995,13 @@ public class UserServiceImpl implements UserService {
 	     }
 		return 1;
 	}
+
+	@Override
+	public Integer findUserForShield(String userId, String ownerId) {
+		if(userId==null||ownerId==null){
+			return -1;
+		}
+		Integer result=wxUserInfoMapper.findUserForShield(userId,ownerId);
+		return result;
+	}
 }
