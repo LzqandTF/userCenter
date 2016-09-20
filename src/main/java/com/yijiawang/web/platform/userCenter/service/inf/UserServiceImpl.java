@@ -964,22 +964,7 @@ public class UserServiceImpl implements UserService {
 			list= wxUserInfoMapper.queryUserByParamForSatus(param, start, size,userid);
 			
 		}
-		 
-
-//		for (XUserVO vo : list) {
-//			List<String> shielduserid = wxUserInfoMapper.findShieldUserByUserId(userid);
-//			if (shielduserid.size() != 0) {
-//				for (String shield : shielduserid) {
-//
-//					if (vo.getUserId().equals(shield)) {
-//						vo.setStatus("0");
-//					} else {
-//						vo.setStatus("1");
-//					}
-//				}
-//
-//			}
-//		}
+		
 
 		return list;
 	}
