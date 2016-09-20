@@ -989,4 +989,13 @@ public class UserServiceImpl implements UserService {
 		Integer result=wxUserInfoMapper.findUserForShield(userId,ownerId);
 		return result;
 	}
+
+	@Override
+	public Integer getBlackHouseCountByUserId(String userId) {
+		if(userId==null||"".equals(userId)){
+			return null;
+		}
+		Integer count =wxUserInfoMapper.getBlackHouseCountByUserId(userId);
+		return count;
+	}
 }

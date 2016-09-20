@@ -59,4 +59,7 @@
 	<select id="findUserForShield" resultType="Integer">
 	select count(*) from user_shield where userid=#{ownerId} and shielduserid=#{userId}
 	</select>
+	<select id="getBlackHouseCountByUserId" parameterType="string" resultType="Integer">
+	   select count(*) from user_shield where userid=#{userId}
+	</select>
 </mapper>
