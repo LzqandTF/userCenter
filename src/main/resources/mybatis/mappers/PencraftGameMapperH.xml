@@ -11,4 +11,14 @@
         where user_tel = #{userTel,jdbcType=INTEGER}
     </select>
 
+    <select id="selectByOpenId" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from pencraft_game
+        where open_id = #{openId,jdbcType=INTEGER}
+    </select>
+
+
 </mapper>

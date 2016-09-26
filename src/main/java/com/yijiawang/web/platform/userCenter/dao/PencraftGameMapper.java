@@ -25,4 +25,12 @@ public interface PencraftGameMapper {
      * @return
      */
     PencraftGame selectByTel(String userTel);
+
+    /**
+     * 根据openId获取书法大赛报名信息
+     *
+     * @param openId
+     * @return
+     */
+    PencraftGame selectByOpenId(String openId);
 }

@@ -24,4 +24,9 @@ public class PencraftGameServiceImpl implements PencraftGameService {
     public PencraftGame selectByTel(String userTel) {
         return pencraftGameMapper.selectByTel(userTel);
     }
+
+    @Override
+    public PencraftGame selectByOpenId(String openId) {
+        return pencraftGameMapper.selectByOpenId(openId);
+    }
 }
