@@ -69,7 +69,7 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 				if (userSignInLog.getSignInDay().intValue() > UserSignInLog.MAX_SIGN_IN_DAY) {
 					codeKey = String.valueOf(UserSignInLog.MAX_SIGN_IN_DAY);
 				} else {
-					codeKey = String.valueOf(userSignInLog.getSignInDay());
+					codeKey = String.valueOf(userSignInLog.getSignInDay()+1);
 				}
 				BeanUtils.copyProperties(userSignInLog, userSignInLogRtn);
 				userSignInLogRtn.setSignInStatus(1);
