@@ -13,7 +13,7 @@ import com.yijiawang.web.platform.userCenter.service.UserScoreService;
 import com.yijiawang.web.platform.userCenter.service.UserSignInLogService;
 import com.yijiawang.web.platform.userCenter.util.DateUtil;
 
-@Service("userScoreService")
+@Service("userSignInLogService")
 public class UserSignInLogServiceImpl implements UserSignInLogService {
 
 	// private org.apache.commons.logging.Log log =

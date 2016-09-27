@@ -21,13 +21,13 @@
     delete from user_signin_log
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.yijiapai.api.bean.po.UserSigninLog" >
+  <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.UserSignInLog" >
     insert into user_signin_log (id, open_id, user_id, 
       sign_in_day, create_time)
     values (#{id,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
       #{signInDay,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.yijiapai.api.bean.po.UserSigninLog" >
+  <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserSignInLog" >
     insert into user_signin_log
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -64,7 +64,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yijiapai.api.bean.po.UserSigninLog" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserSignInLog" >
     update user_signin_log
     <set >
       <if test="openId != null" >
@@ -82,7 +82,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.yijiapai.api.bean.po.UserSigninLog" >
+  <update id="updateByPrimaryKey" parameterType="com.yijiawang.web.platform.userCenter.po.UserSignInLog" >
     update user_signin_log
     set open_id = #{openId,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=VARCHAR},

@@ -24,7 +24,7 @@
     delete from user_score
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.yijiapai.api.bean.po.userScore" >
+  <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.UserScore" >
     insert into user_score (id, open_id, user_id, 
       class_code, code_key, score_amount, 
       create_time, status)
@@ -32,7 +32,7 @@
       #{classCode,jdbcType=VARCHAR}, #{codeKey,jdbcType=VARCHAR}, #{scoreAmount,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.yijiapai.api.bean.po.userScore" >
+  <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserScore" >
     insert into user_score
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -87,7 +87,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yijiapai.api.bean.po.userScore" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserScore" >
     update user_score
     <set >
       <if test="openId != null" >
@@ -114,7 +114,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.yijiapai.api.bean.po.userScore" >
+  <update id="updateByPrimaryKey" parameterType="com.yijiawang.web.platform.userCenter.po.UserScore" >
     update user_score
     set open_id = #{openId,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=VARCHAR},
