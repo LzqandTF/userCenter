@@ -9,6 +9,7 @@ import com.yijiawang.web.platform.userCenter.service.UserAccountLogService;
 import com.yijiawang.web.platform.userCenter.type.*;
 import com.yijiawang.web.platform.userCenter.vo.UserProtectQuestionVO;
 import com.yijiawang.web.platform.userCenter.vo.UserVO;
+import com.yijiawang.web.platform.userCenter.vo.XUserVO;
 
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -947,4 +948,32 @@ public class UserServiceImpl implements UserService {
         }
         return 0;
     }
+
+
+	@Override
+	public List<XUserVO> queryUserByParam(String userid, String param, Integer size, Integer page, String status) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Integer changeUserStatusById(String userId, String shielduserid, String status) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Integer findUserForShield(String userId, String ownerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Integer getBlackHouseCountByUserId(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

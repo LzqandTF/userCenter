@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yijiawang.web.platform.userCenter.dao.UserScoreMapper" >
+  
+  <select id="queryListUserScoreByUserId" resultMap="BaseResultMap" >
+    SELECT
+		us.id,us.class_code,us.score_amount,us.status,sd.class_desc
+	FROM
+		user_score us,
+		system_dict sd
+	WHERE
+		us.system_dict_id = sd.id
+	AND us.user_id = #{userId,jdbcType=VARCHAR}
+	<if test="cursor != 0">
+          <![CDATA[ AND us.id <= #{cursor,jdbcType=BIGINT} ]]>
+    </if>
+	ORDER BY
+		id DESC
+	LIMIT #{count,jdbcType=INTEGER}
+  </select>
+  
+  <select id="countCurdateDataByRule" resultType="int" >
+    SELECT count(1) FROM user_score
+	WHERE user_id = #{userId,jdbcType=VARCHAR}
+	AND class_code = #{classCode,jdbcType=VARCHAR}
+	AND date(create_time) = date(#{createTime,jdbcType=TIMESTAMP})
+  </select>
+  
+</mapper>
