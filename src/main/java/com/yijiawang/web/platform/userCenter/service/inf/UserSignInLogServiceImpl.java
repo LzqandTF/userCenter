@@ -32,9 +32,9 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 	public UserSignInLog userSignIn(String userId, Integer oper) {
 		UserSignInLog userSignInLog = new UserSignInLog();
 		if (oper.intValue() == 0) { // 获取今日签到信息
-			return getUserSignInLog(userId);
+			return getUserSignInLog(userId, oper);
 		} else if (oper.intValue() == 1) { // 签到
-			userSignInLog = getUserSignInLog(userId);
+			userSignInLog = getUserSignInLog(userId, oper);
 			if (userSignInLog.getSignInStatus().intValue() == 1) {
 				return userSignInLog;
 			}
@@ -59,7 +59,7 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 		return userSignInLog;
 	}
 
-	private UserSignInLog getUserSignInLog(String userId){
+	private UserSignInLog getUserSignInLog(String userId, Integer oper){
 		String codeKey = "";
 		UserSignInLog userSignInLogRtn = new UserSignInLog();
 		userSignInLogRtn.setUserId(userId);
@@ -91,6 +91,7 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 			userSignInLogRtn.setSignInDay(0);
 			userSignInLogRtn.setSignInStatus(0);
 		}
+		codeKey = oper == 1 ? String.valueOf(Integer.valueOf(codeKey)+1) : codeKey;
 		userSignInLogRtn.setNextScore(getScoreValue(codeKey));
 		return userSignInLogRtn;
 	}
