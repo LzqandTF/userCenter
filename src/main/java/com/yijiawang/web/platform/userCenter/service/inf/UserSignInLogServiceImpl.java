@@ -30,7 +30,6 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 
 	@Override
 	public UserSignInLog userSignIn(String userId, Integer oper) {
-		log.error("userSignIn: " + userId + "oper:"+oper);
 		UserSignInLog userSignInLog = new UserSignInLog();
 		if (oper.intValue() == 0) { // 获取今日签到信息
 			return getUserSignInLog(userId);
@@ -63,9 +62,8 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 	private UserSignInLog getUserSignInLog(String userId){
 		String codeKey = "";
 		UserSignInLog userSignInLogRtn = new UserSignInLog();
+		userSignInLogRtn.setUserId(userId);
 		UserSignInLog userSignInLog = userSignInLogMapper.selectLastOneSignInLogByUserId(userId);
-		log.error("userSignInLog");
-		log.error(userSignInLog);
 		if (userSignInLog != null) {
 			if (compareSameDay(userSignInLog.getCreateTime())) {
 				if (userSignInLog.getSignInDay().intValue() > UserSignInLog.MAX_SIGN_IN_DAY) {
