@@ -64,6 +64,7 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 		UserSignInLog userSignInLogRtn = new UserSignInLog();
 		userSignInLogRtn.setUserId(userId);
 		UserSignInLog userSignInLog = userSignInLogMapper.selectLastOneSignInLogByUserId(userId);
+		log.error(userSignInLog);
 		if (userSignInLog != null) {
 			if (compareSameDay(userSignInLog.getCreateTime())) { // 当天已经签到
 				if (userSignInLog.getSignInDay().intValue() >= UserSignInLog.MAX_SIGN_IN_DAY) {
@@ -109,6 +110,7 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 		if (getDate == null) {return false;}
 		String newGetDate = DateUtil.format(getDate, DateUtil.FORMAT_SHORT_EXT);
 		String nowDate = DateUtil.getShortTime();
+		log.error(String.format("compareSameDay= newGetDate=%s : nowDate=%s", newGetDate, nowDate));
 		return nowDate.equals(newGetDate);
 	}
 	
@@ -116,6 +118,7 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 		if (getDate == null) {return false;}
 		String newGetDate = DateUtil.format(DateUtil.addDay(getDate, 1), DateUtil.FORMAT_SHORT_EXT);
 		String nowDate = DateUtil.getShortTime();
+		log.error(String.format("compareSameYesterDay= newGetDate=%s : nowDate=%s", newGetDate, nowDate));
 		return nowDate.equals(newGetDate);
 	}
 }
