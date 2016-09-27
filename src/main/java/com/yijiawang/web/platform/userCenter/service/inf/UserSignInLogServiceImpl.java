@@ -42,7 +42,7 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 			// 插入签到数据
 			userSignInLog.setId(null);
 			userSignInLog.setCreateTime(null);
-			userSignInLog.setSignInDay(userSignInLog.getSignInDay() + 1);
+			userSignInLog.setSignInDay(userSignInLog.getSignInDay()+1);
 			userSignInLog.setSignInStatus(1);
 			userSignInLogMapper.insertSelective(userSignInLog);
 			
@@ -65,7 +65,7 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 		userSignInLogRtn.setUserId(userId);
 		UserSignInLog userSignInLog = userSignInLogMapper.selectLastOneSignInLogByUserId(userId);
 		if (userSignInLog != null) {
-			if (compareSameDay(userSignInLog.getCreateTime())) {
+			if (compareSameDay(userSignInLog.getCreateTime())) { // 当天已经签到
 				if (userSignInLog.getSignInDay().intValue() > UserSignInLog.MAX_SIGN_IN_DAY) {
 					codeKey = String.valueOf(UserSignInLog.MAX_SIGN_IN_DAY);
 				} else {
@@ -73,20 +73,20 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 				}
 				BeanUtils.copyProperties(userSignInLog, userSignInLogRtn);
 				userSignInLogRtn.setSignInStatus(1);
-			} else if (compareSameYesterDay(userSignInLog.getCreateTime())) {
-				if (userSignInLog.getSignInDay().intValue() >= UserSignInLog.MAX_SIGN_IN_DAY) {
+			} else if (compareSameYesterDay(userSignInLog.getCreateTime())) { // 昨天已经签到
+				if (userSignInLog.getSignInDay().intValue() > UserSignInLog.MAX_SIGN_IN_DAY) {
 					codeKey = String.valueOf(UserSignInLog.MAX_SIGN_IN_DAY);
 				} else {
-					codeKey = String.valueOf(userSignInLog.getSignInDay()+1);
+					codeKey = String.valueOf(userSignInLog.getSignInDay()+2);
 				}
 				BeanUtils.copyProperties(userSignInLog, userSignInLogRtn);
 				userSignInLogRtn.setSignInStatus(0);
-			} else {
+			} else { // 未签到
 				codeKey = "1";
 				BeanUtils.copyProperties(userSignInLog, userSignInLogRtn);
 				userSignInLogRtn.setSignInStatus(0);
 			}
-		} else {
+		} else { // 未签到
 			codeKey = "1";
 			userSignInLogRtn.setSignInDay(0);
 			userSignInLogRtn.setSignInStatus(0);
