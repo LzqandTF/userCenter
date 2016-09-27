@@ -66,7 +66,7 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 		UserSignInLog userSignInLog = userSignInLogMapper.selectLastOneSignInLogByUserId(userId);
 		if (userSignInLog != null) {
 			if (compareSameDay(userSignInLog.getCreateTime())) { // 当天已经签到
-				if (userSignInLog.getSignInDay().intValue() > UserSignInLog.MAX_SIGN_IN_DAY) {
+				if (userSignInLog.getSignInDay().intValue() >= UserSignInLog.MAX_SIGN_IN_DAY) {
 					codeKey = String.valueOf(UserSignInLog.MAX_SIGN_IN_DAY);
 				} else {
 					codeKey = String.valueOf(userSignInLog.getSignInDay()+1);
@@ -74,7 +74,7 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 				BeanUtils.copyProperties(userSignInLog, userSignInLogRtn);
 				userSignInLogRtn.setSignInStatus(1);
 			} else if (compareSameYesterDay(userSignInLog.getCreateTime())) { // 昨天已经签到
-				if (userSignInLog.getSignInDay().intValue() > UserSignInLog.MAX_SIGN_IN_DAY) {
+				if (userSignInLog.getSignInDay().intValue() >= UserSignInLog.MAX_SIGN_IN_DAY) {
 					codeKey = String.valueOf(UserSignInLog.MAX_SIGN_IN_DAY);
 				} else {
 					codeKey = String.valueOf(userSignInLog.getSignInDay()+1);
