@@ -1,6 +1,8 @@
 package com.yijiawang.web.platform.userCenter.service.inf;
 
 import java.util.Date;
+
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +18,8 @@ import com.yijiawang.web.platform.userCenter.util.DateUtil;
 @Service("userSignInLogService")
 public class UserSignInLogServiceImpl implements UserSignInLogService {
 
-	// private org.apache.commons.logging.Log log =
-	// LogFactory.getLog(UserScoreServiceImpl.class);
+	private org.apache.commons.logging.Log log =
+	LogFactory.getLog(UserScoreServiceImpl.class);
 
 	@Autowired
 	private UserSignInLogMapper userSignInLogMapper;
@@ -28,6 +30,7 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 
 	@Override
 	public UserSignInLog userSignIn(String userId, Integer oper) {
+		log.error("userSignIn: " + userId + "oper:"+oper);
 		UserSignInLog userSignInLog = new UserSignInLog();
 		if (oper.intValue() == 0) { // 获取今日签到信息
 			return getUserSignInLog(userId);
@@ -61,6 +64,8 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 		String codeKey = "";
 		UserSignInLog userSignInLogRtn = new UserSignInLog();
 		UserSignInLog userSignInLog = userSignInLogMapper.selectLastOneSignInLogByUserId(userId);
+		log.error("userSignInLog");
+		log.error(userSignInLog);
 		if (userSignInLog != null) {
 			if (compareSameDay(userSignInLog.getCreateTime())) {
 				if (userSignInLog.getSignInDay().intValue() > UserSignInLog.MAX_SIGN_IN_DAY) {
