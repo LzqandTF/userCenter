@@ -91,7 +91,7 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 			userSignInLogRtn.setSignInDay(0);
 			userSignInLogRtn.setSignInStatus(0);
 		}
-		codeKey = oper == 1 ? String.valueOf(Integer.valueOf(codeKey)+1) : codeKey;
+		codeKey = oper == 1 && userSignInLogRtn.getSignInStatus().intValue() == 0 ? String.valueOf(Integer.valueOf(codeKey)+1) : codeKey;
 		userSignInLogRtn.setNextScore(getScoreValue(codeKey));
 		return userSignInLogRtn;
 	}
