@@ -9,7 +9,8 @@
 		user_score us,
 		system_dict sd
 	WHERE
-		us.system_dict_id = sd.id
+		us.class_code = sd.class_code
+	AND	us.code_key = sd.code_key
 	AND us.user_id = #{userId,jdbcType=VARCHAR}
 	<if test="cursor != 0">
           <![CDATA[ AND us.id <= #{cursor,jdbcType=BIGINT} ]]>
