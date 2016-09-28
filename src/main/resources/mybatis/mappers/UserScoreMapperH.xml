@@ -4,16 +4,12 @@
   
   <select id="queryListUserScoreByUserId" resultMap="BaseResultMap" >
     SELECT
-		us.id,us.user_id,us.class_code,us.code_key,us.score_amount,us.status,us.create_time,sd.class_desc
+		<include refid="Base_Column_List" />
 	FROM
-		user_score us,
-		system_dict sd
-	WHERE
-		us.class_code = sd.class_code
-	AND	us.code_key = sd.code_key
-	AND us.user_id = #{userId,jdbcType=VARCHAR}
+		user_score 
+	WHERE user_id = #{userId,jdbcType=VARCHAR}
 	<if test="cursor != 0">
-          <![CDATA[ AND us.id <= #{cursor,jdbcType=BIGINT} ]]>
+          <![CDATA[ AND id <= #{cursor,jdbcType=BIGINT} ]]>
     </if>
 	ORDER BY
 		id DESC

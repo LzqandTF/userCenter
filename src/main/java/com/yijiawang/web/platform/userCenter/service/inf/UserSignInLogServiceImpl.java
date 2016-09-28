@@ -1,8 +1,6 @@
 package com.yijiawang.web.platform.userCenter.service.inf;
 
 import java.util.Date;
-
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +16,8 @@ import com.yijiawang.web.platform.userCenter.util.DateUtil;
 @Service("userSignInLogService")
 public class UserSignInLogServiceImpl implements UserSignInLogService {
 
-	private org.apache.commons.logging.Log log =
-	LogFactory.getLog(UserScoreServiceImpl.class);
+	/*private org.apache.commons.logging.Log log =
+	LogFactory.getLog(UserScoreServiceImpl.class);*/
 
 	@Autowired
 	private UserSignInLogMapper userSignInLogMapper;

@@ -13,7 +13,7 @@
     <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, open_id, user_id, class_code, code_key, score_amount, create_time, status
+    id, open_id, user_id, class_code, code_key, class_desc, score_amount, create_time, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -27,11 +27,11 @@
   </delete>
   <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.UserScore" >
     insert into user_score (id, open_id, user_id, 
-      class_code, code_key, score_amount, 
+      class_code, code_key, class_desc, score_amount, 
       create_time, status)
     values (#{id,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
-      #{classCode,jdbcType=VARCHAR}, #{codeKey,jdbcType=VARCHAR}, #{scoreAmount,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
+      #{classCode,jdbcType=VARCHAR}, #{codeKey,jdbcType=VARCHAR}, #{classDesc,jdbcType=VARCHAR},
+      #{scoreAmount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserScore" >
     insert into user_score
@@ -50,6 +50,9 @@
       </if>
       <if test="codeKey != null" >
         code_key,
+      </if>
+      <if test="classDesc != null" >
+        class_desc,
       </if>
       <if test="scoreAmount != null" >
         score_amount,
@@ -77,6 +80,9 @@
       <if test="codeKey != null" >
         #{codeKey,jdbcType=VARCHAR},
       </if>
+      <if test="classDesc != null" >
+        #{classDesc,jdbcType=VARCHAR},
+      </if>
       <if test="scoreAmount != null" >
         #{scoreAmount,jdbcType=INTEGER},
       </if>
@@ -103,6 +109,9 @@
       <if test="codeKey != null" >
         code_key = #{codeKey,jdbcType=VARCHAR},
       </if>
+      <if test="classDesc != null" >
+        class_desc = #{classDesc,jdbcType=VARCHAR},
+      </if>
       <if test="scoreAmount != null" >
         score_amount = #{scoreAmount,jdbcType=INTEGER},
       </if>
@@ -121,6 +130,7 @@
       user_id = #{userId,jdbcType=VARCHAR},
       class_code = #{classCode,jdbcType=VARCHAR},
       code_key = #{codeKey,jdbcType=VARCHAR},
+      class_desc = #{classDesc,jdbcType=VARCHAR},
       score_amount = #{scoreAmount,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       status = #{status,jdbcType=TINYINT}

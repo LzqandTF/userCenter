@@ -84,7 +84,7 @@ public class UserScoreServiceImpl implements UserScoreService {
 				userScore.setUserId(userId);
 				userScore.setClassCode(classCode);
 				userScore.setCodeKey(String.valueOf(illegalCount));
-				userScore.setClassDesc(UserScore.SCORE_CLASS_DESC_ILLEGAL_SELLER_NOT_PAY);
+				userScore.setClassDesc(String.format(UserScore.SCORE_CLASS_DESC_ILLEGAL_SELLER_NOT_PAY, illegalCount));
 				userScore.setScoreAmount(userCredits);
 				userScore.setStatus(UserScore.USER_SCORE_STATUS_2);
 				saveSelective(userScore);
