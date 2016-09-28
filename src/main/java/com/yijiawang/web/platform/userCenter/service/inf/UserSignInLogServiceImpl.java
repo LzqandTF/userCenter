@@ -29,7 +29,7 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 	private UserScoreService userScoreService;
 
 	@Override
-	public UserSignInLog userSignIn(String userId, Integer oper) {
+	public UserSignInLog updateUserSignIn(String userId, Integer oper) {
 		UserSignInLog userSignInLog = new UserSignInLog();
 		if (oper.intValue() == 0) { // 获取今日签到信息
 			return getUserSignInLog(userId, oper);
@@ -54,7 +54,7 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 			userScore.setClassDesc(String.format(UserScore.SCORE_CLASS_DESC_SIGN_IN, userSignInLog.getSignInDay()));
 			userScore.setScoreAmount(userSignInLog.getNextScore());
 			userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
-			userScoreService.insertSelective(userScore);
+			userScoreService.saveSelective(userScore);
 		}
 		return userSignInLog;
 	}

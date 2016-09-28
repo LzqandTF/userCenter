@@ -979,13 +979,13 @@ public class UserServiceImpl implements UserService {
 
 	
 	@Override
-	public int incrUserCredits(String userId, Integer userCredits) {
+	public int updateIncrUserCredits(String userId, Integer userCredits) {
 		return userInfoMapper.incrUserCredits(userId, userCredits);
 	}
 
 	
 	@Override
-	public int decrUserCredits(String userId, Integer userCredits) {
+	public int updateDecrUserCredits(String userId, Integer userCredits) {
 		return userInfoMapper.decrUserCredits(userId, userCredits);
 	}
 }

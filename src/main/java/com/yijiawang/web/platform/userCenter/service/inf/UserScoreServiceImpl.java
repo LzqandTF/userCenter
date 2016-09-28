@@ -31,12 +31,12 @@ public class UserScoreServiceImpl implements UserScoreService {
 	}
 
 	@Override
-	public int insertSelective(UserScore userScore) {
+	public int saveSelective(UserScore userScore) {
 		if (userScoreMapper.insertSelective(userScore) == 1) {
 			if (userScore.getStatus().intValue() == UserScore.USER_SCORE_STATUS_1.intValue()) {
-				return userService.incrUserCredits(userScore.getUserId(), userScore.getScoreAmount());
+				return userService.updateIncrUserCredits(userScore.getUserId(), userScore.getScoreAmount());
 			} else if (userScore.getStatus().intValue() == UserScore.USER_SCORE_STATUS_2.intValue()) {
-				return userService.decrUserCredits(userScore.getUserId(), userScore.getScoreAmount());
+				return userService.updateDecrUserCredits(userScore.getUserId(), userScore.getScoreAmount());
 			}
 		};
 		return 0;
@@ -55,7 +55,7 @@ public class UserScoreServiceImpl implements UserScoreService {
 				userScore.setClassDesc(UserScore.SCORE_CLASS_DESC_FIRST_SUBSCRIBE);
 				userScore.setScoreAmount(scoreAmount);
 				userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
-				insertSelective(userScore);
+				saveSelective(userScore);
 			} else if (UserScore.SCORE_CLASS_CODE_SHARE_LINK.equals(classCode)) { // 分享链接
 				if (userScoreMapper.countCurdateDataByRule(userId, classCode, new Date()) < UserScore.SCORE_CLASS_SHARE_LINK_MAX) {
 					int scoreAmount = getScoreValue(classCode, codeKey);
@@ -67,7 +67,7 @@ public class UserScoreServiceImpl implements UserScoreService {
 					userScore.setClassDesc(UserScore.SCORE_CLASS_DESC_SHARE_LINK);
 					userScore.setScoreAmount(scoreAmount);
 					userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
-					insertSelective(userScore);
+					saveSelective(userScore);
 				}
 			} else if (UserScore.SCORE_CLASS_CODE_REC_SUBSCRIBE.equals(classCode)) { // 推荐关注，赠与成功推荐者
 				// TODO
@@ -87,7 +87,7 @@ public class UserScoreServiceImpl implements UserScoreService {
 				userScore.setClassDesc(UserScore.SCORE_CLASS_DESC_ILLEGAL_SELLER_NOT_PAY);
 				userScore.setScoreAmount(userCredits);
 				userScore.setStatus(UserScore.USER_SCORE_STATUS_2);
-				insertSelective(userScore);
+				saveSelective(userScore);
 			} else {
 				log.error(String.format(UserScore.SCORE_CLASS_NOT_FOUND, classCode, codeKey));
 			}
