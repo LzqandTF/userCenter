@@ -7,6 +7,7 @@
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="class_code" property="classCode" jdbcType="VARCHAR" />
     <result column="code_key" property="codeKey" jdbcType="VARCHAR" />
+    <result column="class_desc" property="classDesc" jdbcType="VARCHAR" />
     <result column="score_amount" property="scoreAmount" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="TINYINT" />

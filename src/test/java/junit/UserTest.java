@@ -147,4 +147,19 @@ public class UserTest {
         System.out.println(configMap);
         System.out.println(contractMap);
     }
+    
+    @Test
+    public void testDoubleAndInteger() {
+        String a = "0.2";
+        System.out.println(a);
+        double ab = Double.valueOf(a);
+        System.out.println(ab);
+        Integer c = 25;
+        System.out.println(c);
+        System.out.println(new Double(ab * c));
+        System.out.println(new Double(ab * c).intValue());
+        System.out.println(new Double(3.2).intValue());
+        System.out.println(new Double(3.6).intValue());
+        
+    }
 }

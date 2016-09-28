@@ -4,7 +4,7 @@
   
   <select id="queryListUserScoreByUserId" resultMap="BaseResultMap" >
     SELECT
-		us.id,us.class_code,us.score_amount,us.status,sd.class_desc
+		us.id,us.user_id,us.class_code,us.code_key,us.score_amount,us.status,us.create_time,sd.class_desc
 	FROM
 		user_score us,
 		system_dict sd
@@ -25,6 +25,17 @@
 	WHERE user_id = #{userId,jdbcType=VARCHAR}
 	AND class_code = #{classCode,jdbcType=VARCHAR}
 	AND date(create_time) = date(#{createTime,jdbcType=TIMESTAMP})
+  </select>
+  
+  <select id="countUserScoreDataByRule" resultType="int" >
+    SELECT count(1) FROM user_score
+	WHERE user_id = #{userId,jdbcType=VARCHAR}
+	<if test="classCode != null and classCode != ''" >
+	  AND class_code = #{classCode,jdbcType=VARCHAR}
+    </if>
+	<if test="codeKey != null and codeKey != ''" >
+	  AND code_key = #{codeKey,jdbcType=VARCHAR}
+    </if>
   </select>
   
 </mapper>
