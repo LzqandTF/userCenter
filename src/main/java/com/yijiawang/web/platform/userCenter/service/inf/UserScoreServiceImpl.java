@@ -43,61 +43,71 @@ public class UserScoreServiceImpl implements UserScoreService {
 	}
 
 	@Override
-	public boolean saveUserScoreByRule(String userId, String classCode, String codeKey){
-		try {
-			if (UserScore.SCORE_CLASS_CODE_FIRST_SUBSCRIBE.equals(classCode)) { // 首次关注
+	public boolean saveUserScoreByRule(String userId, String classCode, String codeKey) {
+		if (UserScore.SCORE_CLASS_CODE_FIRST_SUBSCRIBE.equals(classCode)) { // 首次关注
+			int scoreAmount = getScoreValue(classCode, codeKey);
+			if (scoreAmount == 0) { return false; }
+			UserScore userScore = new UserScore();
+			userScore.setUserId(userId);
+			userScore.setClassCode(classCode);
+			userScore.setCodeKey(codeKey);
+			userScore.setClassDesc(UserScore.SCORE_CLASS_DESC_FIRST_SUBSCRIBE);
+			userScore.setScoreAmount(scoreAmount);
+			userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
+			saveSelective(userScore);
+		} else if (UserScore.SCORE_CLASS_CODE_SHARE_LINK.equals(classCode)) { // 分享链接
+			if (userScoreMapper.countCurdateDataByRule(userId, classCode, new Date()) < UserScore.SCORE_CLASS_SHARE_LINK_MAX) {
 				int scoreAmount = getScoreValue(classCode, codeKey);
 				if (scoreAmount == 0) { return false; }
 				UserScore userScore = new UserScore();
 				userScore.setUserId(userId);
 				userScore.setClassCode(classCode);
 				userScore.setCodeKey(codeKey);
-				userScore.setClassDesc(UserScore.SCORE_CLASS_DESC_FIRST_SUBSCRIBE);
+				userScore.setClassDesc(UserScore.SCORE_CLASS_DESC_SHARE_LINK);
 				userScore.setScoreAmount(scoreAmount);
 				userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
 				saveSelective(userScore);
-			} else if (UserScore.SCORE_CLASS_CODE_SHARE_LINK.equals(classCode)) { // 分享链接
-				if (userScoreMapper.countCurdateDataByRule(userId, classCode, new Date()) < UserScore.SCORE_CLASS_SHARE_LINK_MAX) {
-					int scoreAmount = getScoreValue(classCode, codeKey);
-					if (scoreAmount == 0) { return false; }
-					UserScore userScore = new UserScore();
-					userScore.setUserId(userId);
-					userScore.setClassCode(classCode);
-					userScore.setCodeKey(codeKey);
-					userScore.setClassDesc(UserScore.SCORE_CLASS_DESC_SHARE_LINK);
-					userScore.setScoreAmount(scoreAmount);
-					userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
-					saveSelective(userScore);
-				}
-			} else if (UserScore.SCORE_CLASS_CODE_REC_SUBSCRIBE.equals(classCode)) { // 推荐关注，赠与成功推荐者
-				// TODO
-				
-			} else if (UserScore.SCORE_CLASS_CODE_ILLEGAL_SELLER_NOT_PAY.equals(classCode)) { // 违规 买家不付款
-				int illegalCount = userScoreMapper.countUserScoreDataByRule(userId, classCode, null);
-				illegalCount = illegalCount == 0 ? 1 : illegalCount+1;
-				double scoreAmount = getScoreDoubleValue(classCode, String.valueOf(illegalCount));
-				if (scoreAmount == 0d) { return false; }
-				UserInfo userinfo = userService.getUserByUserId(userId);
-				Integer userCredits = userinfo.getUserCredits();
-				userCredits = new Double(userCredits*scoreAmount).intValue();
-				UserScore userScore = new UserScore();
-				userScore.setUserId(userId);
-				userScore.setClassCode(classCode);
-				userScore.setCodeKey(String.valueOf(illegalCount));
-				userScore.setClassDesc(String.format(UserScore.SCORE_CLASS_DESC_ILLEGAL_SELLER_NOT_PAY, illegalCount));
-				userScore.setScoreAmount(userCredits);
-				userScore.setStatus(UserScore.USER_SCORE_STATUS_2);
-				saveSelective(userScore);
-			} else {
-				log.error(String.format(UserScore.SCORE_CLASS_NOT_FOUND, classCode, codeKey));
 			}
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} else if (UserScore.SCORE_CLASS_CODE_REC_SUBSCRIBE.equals(classCode)) { // 推荐关注，赠与成功推荐者
+			// TODO
+		} else if (UserScore.SCORE_CLASS_CODE_ILLEGAL_SELLER_NOT_PAY.equals(classCode)) { // 违规 买家不付款
+			int illegalCount = userScoreMapper.countUserScoreDataByRule(userId, classCode, null);
+			illegalCount = illegalCount == 0 ? 1 : illegalCount+1;
+			double scoreAmount = getScoreDoubleValue(classCode, String.valueOf(illegalCount));
+			if (scoreAmount == 0d) { return false; }
+			UserInfo userinfo = userService.getUserByUserId(userId);
+			Integer userCredits = userinfo.getUserCredits();
+			userCredits = new Double(userCredits*scoreAmount).intValue();
+			UserScore userScore = new UserScore();
+			userScore.setUserId(userId);
+			userScore.setClassCode(classCode);
+			userScore.setCodeKey(String.valueOf(illegalCount));
+			userScore.setClassDesc(String.format(UserScore.SCORE_CLASS_DESC_ILLEGAL_SELLER_NOT_PAY, illegalCount));
+			userScore.setScoreAmount(userCredits);
+			userScore.setStatus(UserScore.USER_SCORE_STATUS_2);
+			saveSelective(userScore);
+		} else {
+			log.error(String.format(UserScore.SCORE_CLASS_NOT_FOUND, classCode, codeKey));
 			return false;
 		}
+		return true;
 	}
 	
+	@Override
+	public boolean saveUserScoreByRuleForPay(String userId, Integer dealPrice) {
+		if (dealPrice == null || dealPrice.intValue() < 1) {return false;}
+		int scoreAmount = getScoreValue(UserScore.SCORE_CLASS_CODE_PAY_ONE_DOLLAR, 
+				                        UserScore.SCORE_KEY_CODE_PAY_ONE_DOLLAR);
+		UserScore userScore = new UserScore();
+		userScore.setUserId(userId);
+		userScore.setClassCode(UserScore.SCORE_CLASS_CODE_PAY_ONE_DOLLAR);
+		userScore.setCodeKey(UserScore.SCORE_KEY_CODE_PAY_ONE_DOLLAR);
+		userScore.setClassDesc(String.format(UserScore.SCORE_CLASS_DESC_PAY_DOLLAR, dealPrice));
+		userScore.setScoreAmount(dealPrice*scoreAmount);
+		userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
+		saveSelective(userScore);
+		return true;
+	}
 	
 	private Integer getScoreValue(String classCode, String codeKey){
 		SystemDict systemDict = systemDictService.getSystemDictByCodeKey(classCode, codeKey);
