@@ -33,8 +33,6 @@ public class UserScoreServiceImpl implements UserScoreService {
 	@Override
 	public int saveSelective(UserScore userScore) {
 		userScoreMapper.insertSelective(userScore);
-		log.info("插入用户积分数据： ");
-		log.info(userScore.getStatus().intValue() == UserScore.USER_SCORE_STATUS_1.intValue());
 		if (userScore.getStatus().intValue() == UserScore.USER_SCORE_STATUS_1.intValue()) {
 			return userService.updateIncrUserCredits(userScore.getUserId(), userScore.getScoreAmount());
 		} else if (userScore.getStatus().intValue() == UserScore.USER_SCORE_STATUS_2.intValue()) {
