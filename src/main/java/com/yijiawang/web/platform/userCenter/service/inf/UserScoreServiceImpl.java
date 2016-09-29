@@ -32,13 +32,12 @@ public class UserScoreServiceImpl implements UserScoreService {
 
 	@Override
 	public int saveSelective(UserScore userScore) {
-		if (userScoreMapper.insertSelective(userScore) == 1) {
-			if (userScore.getStatus().intValue() == UserScore.USER_SCORE_STATUS_1.intValue()) {
-				return userService.updateIncrUserCredits(userScore.getUserId(), userScore.getScoreAmount());
-			} else if (userScore.getStatus().intValue() == UserScore.USER_SCORE_STATUS_2.intValue()) {
-				return userService.updateDecrUserCredits(userScore.getUserId(), userScore.getScoreAmount());
-			}
-		};
+		userScoreMapper.insertSelective(userScore);
+		if (userScore.getStatus().intValue() == UserScore.USER_SCORE_STATUS_1.intValue()) {
+			return userService.updateIncrUserCredits(userScore.getUserId(), userScore.getScoreAmount());
+		} else if (userScore.getStatus().intValue() == UserScore.USER_SCORE_STATUS_2.intValue()) {
+			return userService.updateDecrUserCredits(userScore.getUserId(), userScore.getScoreAmount());
+		}
 		return 0;
 	}
 

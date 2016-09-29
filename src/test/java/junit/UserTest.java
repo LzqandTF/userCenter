@@ -162,4 +162,13 @@ public class UserTest {
         System.out.println(new Double(3.6).intValue());
         
     }
+    
+    @Test
+    public void testByte() {
+    	Byte a = 1;
+    	Byte b = 1;
+        System.out.println(a==b);
+        System.out.println(a.intValue() == b.intValue());
+        
+    }
 }
