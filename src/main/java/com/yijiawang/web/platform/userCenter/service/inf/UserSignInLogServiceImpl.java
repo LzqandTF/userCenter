@@ -50,7 +50,7 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 			userScore.setClassCode(UserScore.SCORE_CLASS_CODE_SIGN_IN);
 			userScore.setCodeKey(String.valueOf(userSignInLog.getSignInDay()));
 			userScore.setClassDesc(String.format(UserScore.SCORE_CLASS_DESC_SIGN_IN, userSignInLog.getSignInDay()));
-			userScore.setScoreAmount(userSignInLog.getNextScore());
+			userScore.setScoreAmount(getScoreValue(String.valueOf(userSignInLog.getSignInDay())));
 			userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
 			userScoreService.saveSelective(userScore);
 		}
