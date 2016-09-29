@@ -97,12 +97,13 @@ public class UserScoreServiceImpl implements UserScoreService {
 		if (dealPrice == null || dealPrice.intValue() < 1) {return false;}
 		int scoreAmount = getScoreValue(UserScore.SCORE_CLASS_CODE_PAY_ONE_DOLLAR, 
 				                        UserScore.SCORE_KEY_CODE_PAY_ONE_DOLLAR);
+		Integer newDealPrice = dealPrice/Integer.valueOf(UserScore.SCORE_KEY_CODE_PAY_ONE_DOLLAR);
 		UserScore userScore = new UserScore();
 		userScore.setUserId(userId);
 		userScore.setClassCode(UserScore.SCORE_CLASS_CODE_PAY_ONE_DOLLAR);
 		userScore.setCodeKey(UserScore.SCORE_KEY_CODE_PAY_ONE_DOLLAR);
-		userScore.setClassDesc(String.format(UserScore.SCORE_CLASS_DESC_PAY_DOLLAR, dealPrice));
-		userScore.setScoreAmount(dealPrice*scoreAmount);
+		userScore.setClassDesc(String.format(UserScore.SCORE_CLASS_DESC_PAY_DOLLAR, newDealPrice));
+		userScore.setScoreAmount(newDealPrice*scoreAmount);
 		userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
 		saveSelective(userScore);
 		return true;

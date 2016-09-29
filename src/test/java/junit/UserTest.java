@@ -3,6 +3,7 @@ package junit;
 import com.yijiawang.web.platform.userCenter.dao.WxUserInfoMapper;
 import com.yijiawang.web.platform.userCenter.param.AccountCheckParam;
 import com.yijiawang.web.platform.userCenter.po.AccountCheck;
+import com.yijiawang.web.platform.userCenter.po.UserScore;
 import com.yijiawang.web.platform.userCenter.service.UserInsurePriceService;
 import com.yijiawang.web.platform.userCenter.service.UserLevelService;
 import com.yijiawang.web.platform.userCenter.service.UserService;
@@ -170,5 +171,11 @@ public class UserTest {
         System.out.println(a==b);
         System.out.println(a.intValue() == b.intValue());
         
+        Integer c = 30;
+        Integer d = 4;
+        Integer e = 2;
+        System.out.println(c/d);
+        System.out.println((c/d) * e);
+        System.out.println(Integer.valueOf((c/d) * e));
     }
 }
