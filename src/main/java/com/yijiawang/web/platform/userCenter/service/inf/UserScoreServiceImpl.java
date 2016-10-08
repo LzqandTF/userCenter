@@ -32,8 +32,16 @@ public class UserScoreServiceImpl implements UserScoreService {
 
 	@Override
 	public int saveSelective(UserScore userScore) {
-		//log.info("userid = "+userScore.getUserId()+";scoreAmount="+userScore.getScoreAmount()+";status="+userScore.getStatus()); 
 		userScoreMapper.insertSelective(userScore);
+		if (userScore.getStatus().intValue() == UserScore.USER_SCORE_STATUS_1.intValue()) {
+			return userService.updateIncrUserCredits(userScore.getUserId(), userScore.getScoreAmount());
+		} else if (userScore.getStatus().intValue() == UserScore.USER_SCORE_STATUS_2.intValue()) {
+			return userService.updateDecrUserCredits(userScore.getUserId(), userScore.getScoreAmount());
+		}
+		return 0;
+	}
+	
+	private int saveSelectiveNotScore(UserScore userScore) {
 		if (userScore.getStatus().intValue() == UserScore.USER_SCORE_STATUS_1.intValue()) {
 			return userService.updateIncrUserCredits(userScore.getUserId(), userScore.getScoreAmount());
 		} else if (userScore.getStatus().intValue() == UserScore.USER_SCORE_STATUS_2.intValue()) {
@@ -86,6 +94,15 @@ public class UserScoreServiceImpl implements UserScoreService {
 			userScore.setScoreAmount(userCredits);
 			userScore.setStatus(UserScore.USER_SCORE_STATUS_2);
 			saveSelective(userScore);
+		} else if (UserScore.SCORE_INIT.equals(classCode)) {
+			UserInfo userinfo = userService.getUserByUserId(userId);
+			if (userinfo == null) {return false;}
+			int userCredits = (userinfo.getBuyScore() == null || userinfo.getBuyScore() == 0) ? 500 : userinfo.getBuyScore() + 500;
+			UserScore userScore = new UserScore();
+			userScore.setUserId(userId);
+			userScore.setScoreAmount(userCredits);
+			userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
+			saveSelectiveNotScore(userScore);
 		} else {
 			log.error(String.format(UserScore.SCORE_CLASS_NOT_FOUND, classCode, codeKey));
 			return false;
