@@ -96,7 +96,8 @@ public class UserScoreServiceImpl implements UserScoreService {
 			saveSelective(userScore);
 		} else if (UserScore.SCORE_INIT.equals(classCode)) {
 			UserInfo userinfo = userService.getUserByUserId(userId);
-			if (userinfo == null) {return false;}
+			if (userinfo == null || userinfo.getUserCredits() != 0) {return false;}
+			if (userScoreMapper.countUserScoreDataByRule(userId, null, null) > 0) {return false;}
 			int userCredits = (userinfo.getBuyScore() == null || userinfo.getBuyScore() == 0) ? 500 : userinfo.getBuyScore() + 500;
 			UserScore userScore = new UserScore();
 			userScore.setUserId(userId);
