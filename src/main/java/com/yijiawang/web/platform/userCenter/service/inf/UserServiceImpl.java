@@ -11,6 +11,7 @@ import com.yijiawang.web.platform.userCenter.vo.UserProtectQuestionVO;
 import com.yijiawang.web.platform.userCenter.vo.UserVO;
 import com.yijiawang.web.platform.userCenter.vo.XUserVO;
 
+import com.yijiawang.web.platform.userCenter.vo.XUserVO;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -964,8 +965,6 @@ public class UserServiceImpl implements UserService {
 			list= wxUserInfoMapper.queryUserByParamForSatus(param, start, size,userid);
 			
 		}
-		
-
 		return list;
 	}
 
