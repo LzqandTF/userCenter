@@ -178,4 +178,20 @@ public class UserTest {
         System.out.println((c/d) * e);
         System.out.println(Integer.valueOf((c/d) * e));
     }
+
+    @Test
+    public void test1(){
+    	int illegalCount = 4;
+    	illegalCount = illegalCount%3+1;
+    	System.out.println(illegalCount);
+    	illegalCount = 2;
+    	illegalCount = illegalCount%3 == 0 ? 3 : illegalCount%3;
+    	System.out.println(illegalCount);
+    	illegalCount = 5;
+    	illegalCount = illegalCount%3 == 0 ? 3 : illegalCount%3;
+    	System.out.println(illegalCount);
+    	illegalCount = 6;
+    	illegalCount = illegalCount%3 == 0 ? 3 : illegalCount%3;
+    	System.out.println(illegalCount);
+    }
 }

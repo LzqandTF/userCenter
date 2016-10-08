@@ -80,7 +80,7 @@ public class UserScoreServiceImpl implements UserScoreService {
 			// TODO
 		} else if (UserScore.SCORE_CLASS_CODE_ILLEGAL_SELLER_NOT_PAY.equals(classCode)) { // 违规 买家不付款
 			int illegalCount = userScoreMapper.countUserScoreDataByRule(userId, classCode, null);
-			illegalCount = illegalCount == 0 ? 1 : illegalCount+1;
+			illegalCount = illegalCount%3+1;
 			double scoreAmount = getScoreDoubleValue(classCode, String.valueOf(illegalCount));
 			if (scoreAmount == 0d) { return false; }
 			UserInfo userinfo = userService.getUserByUserId(userId);
