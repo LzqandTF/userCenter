@@ -18,7 +18,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.util.IdGenerator;
 
 import java.util.*;
 
@@ -189,6 +188,36 @@ public class UserTest {
             shortBuffer.append(chars[x % 0x3E]);
         }
         return shortBuffer.toString();
+    }
+    
+    @Test
+    public void testDoubleAndInteger() {
+        String a = "0.2";
+        System.out.println(a);
+        double ab = Double.valueOf(a);
+        System.out.println(ab);
+        Integer c = 25;
+        System.out.println(c);
+        System.out.println(new Double(ab * c));
+        System.out.println(new Double(ab * c).intValue());
+        System.out.println(new Double(3.2).intValue());
+        System.out.println(new Double(3.6).intValue());
+        
+    }
+    
+    @Test
+    public void testByte() {
+    	Byte a = 1;
+    	Byte b = 1;
+        System.out.println(a==b);
+        System.out.println(a.intValue() == b.intValue());
+        
+        Integer c = 30;
+        Integer d = 4;
+        Integer e = 2;
+        System.out.println(c/d);
+        System.out.println((c/d) * e);
+        System.out.println(Integer.valueOf((c/d) * e));
 
     }
 }

@@ -24,4 +24,8 @@ public interface UserInfoMapper {
     int addUserScore(@Param("userId")String userId, @Param("role")Integer role, @Param("amount")Integer amount);
 
     int setUserScore(@Param("userId")String userId, @Param("role")Integer role, @Param("amount")Integer amount);
+    
+    int incrUserCredits(@Param("userId")String userId, @Param("userCredits")Integer userCredits);
+    
+    int decrUserCredits(@Param("userId")String userId, @Param("userCredits")Integer userCredits);
 }

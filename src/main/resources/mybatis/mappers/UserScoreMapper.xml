@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yijiawang.web.platform.userCenter.dao.UserScoreMapper" >
+  <resultMap id="BaseResultMap" type="com.yijiawang.web.platform.userCenter.po.UserScore" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="class_code" property="classCode" jdbcType="VARCHAR" />
+    <result column="code_key" property="codeKey" jdbcType="VARCHAR" />
+    <result column="class_desc" property="classDesc" jdbcType="VARCHAR" />
+    <result column="score_amount" property="scoreAmount" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, open_id, user_id, class_code, code_key, class_desc, score_amount, create_time, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_score
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_score
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.UserScore" >
+    insert into user_score (id, open_id, user_id, 
+      class_code, code_key, class_desc, score_amount, 
+      create_time, status)
+    values (#{id,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{classCode,jdbcType=VARCHAR}, #{codeKey,jdbcType=VARCHAR}, #{classDesc,jdbcType=VARCHAR},
+      #{scoreAmount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserScore" >
+    insert into user_score
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="openId != null" >
+        open_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="classCode != null" >
+        class_code,
+      </if>
+      <if test="codeKey != null" >
+        code_key,
+      </if>
+      <if test="classDesc != null" >
+        class_desc,
+      </if>
+      <if test="scoreAmount != null" >
+        score_amount,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="classCode != null" >
+        #{classCode,jdbcType=VARCHAR},
+      </if>
+      <if test="codeKey != null" >
+        #{codeKey,jdbcType=VARCHAR},
+      </if>
+      <if test="classDesc != null" >
+        #{classDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreAmount != null" >
+        #{scoreAmount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserScore" >
+    update user_score
+    <set >
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="classCode != null" >
+        class_code = #{classCode,jdbcType=VARCHAR},
+      </if>
+      <if test="codeKey != null" >
+        code_key = #{codeKey,jdbcType=VARCHAR},
+      </if>
+      <if test="classDesc != null" >
+        class_desc = #{classDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreAmount != null" >
+        score_amount = #{scoreAmount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yijiawang.web.platform.userCenter.po.UserScore" >
+    update user_score
+    set open_id = #{openId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      class_code = #{classCode,jdbcType=VARCHAR},
+      code_key = #{codeKey,jdbcType=VARCHAR},
+      class_desc = #{classDesc,jdbcType=VARCHAR},
+      score_amount = #{scoreAmount,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

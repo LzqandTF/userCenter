@@ -9,6 +9,7 @@
     <result column="vip" property="vip" jdbcType="INTEGER" />
     <result column="buy_score" property="buyScore" jdbcType="INTEGER" />
     <result column="sell_score" property="sellScore" jdbcType="INTEGER" />
+    <result column="user_credits" property="userCredits" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="recommend" property="recommend" jdbcType="TINYINT" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
@@ -19,7 +20,7 @@
     <result column="ext2" property="ext2" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, open_id, name, vip, buy_score, sell_score, status, recommend, user_id, create_time, 
+    id, open_id, name, vip, buy_score, sell_score, user_credits, status, recommend, user_id, create_time, 
     update_time, mobile, signature, ext1, ext2
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

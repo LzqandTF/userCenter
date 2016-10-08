@@ -991,10 +991,24 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Integer getBlackHouseCountByUserId(String userId) {
-		if(userId==null||"".equals(userId)){
-			return null;
-		}
-		Integer count =wxUserInfoMapper.getBlackHouseCountByUserId(userId);
-		return count;
-	}
+        if (userId == null || "".equals(userId)) {
+            return null;
+        }
+        Integer count = wxUserInfoMapper.getBlackHouseCountByUserId(userId);
+        return count;
+    }
+
+    @Override
+    public int updateIncrUserCredits(String userId, Integer userCredits) {
+        return userInfoMapper.incrUserCredits(userId, userCredits);
+    }
+
+
+    @Override
+    public int updateDecrUserCredits(String userId, Integer userCredits) {
+        return userInfoMapper.decrUserCredits(userId, userCredits);
+    }
+
+	
+
 }
