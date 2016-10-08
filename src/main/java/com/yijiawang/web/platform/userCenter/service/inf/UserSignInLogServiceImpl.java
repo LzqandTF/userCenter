@@ -99,7 +99,12 @@ public class UserSignInLogServiceImpl implements UserSignInLogService {
 	}
 	
 	private Integer getScoreValue(String codeKey){
-		SystemDict systemDict = systemDictService.getSystemDictByCodeKey(UserScore.SCORE_CLASS_CODE_SIGN_IN, codeKey);
+		SystemDict systemDict = null;
+		if (Integer.valueOf(codeKey) >= UserSignInLog.MAX_SIGN_IN_DAY) {
+			systemDict = systemDictService.getSystemDictByCodeKey(UserScore.SCORE_CLASS_CODE_SIGN_IN, String.valueOf(UserSignInLog.MAX_SIGN_IN_DAY));
+		} else {
+			systemDict = systemDictService.getSystemDictByCodeKey(UserScore.SCORE_CLASS_CODE_SIGN_IN, codeKey);
+		}
 		if (systemDict != null) {return Integer.valueOf(systemDict.getCodeValue());}
 		return 0;
 	}
