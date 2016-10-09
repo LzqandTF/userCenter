@@ -1,2 +1,5 @@
 target/
 userCenter.iml
+.classpath
+.project
+.settings/

@@ -98,12 +98,19 @@ public class UserScoreServiceImpl implements UserScoreService {
 			UserInfo userinfo = userService.getUserByUserId(userId);
 			if (userinfo == null || userinfo.getUserCredits() != 0) {return false;}
 			if (userScoreMapper.countUserScoreDataByRule(userId, null, null) > 0) {return false;}
-			int userCredits = (userinfo.getBuyScore() == null || userinfo.getBuyScore() == 0) ? 500 : userinfo.getBuyScore() + 500;
 			UserScore userScore = new UserScore();
 			userScore.setUserId(userId);
-			userScore.setScoreAmount(userCredits);
+			userScore.setClassCode(UserScore.SCORE_CLASS_CODE_FIRST_SUBSCRIBE);
+			userScore.setCodeKey(UserScore.SCORE_CLASS_CODE_FIRST_SUBSCRIBE);
+			userScore.setClassDesc(UserScore.SCORE_CLASS_DESC_FIRST_SUBSCRIBE);
+			userScore.setScoreAmount(getScoreValue(UserScore.SCORE_CLASS_CODE_FIRST_SUBSCRIBE, UserScore.SCORE_CLASS_CODE_FIRST_SUBSCRIBE));
 			userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
-			saveSelectiveNotScore(userScore);
+			userScore.setCreateTime(userinfo.getCreateTime());
+			saveSelective(userScore);
+			int userCredits = (userinfo.getBuyScore() == null || userinfo.getBuyScore() == 0) ? 0 : userinfo.getBuyScore();
+			if (userCredits > 0) {
+				saveUserScoreByRuleForPay(userId, userCredits);
+			}
 		} else {
 			log.error(String.format(UserScore.SCORE_CLASS_NOT_FOUND, classCode, codeKey));
 			return false;
