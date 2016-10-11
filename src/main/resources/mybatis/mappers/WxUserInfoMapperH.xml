@@ -35,7 +35,8 @@
 		<if test="param!=null and param !=''">
 			and nickname like '%${param}%'
 		</if>
-		limit #{start},#{page}
+         order by id DESC
+         limit #{start},#{page}
 	</select>
 	<insert id="addshielduseByUserId">
 		insert into user_shield (userid,shielduserid) values
@@ -52,6 +53,7 @@
 		<if test="param!=null and param !=''">
 			and nickname like '%${param}%'
 		</if>
+        order by id DESC
 		limit #{start},#{page}
 	   
 	
