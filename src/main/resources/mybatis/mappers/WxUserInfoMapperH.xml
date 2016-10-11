@@ -35,7 +35,7 @@
 		<if test="param!=null and param !=''">
 			and nickname like '%${param}%'
 		</if>
-         order create_time DESC
+         order by create_time DESC
          limit #{start},#{page}
 	</select>
 	<insert id="addshielduseByUserId">
@@ -53,7 +53,7 @@
 		<if test="param!=null and param !=''">
 			and nickname like '%${param}%'
 		</if>
-        order create_time DESC
+        order by create_time DESC
 		limit #{start},#{page}
 	   
 	
