@@ -71,8 +71,8 @@
   </select>
 
   <select id="getInterestUser" parameterType="java.lang.String" resultType="com.yijiawang.web.platform.userCenter.vo.InterestUserVO">
-    select count(a.id) fansCount,w.user_id userId,w.avatar,w.nickname name from user_interest a, wx_user_info w
-    where a.entity_id=w.user_id and a.entity_id = #{userId,jdbcType=VARCHAR} and a.type=2 AND a.status=0
+    select count(a.id) fansCount,w.user_id userId,w.avatar,w.nickname name from wx_user_info w left join user_interest a on a.entity_id = w.user_id 
+    where w.user_id = #{userId,jdbcType=VARCHAR} and a.type=2 AND a.status=0
   </select>
   
   <select id="getInterestCount" parameterType="java.lang.String" resultType="com.yijiawang.web.platform.userCenter.vo.InterestCountVO">
