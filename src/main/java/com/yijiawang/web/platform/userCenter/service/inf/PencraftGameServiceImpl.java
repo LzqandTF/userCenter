@@ -9,6 +9,7 @@ import com.yijiawang.web.platform.userCenter.po.PencraftGameVoteLog;
 import com.yijiawang.web.platform.userCenter.service.PencraftGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -42,8 +43,24 @@ public class PencraftGameServiceImpl implements PencraftGameService {
     }
 
     @Override
-    public List<PencraftGameVote> getVoters(Integer page) {
-        return pencraftGameVoteMapper.getVoters(page);
+    public List<PencraftGameVote> getVoters(Integer page, String voterUserId) {
+        List<PencraftGameVote> votes = pencraftGameVoteMapper.getVoters(page);
+        if (votes != null && votes.size() > 0) {
+            PencraftGameVoteLog log;
+            for (PencraftGameVote vote : votes) {
+                if (!StringUtils.isEmpty(voterUserId)) {
+                    log = pencraftGameVoteLogMapper.selectByGameIdAndNum(vote.getUserGameId(), voterUserId);
+                    if (log != null) {
+                        vote.setVoteFlag(true);
+                    } else {
+                        vote.setVoteFlag(false);
+                    }
+                } else {
+                    vote.setVoteFlag(true);
+                }
+            }
+        }
+        return votes;
     }
 
     @Override
