@@ -44,7 +44,10 @@ public class PencraftGameServiceImpl implements PencraftGameService {
 
     @Override
     public List<PencraftGameVote> getVoters(Integer page, String voterUserId) {
-        List<PencraftGameVote> votes = pencraftGameVoteMapper.getVoters(page);
+        if (page == null) {
+            page = 0;
+        }
+        List<PencraftGameVote> votes = pencraftGameVoteMapper.getVoters(page * 5);
         if (votes != null && votes.size() > 0) {
             PencraftGameVoteLog log;
             for (PencraftGameVote vote : votes) {
