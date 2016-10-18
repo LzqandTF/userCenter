@@ -1,5 +1,6 @@
 package com.yijiawang.web.platform.userCenter.service.inf;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.yijiawang.web.platform.userCenter.cache.JedisPoolManager;
 import com.yijiawang.web.platform.userCenter.cache.UserCacheNameSpace;
 import com.yijiawang.web.platform.userCenter.dao.*;
@@ -10,6 +11,8 @@ import com.yijiawang.web.platform.userCenter.type.*;
 import com.yijiawang.web.platform.userCenter.vo.UserProtectQuestionVO;
 import com.yijiawang.web.platform.userCenter.vo.UserVO;
 import com.yijiawang.web.platform.userCenter.vo.XUserVO;
+
+import io.netty.util.internal.StringUtil;
 
 import com.yijiawang.web.platform.userCenter.vo.XUserVO;
 import org.apache.commons.logging.LogFactory;
@@ -955,60 +958,66 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<XUserVO> queryUserByParam(String userid, String param, Integer size, Integer page,String status) {
-        
+	public List<XUserVO> queryUserByParam(String userid, String param, Integer size, Integer page, String status) {
+
 		Integer start = (page - 1) * size;
-		List<XUserVO> list =null;
-		if(status.equals("1")){
-			list= wxUserInfoMapper.queryUserByParam(param, start, size,userid);
-		}else{
-			list= wxUserInfoMapper.queryUserByParamForSatus(param, start, size,userid);
-			
+		List<XUserVO> list = null;
+		if (status.equals("1")) {
+			list = wxUserInfoMapper.queryUserByParam(param, start, size, userid);
+		} else {
+			list = wxUserInfoMapper.queryUserByParamForSatus(param, start, size, userid);
+
 		}
 		return list;
 	}
 
 	@Override
 	public Integer changeUserStatusById(String userId, String shielduserid, String status) {
-		
-		
-	     if(status.equals("1")){
-	    	 wxUserInfoMapper.addshielduseByUserId(userId,shielduserid);
-	     }else{
-	    	 wxUserInfoMapper.deleteshielduseByUserId(userId,shielduserid);
-	     }
+
+		if (status.equals("1")) {
+			wxUserInfoMapper.addshielduseByUserId(userId, shielduserid);
+		} else {
+			wxUserInfoMapper.deleteshielduseByUserId(userId, shielduserid);
+		}
 		return 1;
 	}
 
 	@Override
 	public Integer findUserForShield(String userId, String ownerId) {
-		if(userId==null||ownerId==null){
+		if (userId == null || ownerId == null) {
 			return -1;
 		}
-		Integer result=wxUserInfoMapper.findUserForShield(userId,ownerId);
+		Integer result = wxUserInfoMapper.findUserForShield(userId, ownerId);
 		return result;
 	}
 
 	@Override
 	public Integer getBlackHouseCountByUserId(String userId) {
-        if (userId == null || "".equals(userId)) {
-            return null;
-        }
-        Integer count = wxUserInfoMapper.getBlackHouseCountByUserId(userId);
-        return count;
-    }
+		if (userId == null || "".equals(userId)) {
+			return null;
+		}
+		Integer count = wxUserInfoMapper.getBlackHouseCountByUserId(userId);
+		return count;
+	}
 
-    @Override
-    public int updateIncrUserCredits(String userId, Integer userCredits) {
-        return userInfoMapper.incrUserCredits(userId, userCredits);
-    }
+	@Override
+	public int updateIncrUserCredits(String userId, Integer userCredits) {
+		return userInfoMapper.incrUserCredits(userId, userCredits);
+	}
 
+	@Override
+	public int updateDecrUserCredits(String userId, Integer userCredits) {
+		return userInfoMapper.decrUserCredits(userId, userCredits);
+	}
 
-    @Override
-    public int updateDecrUserCredits(String userId, Integer userCredits) {
-        return userInfoMapper.decrUserCredits(userId, userCredits);
-    }
-
-	
+	@Override
+	public byte getBStatusByUserId(String userId, String myUserid) {
+		Integer Iresult = -1;
+		if (!StringUtils.isEmpty(userId)) {
+			Iresult = userInfoMapper.getBStatusByUserId(userId, myUserid);
+		}
+		byte result = (byte) Iresult.intValue();
+		return result;
+	}
 
 }
