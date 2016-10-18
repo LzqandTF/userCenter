@@ -1016,7 +1016,11 @@ public class UserServiceImpl implements UserService {
 		if (!StringUtils.isEmpty(userId)) {
 			Iresult = userInfoMapper.getBStatusByUserId(userId, myUserid);
 		}
+		if(Iresult>0){
+			Iresult=1;
+		}
 		byte result = (byte) Iresult.intValue();
+		
 		return result;
 	}
 
