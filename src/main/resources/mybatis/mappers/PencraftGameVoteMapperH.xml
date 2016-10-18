@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yijiawang.web.platform.userCenter.dao.PencraftGameVoteMapper">
+
+    <!-- 根据投票编号获取选手信息 -->
+    <select id="getVoterByUserNum" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>,
+        <include refid="Blob_Column_List"/>
+        from pencraft_game_vote
+        where user_num = #{userNum,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 获取选手分页信息 -->
+    <select id="getVoters" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>,
+        <include refid="Blob_Column_List"/>
+        from pencraft_game_vote
+        order by user_num
+        limit #{page},15
+    </select>
+
+    <!-- 获取排行榜 -->
+    <select id="getTopList" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        from pencraft_game_vote
+        order by vote_num desc
+    </select>
+
+</mapper>

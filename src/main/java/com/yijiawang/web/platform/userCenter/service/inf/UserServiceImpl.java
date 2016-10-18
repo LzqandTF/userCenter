@@ -475,7 +475,7 @@ public class UserServiceImpl implements UserService {
 							// un_index : tran_id + 4 + 1
 							result = accountCheck.getId();
 							logObject.add(" 退款操作 退款给买家流水增加写入完成");
-							if (accountCheck.getPayType() != PayType.BALANCE.value()) {
+							if (accountCheck.getPayType() == PayType.WEIXIN.value()) {
 								// 2. 如果非余额付款,从余额扣除
 								if (userAccountMapper.updateBalance2UserAccount(userId, -1 * amount) > 0) {
 									logObject.add(" 退款操作 卖家余额扣除完成 !");
@@ -611,7 +611,7 @@ public class UserServiceImpl implements UserService {
 							result = -4;
 						}
 						// 2. 如果非余额付款,从余额扣除
-						if (accountCheck.getPayType() != PayType.BALANCE.value()) {
+						if (accountCheck.getPayType() == PayType.WEIXIN.value()) {
 							logObject.add("非余额支付的保证金,需要原路退回");
 							if (userAccountMapper.updateBalance2UserAccount(userId, -1 * amount) > 0) {
 								logObject.add(" 退回保证金 用户余额扣除完成");
