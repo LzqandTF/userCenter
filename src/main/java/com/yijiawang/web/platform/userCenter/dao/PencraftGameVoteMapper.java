@@ -1,6 +1,7 @@
 package com.yijiawang.web.platform.userCenter.dao;
 
 import com.yijiawang.web.platform.userCenter.po.PencraftGameVote;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public interface PencraftGameVoteMapper {
      * @param page
      * @return
      */
-    List<PencraftGameVote> getVoters(Integer page);
+    List<PencraftGameVote> getVoters(@Param("page") Integer page, @Param("pageSize") Integer pageSize);
 
     /**
      * 获取排行榜

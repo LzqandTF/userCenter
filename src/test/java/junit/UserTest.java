@@ -170,9 +170,10 @@ public class UserTest {
 
     @Test
     public void testGetVoters() {
-        List<PencraftGameVote> votes = pencraftGameService.getVoters(0, "");
+        List<PencraftGameVote> votes = pencraftGameService.getVoters(0,2, "");
         System.out.println("");
     }
+
 
     @Test
     public void testGetTopList() {

@@ -18,7 +18,7 @@
         <include refid="Blob_Column_List"/>
         from pencraft_game_vote
         order by user_num
-        limit #{page},15
+        limit #{page},#{pageSize}
     </select>
 
     <!-- 获取排行榜 -->
