@@ -28,4 +28,6 @@ public interface UserInfoMapper {
     int incrUserCredits(@Param("userId")String userId, @Param("userCredits")Integer userCredits);
     
     int decrUserCredits(@Param("userId")String userId, @Param("userCredits")Integer userCredits);
+
+	Integer getBStatusByUserId(@Param("userId")String userId, @Param("myUserid")String myUserid);
 }
