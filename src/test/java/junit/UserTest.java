@@ -182,7 +182,7 @@ public class UserTest {
 
     @Test
     public void testVote() {
-        Integer c = pencraftGameService.vote("01", "userid_0001");
+        Long c = pencraftGameService.vote("02", "userid_0001");
         System.out.println("返回结果：" + c);
     }
 

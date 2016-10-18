@@ -67,7 +67,7 @@ public class PencraftGameServiceImpl implements PencraftGameService {
     }
 
     @Override
-    public Integer vote(String userNum, String voterUserId) {
+    public Long vote(String userNum, String voterUserId) {
         Integer res;
 
         // 获取投票信息
@@ -77,7 +77,7 @@ public class PencraftGameServiceImpl implements PencraftGameService {
             // 验证此用户今天是否已经给当前选手投过票了
             PencraftGameVoteLog log = pencraftGameVoteLogMapper.selectByGameIdAndNum(pencraftGameVote.getUserGameId(), voterUserId);
             if (log != null) {
-                return -1;
+                return -1L;
             }
 
             // 更新选手投票数
@@ -95,21 +95,25 @@ public class PencraftGameServiceImpl implements PencraftGameService {
                 insLog.setCreateTime(new Date());
                 res = pencraftGameVoteLogMapper.insert(insLog);
                 if (res < 0) {
-                    res = -4;
+                    return -4L;
                 } else {
-                    res = upVote.getVoteNum();
+                    return upVote.getVoteNum();
                 }
             } else {
-                res = -3;
+                return -3L;
             }
         } else {
-            res = -2;
+            return -2L;
         }
-        return res;
     }
 
     @Override
     public List<PencraftGameVote> getTopList() {
         return pencraftGameVoteMapper.getTopList();
+    }
+
+    @Override
+    public void syncTop() {
+        pencraftGameVoteMapper.syncTop();
     }
 }

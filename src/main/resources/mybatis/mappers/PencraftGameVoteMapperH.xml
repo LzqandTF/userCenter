@@ -26,7 +26,11 @@
         select
         <include refid="Base_Column_List"/>
         from pencraft_game_vote
-        order by vote_num desc
+        order by vote_num_top desc
     </select>
+
+    <update id="syncTop">
+      UPDATE pencraft_game_vote SET vote_num_top= vote_num ,update_time=NOW();
+    </update>
 
 </mapper>

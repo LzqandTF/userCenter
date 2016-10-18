@@ -8,7 +8,8 @@
     <result column="user_game_id" property="userGameId" jdbcType="VARCHAR" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="user_num" property="userNum" jdbcType="VARCHAR" />
-    <result column="vote_num" property="voteNum" jdbcType="INTEGER" />
+    <result column="vote_num" property="voteNum" jdbcType="BIGINT" />
+    <result column="vote_num_top" property="voteNumTop" jdbcType="BIGINT" />
     <result column="works_name" property="worksName" jdbcType="VARCHAR" />
     <result column="works_chirography" property="worksChirography" jdbcType="VARCHAR" />
     <result column="works_year" property="worksYear" jdbcType="VARCHAR" />
@@ -21,8 +22,8 @@
     <result column="works_translation" property="worksTranslation" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, open_id, user_id, user_game_id, user_name, user_num, vote_num, works_name, works_chirography,
-    works_year, works_size, pic_url, create_time, update_time
+    id, open_id, user_id, user_game_id, user_name, user_num, vote_num, vote_num_top,
+    works_name, works_chirography, works_year, works_size, pic_url, create_time, update_time
   </sql>
   <sql id="Blob_Column_List" >
     works_translation
@@ -42,16 +43,16 @@
   <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.PencraftGameVote" >
     insert into pencraft_game_vote (id, open_id, user_id,
     user_game_id, user_name, user_num,
-    vote_num, works_name, works_chirography,
-    works_year, works_size, pic_url,
-    create_time, update_time, works_translation
-    )
+    vote_num, vote_num_top, works_name,
+    works_chirography, works_year, works_size,
+    pic_url, create_time, update_time,
+    works_translation)
     values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
     #{userGameId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userNum,jdbcType=VARCHAR},
-    #{voteNum,jdbcType=INTEGER}, #{worksName,jdbcType=VARCHAR}, #{worksChirography,jdbcType=VARCHAR},
-    #{worksYear,jdbcType=VARCHAR}, #{worksSize,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR},
-    #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{worksTranslation,jdbcType=LONGVARCHAR}
-    )
+    #{voteNum,jdbcType=BIGINT}, #{voteNumTop,jdbcType=BIGINT}, #{worksName,jdbcType=VARCHAR},
+    #{worksChirography,jdbcType=VARCHAR}, #{worksYear,jdbcType=VARCHAR}, #{worksSize,jdbcType=VARCHAR},
+    #{picUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+    #{worksTranslation,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.PencraftGameVote" >
     insert into pencraft_game_vote
@@ -76,6 +77,9 @@
       </if>
       <if test="voteNum != null" >
         vote_num,
+      </if>
+      <if test="voteNumTop != null" >
+        vote_num_top,
       </if>
       <if test="worksName != null" >
         works_name,
@@ -122,7 +126,10 @@
         #{userNum,jdbcType=VARCHAR},
       </if>
       <if test="voteNum != null" >
-        #{voteNum,jdbcType=INTEGER},
+        #{voteNum,jdbcType=BIGINT},
+      </if>
+      <if test="voteNumTop != null" >
+        #{voteNumTop,jdbcType=BIGINT},
       </if>
       <if test="worksName != null" >
         #{worksName,jdbcType=VARCHAR},
@@ -169,7 +176,10 @@
         user_num = #{userNum,jdbcType=VARCHAR},
       </if>
       <if test="voteNum != null" >
-        vote_num = #{voteNum,jdbcType=INTEGER},
+        vote_num = #{voteNum,jdbcType=BIGINT},
+      </if>
+      <if test="voteNumTop != null" >
+        vote_num_top = #{voteNumTop,jdbcType=BIGINT},
       </if>
       <if test="worksName != null" >
         works_name = #{worksName,jdbcType=VARCHAR},
@@ -205,7 +215,8 @@
     user_game_id = #{userGameId,jdbcType=VARCHAR},
     user_name = #{userName,jdbcType=VARCHAR},
     user_num = #{userNum,jdbcType=VARCHAR},
-    vote_num = #{voteNum,jdbcType=INTEGER},
+    vote_num = #{voteNum,jdbcType=BIGINT},
+    vote_num_top = #{voteNumTop,jdbcType=BIGINT},
     works_name = #{worksName,jdbcType=VARCHAR},
     works_chirography = #{worksChirography,jdbcType=VARCHAR},
     works_year = #{worksYear,jdbcType=VARCHAR},
@@ -219,18 +230,19 @@
   <update id="updateByPrimaryKey" parameterType="com.yijiawang.web.platform.userCenter.po.PencraftGameVote" >
     update pencraft_game_vote
     set open_id = #{openId,jdbcType=VARCHAR},
-    user_id = #{userId,jdbcType=VARCHAR},
-    user_game_id = #{userGameId,jdbcType=VARCHAR},
-    user_name = #{userName,jdbcType=VARCHAR},
-    user_num = #{userNum,jdbcType=VARCHAR},
-    vote_num = #{voteNum,jdbcType=INTEGER},
-    works_name = #{worksName,jdbcType=VARCHAR},
-    works_chirography = #{worksChirography,jdbcType=VARCHAR},
-    works_year = #{worksYear,jdbcType=VARCHAR},
-    works_size = #{worksSize,jdbcType=VARCHAR},
-    pic_url = #{picUrl,jdbcType=VARCHAR},
-    create_time = #{createTime,jdbcType=TIMESTAMP},
-    update_time = #{updateTime,jdbcType=TIMESTAMP}
+      user_id = #{userId,jdbcType=VARCHAR},
+      user_game_id = #{userGameId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_num = #{userNum,jdbcType=VARCHAR},
+      vote_num = #{voteNum,jdbcType=BIGINT},
+      vote_num_top = #{voteNumTop,jdbcType=BIGINT},
+      works_name = #{worksName,jdbcType=VARCHAR},
+      works_chirography = #{worksChirography,jdbcType=VARCHAR},
+      works_year = #{worksYear,jdbcType=VARCHAR},
+      works_size = #{worksSize,jdbcType=VARCHAR},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

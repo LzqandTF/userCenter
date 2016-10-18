@@ -41,4 +41,9 @@ public interface PencraftGameVoteMapper {
      * @return
      */
     List<PencraftGameVote> getTopList();
+
+    /**
+     * 同步排行榜
+     */
+    void syncTop();
 }

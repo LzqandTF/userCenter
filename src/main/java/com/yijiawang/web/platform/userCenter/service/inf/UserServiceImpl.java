@@ -1009,6 +1009,10 @@ public class UserServiceImpl implements UserService {
         return userInfoMapper.decrUserCredits(userId, userCredits);
     }
 
-	
+	@Override
+	public byte getBStatusByUserId(String userId, String myUserId) {
+		return 0;
+	}
+
 
 }
