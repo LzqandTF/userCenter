@@ -26,7 +26,7 @@
         select
         <include refid="Base_Column_List"/>
         from pencraft_game_vote
-        order by vote_num_top desc
+        order by vote_num_top desc,user_num
     </select>
 
     <!-- 同步排行榜票数 -->
