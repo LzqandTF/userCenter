@@ -29,8 +29,13 @@
         order by vote_num_top desc
     </select>
 
+    <!-- 同步排行榜票数 -->
     <update id="syncTop">
-      UPDATE pencraft_game_vote SET vote_num_top= vote_num ,update_time=NOW();
+      UPDATE pencraft_game_vote SET vote_num_top = vote_num_total ,update_time=NOW();
     </update>
 
+    <!-- 计算总票数 -->
+    <update id="syncTotal">
+        UPDATE pencraft_game_vote SET vote_num_total= (vote_num_total+vote_num) ,update_time=NOW();
+    </update>
 </mapper>

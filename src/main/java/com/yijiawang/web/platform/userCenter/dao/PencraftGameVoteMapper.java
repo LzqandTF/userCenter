@@ -47,4 +47,9 @@ public interface PencraftGameVoteMapper {
      * 同步排行榜
      */
     void syncTop();
+
+    /**
+     * 同步总票数
+     */
+    void syncTotal();
 }

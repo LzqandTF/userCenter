@@ -116,4 +116,9 @@ public class PencraftGameServiceImpl implements PencraftGameService {
     public void syncTop() {
         pencraftGameVoteMapper.syncTop();
     }
+
+    @Override
+    public void syncTotal() {
+        pencraftGameVoteMapper.syncTotal();
+    }
 }

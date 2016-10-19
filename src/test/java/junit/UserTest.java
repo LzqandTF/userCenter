@@ -170,7 +170,7 @@ public class UserTest {
 
     @Test
     public void testGetVoters() {
-        List<PencraftGameVote> votes = pencraftGameService.getVoters(0,2, "");
+        List<PencraftGameVote> votes = pencraftGameService.getVoters(0, 2, "");
         System.out.println("");
     }
 
@@ -185,6 +185,16 @@ public class UserTest {
     public void testVote() {
         Long c = pencraftGameService.vote("02", "userid_0001");
         System.out.println("返回结果：" + c);
+    }
+
+    @Test
+    public void testSyncTop() {
+        pencraftGameService.syncTop();
+    }
+
+    @Test
+    public void testSyncTotal() {
+        pencraftGameService.syncTotal();
     }
 
     public static String[] chars = new String[]{"a", "b", "c", "d", "e", "f",
