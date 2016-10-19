@@ -1,19 +1,15 @@
 package junit;
 
 
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.yijiawang.web.platform.userCenter.po.UserInfo;
 import com.yijiawang.web.platform.userCenter.po.WxUserInfo;
 import com.yijiawang.web.platform.userCenter.service.UserService;
 import com.yijiawang.web.platform.userCenter.service.WxUserService;
-import com.yijiawang.web.platform.userCenter.vo.XUserVO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:spring/spring.xml" })
@@ -39,7 +35,7 @@ public class WxUserInfoTest {
 	}
 	@Test
 	public void testxuser(){
-		Integer count=userService.getBlackHouseCountByUserId("00011608191504axGPkk1B");
+		Byte count=userService.getBStatusByUserId("00011610081812P9cbnt00","00011610081820mFJg8JuN");
 	System.out.println(count);
 	
 	}

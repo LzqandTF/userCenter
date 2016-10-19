@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yijiawang.web.platform.userCenter.dao.PencraftGameVoteMapper">
+
+    <!-- 根据投票编号获取选手信息 -->
+    <select id="getVoterByUserNum" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>,
+        <include refid="Blob_Column_List"/>
+        from pencraft_game_vote
+        where user_num = #{userNum,jdbcType=VARCHAR}
+    </select>
+
+    <!-- 获取选手分页信息 -->
+    <select id="getVoters" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>,
+        <include refid="Blob_Column_List"/>
+        from pencraft_game_vote
+        order by user_num
+        limit #{page},#{pageSize}
+    </select>
+
+    <!-- 获取排行榜 -->
+    <select id="getTopList" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        from pencraft_game_vote
+        order by vote_num_top desc,user_num
+    </select>
+
+    <!-- 同步排行榜票数 -->
+    <update id="syncTop">
+      UPDATE pencraft_game_vote SET vote_num_top = vote_num_total ,update_time=NOW();
+    </update>
+
+    <!-- 计算总票数 -->
+    <update id="syncTotal">
+        UPDATE pencraft_game_vote SET vote_num_total= (vote_num_total+vote_num),vote_num = 0 ,update_time=NOW();
+    </update>
+</mapper>

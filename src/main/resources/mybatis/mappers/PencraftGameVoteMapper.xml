@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yijiawang.web.platform.userCenter.dao.PencraftGameVoteMapper" >
+  <resultMap id="BaseResultMap" type="com.yijiawang.web.platform.userCenter.po.PencraftGameVote" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_game_id" property="userGameId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_num" property="userNum" jdbcType="VARCHAR" />
+    <result column="vote_num" property="voteNum" jdbcType="BIGINT" />
+    <result column="vote_num_total" property="voteNumTotal" jdbcType="BIGINT" />
+    <result column="vote_num_top" property="voteNumTop" jdbcType="BIGINT" />
+    <result column="works_name" property="worksName" jdbcType="VARCHAR" />
+    <result column="works_chirography" property="worksChirography" jdbcType="VARCHAR" />
+    <result column="works_year" property="worksYear" jdbcType="VARCHAR" />
+    <result column="works_size" property="worksSize" jdbcType="VARCHAR" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yijiawang.web.platform.userCenter.po.PencraftGameVote" extends="BaseResultMap" >
+    <result column="works_translation" property="worksTranslation" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, open_id, user_id, user_game_id, user_name, user_num, vote_num, vote_num_total,
+    vote_num_top, works_name, works_chirography, works_year, works_size, pic_url, create_time,
+    update_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    works_translation
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pencraft_game_vote
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pencraft_game_vote
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.PencraftGameVote" >
+    insert into pencraft_game_vote (id, open_id, user_id,
+    user_game_id, user_name, user_num,
+    vote_num, vote_num_total, vote_num_top,
+    works_name, works_chirography, works_year,
+    works_size, pic_url, create_time,
+    update_time, works_translation)
+    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR},
+    #{userGameId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{userNum,jdbcType=VARCHAR},
+    #{voteNum,jdbcType=BIGINT}, #{voteNumTotal,jdbcType=BIGINT}, #{voteNumTop,jdbcType=BIGINT},
+    #{worksName,jdbcType=VARCHAR}, #{worksChirography,jdbcType=VARCHAR}, #{worksYear,jdbcType=VARCHAR},
+    #{worksSize,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+    #{updateTime,jdbcType=TIMESTAMP}, #{worksTranslation,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.PencraftGameVote" >
+    insert into pencraft_game_vote
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="openId != null" >
+        open_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userGameId != null" >
+        user_game_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userNum != null" >
+        user_num,
+      </if>
+      <if test="voteNum != null" >
+        vote_num,
+      </if>
+      <if test="voteNumTotal != null" >
+        vote_num_total,
+      </if>
+      <if test="voteNumTop != null" >
+        vote_num_top,
+      </if>
+      <if test="worksName != null" >
+        works_name,
+      </if>
+      <if test="worksChirography != null" >
+        works_chirography,
+      </if>
+      <if test="worksYear != null" >
+        works_year,
+      </if>
+      <if test="worksSize != null" >
+        works_size,
+      </if>
+      <if test="picUrl != null" >
+        pic_url,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="worksTranslation != null" >
+        works_translation,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userGameId != null" >
+        #{userGameId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userNum != null" >
+        #{userNum,jdbcType=VARCHAR},
+      </if>
+      <if test="voteNum != null" >
+        #{voteNum,jdbcType=BIGINT},
+      </if>
+      <if test="voteNumTotal != null" >
+        #{voteNumTotal,jdbcType=BIGINT},
+      </if>
+      <if test="voteNumTop != null" >
+        #{voteNumTop,jdbcType=BIGINT},
+      </if>
+      <if test="worksName != null" >
+        #{worksName,jdbcType=VARCHAR},
+      </if>
+      <if test="worksChirography != null" >
+        #{worksChirography,jdbcType=VARCHAR},
+      </if>
+      <if test="worksYear != null" >
+        #{worksYear,jdbcType=VARCHAR},
+      </if>
+      <if test="worksSize != null" >
+        #{worksSize,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="worksTranslation != null" >
+        #{worksTranslation,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yijiawang.web.platform.userCenter.po.PencraftGameVote" >
+    update pencraft_game_vote
+    <set >
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userGameId != null" >
+        user_game_id = #{userGameId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userNum != null" >
+        user_num = #{userNum,jdbcType=VARCHAR},
+      </if>
+      <if test="voteNum != null" >
+        vote_num = #{voteNum,jdbcType=BIGINT},
+      </if>
+      <if test="voteNumTotal != null" >
+        vote_num_total = #{voteNumTotal,jdbcType=BIGINT},
+      </if>
+      <if test="voteNumTop != null" >
+        vote_num_top = #{voteNumTop,jdbcType=BIGINT},
+      </if>
+      <if test="worksName != null" >
+        works_name = #{worksName,jdbcType=VARCHAR},
+      </if>
+      <if test="worksChirography != null" >
+        works_chirography = #{worksChirography,jdbcType=VARCHAR},
+      </if>
+      <if test="worksYear != null" >
+        works_year = #{worksYear,jdbcType=VARCHAR},
+      </if>
+      <if test="worksSize != null" >
+        works_size = #{worksSize,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        pic_url = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="worksTranslation != null" >
+        works_translation = #{worksTranslation,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yijiawang.web.platform.userCenter.po.PencraftGameVote" >
+    update pencraft_game_vote
+    set open_id = #{openId,jdbcType=VARCHAR},
+    user_id = #{userId,jdbcType=VARCHAR},
+    user_game_id = #{userGameId,jdbcType=VARCHAR},
+    user_name = #{userName,jdbcType=VARCHAR},
+    user_num = #{userNum,jdbcType=VARCHAR},
+    vote_num = #{voteNum,jdbcType=BIGINT},
+    vote_num_total = #{voteNumTotal,jdbcType=BIGINT},
+    vote_num_top = #{voteNumTop,jdbcType=BIGINT},
+    works_name = #{worksName,jdbcType=VARCHAR},
+    works_chirography = #{worksChirography,jdbcType=VARCHAR},
+    works_year = #{worksYear,jdbcType=VARCHAR},
+    works_size = #{worksSize,jdbcType=VARCHAR},
+    pic_url = #{picUrl,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
+    works_translation = #{worksTranslation,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yijiawang.web.platform.userCenter.po.PencraftGameVote" >
+    update pencraft_game_vote
+    set open_id = #{openId,jdbcType=VARCHAR},
+    user_id = #{userId,jdbcType=VARCHAR},
+    user_game_id = #{userGameId,jdbcType=VARCHAR},
+    user_name = #{userName,jdbcType=VARCHAR},
+    user_num = #{userNum,jdbcType=VARCHAR},
+    vote_num = #{voteNum,jdbcType=BIGINT},
+    vote_num_total = #{voteNumTotal,jdbcType=BIGINT},
+    vote_num_top = #{voteNumTop,jdbcType=BIGINT},
+    works_name = #{worksName,jdbcType=VARCHAR},
+    works_chirography = #{worksChirography,jdbcType=VARCHAR},
+    works_year = #{worksYear,jdbcType=VARCHAR},
+    works_size = #{worksSize,jdbcType=VARCHAR},
+    pic_url = #{picUrl,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

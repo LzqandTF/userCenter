@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yijiawang.web.platform.userCenter.dao.PencraftGameVoteLogMapper">
+
+    <!-- 根据书法大赛参赛码、投票者对应艺家平台id 获取当天投票记录 -->
+    <select id="selectByGameIdAndNum" resultMap="BaseResultMap" parameterType="com.yijiawang.web.platform.userCenter.po.PencraftGameVoteLog">
+        select
+        <include refid="Base_Column_List"/>
+        from pencraft_game_vote_log
+        where user_game_id = #{userGameId,jdbcType=VARCHAR}
+        and voter_user_id = #{voterUserId,jdbcType=VARCHAR}
+        and <![CDATA[ date_format(create_time,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') ]]>
+    </select>
+
+</mapper>

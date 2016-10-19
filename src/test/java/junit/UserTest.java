@@ -4,6 +4,7 @@ import com.yijiawang.web.platform.userCenter.dao.WxUserInfoMapper;
 import com.yijiawang.web.platform.userCenter.param.AccountCheckParam;
 import com.yijiawang.web.platform.userCenter.po.AccountCheck;
 import com.yijiawang.web.platform.userCenter.po.PencraftGame;
+import com.yijiawang.web.platform.userCenter.po.PencraftGameVote;
 import com.yijiawang.web.platform.userCenter.service.PencraftGameService;
 import com.yijiawang.web.platform.userCenter.service.UserInsurePriceService;
 import com.yijiawang.web.platform.userCenter.service.UserLevelService;
@@ -167,6 +168,35 @@ public class UserTest {
 
     }
 
+    @Test
+    public void testGetVoters() {
+        List<PencraftGameVote> votes = pencraftGameService.getVoters(0, 2, "");
+        System.out.println("");
+    }
+
+
+    @Test
+    public void testGetTopList() {
+        List<PencraftGameVote> votes = pencraftGameService.getTopList();
+        System.out.println("");
+    }
+
+    @Test
+    public void testVote() {
+        Long c = pencraftGameService.vote("02", "userid_0001");
+        System.out.println("返回结果：" + c);
+    }
+
+    @Test
+    public void testSyncTop() {
+        pencraftGameService.syncTop();
+    }
+
+    @Test
+    public void testSyncTotal() {
+        pencraftGameService.syncTotal();
+    }
+
     public static String[] chars = new String[]{"a", "b", "c", "d", "e", "f",
             "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
             "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5",
@@ -189,7 +219,7 @@ public class UserTest {
         }
         return shortBuffer.toString();
     }
-    
+
     @Test
     public void testDoubleAndInteger() {
         String a = "0.2";
@@ -202,38 +232,38 @@ public class UserTest {
         System.out.println(new Double(ab * c).intValue());
         System.out.println(new Double(3.2).intValue());
         System.out.println(new Double(3.6).intValue());
-        
+
     }
-    
+
     @Test
     public void testByte() {
-    	Byte a = 1;
-    	Byte b = 1;
-        System.out.println(a==b);
+        Byte a = 1;
+        Byte b = 1;
+        System.out.println(a == b);
         System.out.println(a.intValue() == b.intValue());
-        
+
         Integer c = 30;
         Integer d = 4;
         Integer e = 2;
-        System.out.println(c/d);
-        System.out.println((c/d) * e);
-        System.out.println(Integer.valueOf((c/d) * e));
+        System.out.println(c / d);
+        System.out.println((c / d) * e);
+        System.out.println(Integer.valueOf((c / d) * e));
 
     }
 
     @Test
-    public void test1(){
-    	int illegalCount = 4;
-    	illegalCount = illegalCount%3+1;
-    	System.out.println(illegalCount);
-    	illegalCount = 2;
-    	illegalCount = illegalCount%3 == 0 ? 3 : illegalCount%3;
-    	System.out.println(illegalCount);
-    	illegalCount = 5;
-    	illegalCount = illegalCount%3 == 0 ? 3 : illegalCount%3;
-    	System.out.println(illegalCount);
-    	illegalCount = 6;
-    	illegalCount = illegalCount%3 == 0 ? 3 : illegalCount%3;
-    	System.out.println(illegalCount);
+    public void test1() {
+        int illegalCount = 4;
+        illegalCount = illegalCount % 3 + 1;
+        System.out.println(illegalCount);
+        illegalCount = 2;
+        illegalCount = illegalCount % 3 == 0 ? 3 : illegalCount % 3;
+        System.out.println(illegalCount);
+        illegalCount = 5;
+        illegalCount = illegalCount % 3 == 0 ? 3 : illegalCount % 3;
+        System.out.println(illegalCount);
+        illegalCount = 6;
+        illegalCount = illegalCount % 3 == 0 ? 3 : illegalCount % 3;
+        System.out.println(illegalCount);
     }
 }
