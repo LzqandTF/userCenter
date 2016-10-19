@@ -36,6 +36,6 @@
 
     <!-- 计算总票数 -->
     <update id="syncTotal">
-        UPDATE pencraft_game_vote SET vote_num_total= (vote_num_total+vote_num) ,update_time=NOW();
+        UPDATE pencraft_game_vote SET vote_num_total= (vote_num_total+vote_num),vote_num = 0 ,update_time=NOW();
     </update>
 </mapper>
