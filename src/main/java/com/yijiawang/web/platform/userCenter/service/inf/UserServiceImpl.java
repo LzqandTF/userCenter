@@ -1026,17 +1026,39 @@ public class UserServiceImpl implements UserService {
 	 * 添加银行卡
 	 */
 	@Override
-	public int insertUserCard(String userId, String accName, String certifId, String accNo, String orderId) {
+	public int insertUserCard(String userId, String accName, String certifId, String accNo) {
 		UserCard userCard = new UserCard();
 		userCard.setUserId(userId);
 		userCard.setCertifTp("01");
 		userCard.setCertifId(certifId);
 		userCard.setAccName(accName);
 		userCard.setAccNo(accNo);
-		userCard.setOrderId(orderId);
 		userCard.setStatus(2);
-		userCardMapper.insertSelective(userCard);
-		return 0;
+		return userCardMapper.insertSelective(userCard);
+	}
+
+	/**
+	 * 查询银行卡
+	 */
+	@Override
+	public List<UserCard> findAllUserCard(String userId) {
+		return userCardMapper.findAllUserCard(userId);
+	}
+
+	/**
+	 * 查询卡
+	 */
+	@Override
+	public UserCard selectByPrimaryKeyByUserId(Long id, String userId) {
+		return userCardMapper.selectByPrimaryKeyByUserId(id, userId);
+	}
+
+	/**
+	 * 更新卡
+	 */
+	@Override
+	public int updateByPrimaryKeySelective(UserCard record) {
+		return userCardMapper.updateByPrimaryKeySelective(record);
 	}
 
 }

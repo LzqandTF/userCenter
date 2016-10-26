@@ -12,12 +12,11 @@
     <result column="iss_ins_code" property="issInsCode" jdbcType="VARCHAR" />
     <result column="iss_ins_name" property="issInsName" jdbcType="VARCHAR" />
     <result column="iss_ins_icon" property="issInsIcon" jdbcType="BIGINT" />
-    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, certif_tp, certif_id, acc_name, acc_no, pay_card_type, iss_ins_code, 
-    iss_ins_name, iss_ins_icon, order_id, status
+    iss_ins_name, iss_ins_icon, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -33,13 +32,11 @@
     insert into user_card (id, user_id, certif_tp, 
       certif_id, acc_name, acc_no, 
       pay_card_type, iss_ins_code, iss_ins_name, 
-      iss_ins_icon, order_id, status
-      )
+      iss_ins_icon, status)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{certifTp,jdbcType=VARCHAR}, 
       #{certifId,jdbcType=VARCHAR}, #{accName,jdbcType=VARCHAR}, #{accNo,jdbcType=VARCHAR}, 
       #{payCardType,jdbcType=VARCHAR}, #{issInsCode,jdbcType=VARCHAR}, #{issInsName,jdbcType=VARCHAR}, 
-      #{issInsIcon,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
-      )
+      #{issInsIcon,jdbcType=BIGINT}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserCard" >
     insert into user_card
@@ -73,9 +70,6 @@
       </if>
       <if test="issInsIcon != null" >
         iss_ins_icon,
-      </if>
-      <if test="orderId != null" >
-        order_id,
       </if>
       <if test="status != null" >
         status,
@@ -112,9 +106,6 @@
       <if test="issInsIcon != null" >
         #{issInsIcon,jdbcType=BIGINT},
       </if>
-      <if test="orderId != null" >
-        #{orderId,jdbcType=VARCHAR},
-      </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
@@ -150,9 +141,6 @@
       <if test="issInsIcon != null" >
         iss_ins_icon = #{issInsIcon,jdbcType=BIGINT},
       </if>
-      <if test="orderId != null" >
-        order_id = #{orderId,jdbcType=VARCHAR},
-      </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
@@ -170,7 +158,6 @@
       iss_ins_code = #{issInsCode,jdbcType=VARCHAR},
       iss_ins_name = #{issInsName,jdbcType=VARCHAR},
       iss_ins_icon = #{issInsIcon,jdbcType=BIGINT},
-      order_id = #{orderId,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
