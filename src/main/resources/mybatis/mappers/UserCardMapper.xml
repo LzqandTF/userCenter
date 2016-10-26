@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yijiawang.web.platform.userCenter.dao.UserCardMapper" >
+  <resultMap id="BaseResultMap" type="com.yijiawang.web.platform.userCenter.po.UserCard" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="certif_tp" property="certifTp" jdbcType="VARCHAR" />
+    <result column="certif_id" property="certifId" jdbcType="VARCHAR" />
+    <result column="acc_name" property="accName" jdbcType="VARCHAR" />
+    <result column="acc_no" property="accNo" jdbcType="VARCHAR" />
+    <result column="pay_card_type" property="payCardType" jdbcType="VARCHAR" />
+    <result column="iss_ins_code" property="issInsCode" jdbcType="VARCHAR" />
+    <result column="iss_ins_name" property="issInsName" jdbcType="VARCHAR" />
+    <result column="iss_ins_icon" property="issInsIcon" jdbcType="BIGINT" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, certif_tp, certif_id, acc_name, acc_no, pay_card_type, iss_ins_code, 
+    iss_ins_name, iss_ins_icon, order_id, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_card
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_card
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.UserCard" >
+    insert into user_card (id, user_id, certif_tp, 
+      certif_id, acc_name, acc_no, 
+      pay_card_type, iss_ins_code, iss_ins_name, 
+      iss_ins_icon, order_id, status
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{certifTp,jdbcType=VARCHAR}, 
+      #{certifId,jdbcType=VARCHAR}, #{accName,jdbcType=VARCHAR}, #{accNo,jdbcType=VARCHAR}, 
+      #{payCardType,jdbcType=VARCHAR}, #{issInsCode,jdbcType=VARCHAR}, #{issInsName,jdbcType=VARCHAR}, 
+      #{issInsIcon,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserCard" >
+    insert into user_card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="certifTp != null" >
+        certif_tp,
+      </if>
+      <if test="certifId != null" >
+        certif_id,
+      </if>
+      <if test="accName != null" >
+        acc_name,
+      </if>
+      <if test="accNo != null" >
+        acc_no,
+      </if>
+      <if test="payCardType != null" >
+        pay_card_type,
+      </if>
+      <if test="issInsCode != null" >
+        iss_ins_code,
+      </if>
+      <if test="issInsName != null" >
+        iss_ins_name,
+      </if>
+      <if test="issInsIcon != null" >
+        iss_ins_icon,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="certifTp != null" >
+        #{certifTp,jdbcType=VARCHAR},
+      </if>
+      <if test="certifId != null" >
+        #{certifId,jdbcType=VARCHAR},
+      </if>
+      <if test="accName != null" >
+        #{accName,jdbcType=VARCHAR},
+      </if>
+      <if test="accNo != null" >
+        #{accNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payCardType != null" >
+        #{payCardType,jdbcType=VARCHAR},
+      </if>
+      <if test="issInsCode != null" >
+        #{issInsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="issInsName != null" >
+        #{issInsName,jdbcType=VARCHAR},
+      </if>
+      <if test="issInsIcon != null" >
+        #{issInsIcon,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserCard" >
+    update user_card
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="certifTp != null" >
+        certif_tp = #{certifTp,jdbcType=VARCHAR},
+      </if>
+      <if test="certifId != null" >
+        certif_id = #{certifId,jdbcType=VARCHAR},
+      </if>
+      <if test="accName != null" >
+        acc_name = #{accName,jdbcType=VARCHAR},
+      </if>
+      <if test="accNo != null" >
+        acc_no = #{accNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payCardType != null" >
+        pay_card_type = #{payCardType,jdbcType=VARCHAR},
+      </if>
+      <if test="issInsCode != null" >
+        iss_ins_code = #{issInsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="issInsName != null" >
+        iss_ins_name = #{issInsName,jdbcType=VARCHAR},
+      </if>
+      <if test="issInsIcon != null" >
+        iss_ins_icon = #{issInsIcon,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yijiawang.web.platform.userCenter.po.UserCard" >
+    update user_card
+    set user_id = #{userId,jdbcType=VARCHAR},
+      certif_tp = #{certifTp,jdbcType=VARCHAR},
+      certif_id = #{certifId,jdbcType=VARCHAR},
+      acc_name = #{accName,jdbcType=VARCHAR},
+      acc_no = #{accNo,jdbcType=VARCHAR},
+      pay_card_type = #{payCardType,jdbcType=VARCHAR},
+      iss_ins_code = #{issInsCode,jdbcType=VARCHAR},
+      iss_ins_name = #{issInsName,jdbcType=VARCHAR},
+      iss_ins_icon = #{issInsIcon,jdbcType=BIGINT},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

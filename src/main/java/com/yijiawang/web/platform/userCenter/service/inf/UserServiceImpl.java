@@ -11,10 +11,6 @@ import com.yijiawang.web.platform.userCenter.type.*;
 import com.yijiawang.web.platform.userCenter.vo.UserProtectQuestionVO;
 import com.yijiawang.web.platform.userCenter.vo.UserVO;
 import com.yijiawang.web.platform.userCenter.vo.XUserVO;
-
-import io.netty.util.internal.StringUtil;
-
-import com.yijiawang.web.platform.userCenter.vo.XUserVO;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +48,8 @@ public class UserServiceImpl implements UserService {
 	private ApplyVipMapper applyVipMapper;
 	@Autowired
 	private UserStatusMapper userStatusMapper;
+	@Autowired
+	private UserCardMapper userCardMapper;
 
 	@Override
 	public UserInfo getUserByUserId(String userId) {
@@ -1022,6 +1020,23 @@ public class UserServiceImpl implements UserService {
 		byte result = (byte) Iresult.intValue();
 		
 		return result;
+	}
+
+	/**
+	 * 添加银行卡
+	 */
+	@Override
+	public int insertUserCard(String userId, String accName, String certifId, String accNo, String orderId) {
+		UserCard userCard = new UserCard();
+		userCard.setUserId(userId);
+		userCard.setCertifTp("01");
+		userCard.setCertifId(certifId);
+		userCard.setAccName(accName);
+		userCard.setAccNo(accNo);
+		userCard.setOrderId(orderId);
+		userCard.setStatus(2);
+		userCardMapper.insertSelective(userCard);
+		return 0;
 	}
 
 }
