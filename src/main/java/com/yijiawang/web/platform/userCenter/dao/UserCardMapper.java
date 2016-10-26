@@ -22,4 +22,6 @@ public interface UserCardMapper {
     List<UserCard> findAllUserCard(@Param("userId")String userId);
 
     UserCard selectByPrimaryKeyByUserId(@Param("id")Long id, @Param("userId")String userId);
+
+    List<UserCard> selectByPrimaryKeyByAccNo(@Param("userId")String userId, @Param("accNo")String accNo, @Param("status")Integer status);
 }

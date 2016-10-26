@@ -17,4 +17,17 @@
     and user_id = #{userId,jdbcType=VARCHAR}
   </select>
   
+  <select id="selectByPrimaryKeyByAccNo" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_card
+    where user_id = #{userId,jdbcType=VARCHAR}
+	<if test="accNo != null and accNo != ''">
+	AND	acc_no = #{accNo,jdbcType=VARCHAR}
+	</if>
+	<if test="status != null and status != ''">
+	AND	status = #{status,jdbcType=TINYINT}
+	</if>
+  </select>
+  
 </mapper>

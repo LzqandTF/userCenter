@@ -1061,4 +1061,9 @@ public class UserServiceImpl implements UserService {
 		return userCardMapper.updateByPrimaryKeySelective(record);
 	}
 
+	@Override
+	public List<UserCard> findUserCardByAccNo(String userId, String accNo, Integer status) {
+		return userCardMapper.selectByPrimaryKeyByAccNo(userId, accNo, status);
+	}
+
 }

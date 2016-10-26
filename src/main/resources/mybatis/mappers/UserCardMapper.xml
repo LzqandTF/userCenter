@@ -9,14 +9,14 @@
     <result column="acc_name" property="accName" jdbcType="VARCHAR" />
     <result column="acc_no" property="accNo" jdbcType="VARCHAR" />
     <result column="pay_card_type" property="payCardType" jdbcType="VARCHAR" />
-    <result column="iss_ins_code" property="issInsCode" jdbcType="VARCHAR" />
-    <result column="iss_ins_name" property="issInsName" jdbcType="VARCHAR" />
-    <result column="iss_ins_icon" property="issInsIcon" jdbcType="BIGINT" />
+    <result column="pay_card_issue_code" property="payCardIssueCode" jdbcType="VARCHAR" />
+    <result column="pay_card_issue_name" property="payCardIssueName" jdbcType="VARCHAR" />
+    <result column="pay_card_issue_icon" property="payCardIssueIcon" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, certif_tp, certif_id, acc_name, acc_no, pay_card_type, iss_ins_code, 
-    iss_ins_name, iss_ins_icon, status
+    id, user_id, certif_tp, certif_id, acc_name, acc_no, pay_card_type, pay_card_issue_code, 
+    pay_card_issue_name, pay_card_issue_icon, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -31,12 +31,12 @@
   <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.UserCard" >
     insert into user_card (id, user_id, certif_tp, 
       certif_id, acc_name, acc_no, 
-      pay_card_type, iss_ins_code, iss_ins_name, 
-      iss_ins_icon, status)
+      pay_card_type, pay_card_issue_code, pay_card_issue_name, 
+      pay_card_issue_icon, status)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{certifTp,jdbcType=VARCHAR}, 
       #{certifId,jdbcType=VARCHAR}, #{accName,jdbcType=VARCHAR}, #{accNo,jdbcType=VARCHAR}, 
-      #{payCardType,jdbcType=VARCHAR}, #{issInsCode,jdbcType=VARCHAR}, #{issInsName,jdbcType=VARCHAR}, 
-      #{issInsIcon,jdbcType=BIGINT}, #{status,jdbcType=INTEGER})
+      #{payCardType,jdbcType=VARCHAR}, #{payCardIssueCode,jdbcType=VARCHAR}, #{payCardIssueName,jdbcType=VARCHAR}, 
+      #{payCardIssueIcon,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserCard" >
     insert into user_card
@@ -62,14 +62,14 @@
       <if test="payCardType != null" >
         pay_card_type,
       </if>
-      <if test="issInsCode != null" >
-        iss_ins_code,
+      <if test="payCardIssueCode != null" >
+        pay_card_issue_code,
       </if>
-      <if test="issInsName != null" >
-        iss_ins_name,
+      <if test="payCardIssueName != null" >
+        pay_card_issue_name,
       </if>
-      <if test="issInsIcon != null" >
-        iss_ins_icon,
+      <if test="payCardIssueIcon != null" >
+        pay_card_issue_icon,
       </if>
       <if test="status != null" >
         status,
@@ -97,14 +97,14 @@
       <if test="payCardType != null" >
         #{payCardType,jdbcType=VARCHAR},
       </if>
-      <if test="issInsCode != null" >
-        #{issInsCode,jdbcType=VARCHAR},
+      <if test="payCardIssueCode != null" >
+        #{payCardIssueCode,jdbcType=VARCHAR},
       </if>
-      <if test="issInsName != null" >
-        #{issInsName,jdbcType=VARCHAR},
+      <if test="payCardIssueName != null" >
+        #{payCardIssueName,jdbcType=VARCHAR},
       </if>
-      <if test="issInsIcon != null" >
-        #{issInsIcon,jdbcType=BIGINT},
+      <if test="payCardIssueIcon != null" >
+        #{payCardIssueIcon,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
@@ -132,14 +132,14 @@
       <if test="payCardType != null" >
         pay_card_type = #{payCardType,jdbcType=VARCHAR},
       </if>
-      <if test="issInsCode != null" >
-        iss_ins_code = #{issInsCode,jdbcType=VARCHAR},
+      <if test="payCardIssueCode != null" >
+        pay_card_issue_code = #{payCardIssueCode,jdbcType=VARCHAR},
       </if>
-      <if test="issInsName != null" >
-        iss_ins_name = #{issInsName,jdbcType=VARCHAR},
+      <if test="payCardIssueName != null" >
+        pay_card_issue_name = #{payCardIssueName,jdbcType=VARCHAR},
       </if>
-      <if test="issInsIcon != null" >
-        iss_ins_icon = #{issInsIcon,jdbcType=BIGINT},
+      <if test="payCardIssueIcon != null" >
+        pay_card_issue_icon = #{payCardIssueIcon,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
@@ -155,9 +155,9 @@
       acc_name = #{accName,jdbcType=VARCHAR},
       acc_no = #{accNo,jdbcType=VARCHAR},
       pay_card_type = #{payCardType,jdbcType=VARCHAR},
-      iss_ins_code = #{issInsCode,jdbcType=VARCHAR},
-      iss_ins_name = #{issInsName,jdbcType=VARCHAR},
-      iss_ins_icon = #{issInsIcon,jdbcType=BIGINT},
+      pay_card_issue_code = #{payCardIssueCode,jdbcType=VARCHAR},
+      pay_card_issue_name = #{payCardIssueName,jdbcType=VARCHAR},
+      pay_card_issue_icon = #{payCardIssueIcon,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
