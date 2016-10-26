@@ -5,6 +5,8 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="open_id" property="openId" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="full_name" property="fullName" jdbcType="VARCHAR" />
+    <result column="certif_id" property="certifId" jdbcType="VARCHAR" />
     <result column="signature" property="signature" jdbcType="VARCHAR" />
     <result column="vip" property="vip" jdbcType="INTEGER" />
     <result column="buy_score" property="buyScore" jdbcType="INTEGER" />
@@ -20,8 +22,8 @@
     <result column="ext2" property="ext2" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, open_id, name, vip, buy_score, sell_score, user_credits, status, recommend, user_id, create_time, 
-    update_time, mobile, signature, ext1, ext2
+    id, open_id, name, full_name, certif_id, vip, buy_score, sell_score, user_credits, 
+    status, recommend, signature, user_id, create_time, update_time, mobile, ext1, ext2
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

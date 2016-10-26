@@ -49,4 +49,11 @@
 		select count(*) from user_shield where userid =#{myUserid} and shielduserid
 		=#{userId}
 	</select>
+	
+	<update id="updateUserCertifInfo">
+		update user_info
+		SET full_name = #{fullName,jdbcType=VARCHAR},
+		    certif_id = #{certifId,jdbcType=VARCHAR}
+		WHERE user_id=#{userId,jdbcType=VARCHAR}
+	</update>
 </mapper>

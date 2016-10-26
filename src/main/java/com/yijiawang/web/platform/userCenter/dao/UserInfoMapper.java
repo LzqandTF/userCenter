@@ -30,4 +30,6 @@ public interface UserInfoMapper {
     int decrUserCredits(@Param("userId")String userId, @Param("userCredits")Integer userCredits);
 
 	Integer getBStatusByUserId(@Param("userId")String userId, @Param("myUserid")String myUserid);
+	
+	int updateUserCertifInfo(@Param("userId")String userId, @Param("fullName")String fullName, @Param("certifId")String certifId);
 }

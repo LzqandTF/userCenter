@@ -1066,4 +1066,9 @@ public class UserServiceImpl implements UserService {
 		return userCardMapper.selectByPrimaryKeyByAccNo(userId, accNo, status);
 	}
 
+	@Override
+	public int updateUserCertifInfo(String userId, String fullName, String certifId) {
+		return userInfoMapper.updateUserCertifInfo(userId, fullName, certifId);
+	}
+
 }
