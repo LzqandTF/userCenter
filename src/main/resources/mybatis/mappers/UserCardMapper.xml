@@ -8,6 +8,7 @@
     <result column="certif_id" property="certifId" jdbcType="VARCHAR" />
     <result column="acc_name" property="accName" jdbcType="VARCHAR" />
     <result column="acc_no" property="accNo" jdbcType="VARCHAR" />
+    <result column="pay_card_type_code" property="payCardTypeCode" jdbcType="VARCHAR" />
     <result column="pay_card_type" property="payCardType" jdbcType="VARCHAR" />
     <result column="pay_card_issue_code" property="payCardIssueCode" jdbcType="VARCHAR" />
     <result column="pay_card_issue_name" property="payCardIssueName" jdbcType="VARCHAR" />
@@ -15,8 +16,8 @@
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, certif_tp, certif_id, acc_name, acc_no, pay_card_type, pay_card_issue_code, 
-    pay_card_issue_name, pay_card_issue_icon, status
+    id, user_id, certif_tp, certif_id, acc_name, acc_no, pay_card_type_code, pay_card_type, 
+    pay_card_issue_code, pay_card_issue_name, pay_card_issue_icon, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -31,12 +32,14 @@
   <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.UserCard" >
     insert into user_card (id, user_id, certif_tp, 
       certif_id, acc_name, acc_no, 
-      pay_card_type, pay_card_issue_code, pay_card_issue_name, 
-      pay_card_issue_icon, status)
+      pay_card_type_code, pay_card_type, pay_card_issue_code, 
+      pay_card_issue_name, pay_card_issue_icon, status
+      )
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{certifTp,jdbcType=VARCHAR}, 
       #{certifId,jdbcType=VARCHAR}, #{accName,jdbcType=VARCHAR}, #{accNo,jdbcType=VARCHAR}, 
-      #{payCardType,jdbcType=VARCHAR}, #{payCardIssueCode,jdbcType=VARCHAR}, #{payCardIssueName,jdbcType=VARCHAR}, 
-      #{payCardIssueIcon,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+      #{payCardTypeCode,jdbcType=VARCHAR}, #{payCardType,jdbcType=VARCHAR}, #{payCardIssueCode,jdbcType=VARCHAR}, 
+      #{payCardIssueName,jdbcType=VARCHAR}, #{payCardIssueIcon,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserCard" >
     insert into user_card
@@ -58,6 +61,9 @@
       </if>
       <if test="accNo != null" >
         acc_no,
+      </if>
+      <if test="payCardTypeCode != null" >
+        pay_card_type_code,
       </if>
       <if test="payCardType != null" >
         pay_card_type,
@@ -94,6 +100,9 @@
       <if test="accNo != null" >
         #{accNo,jdbcType=VARCHAR},
       </if>
+      <if test="payCardTypeCode != null" >
+        #{payCardTypeCode,jdbcType=VARCHAR},
+      </if>
       <if test="payCardType != null" >
         #{payCardType,jdbcType=VARCHAR},
       </if>
@@ -129,6 +138,9 @@
       <if test="accNo != null" >
         acc_no = #{accNo,jdbcType=VARCHAR},
       </if>
+      <if test="payCardTypeCode != null" >
+        pay_card_type_code = #{payCardTypeCode,jdbcType=VARCHAR},
+      </if>
       <if test="payCardType != null" >
         pay_card_type = #{payCardType,jdbcType=VARCHAR},
       </if>
@@ -154,6 +166,7 @@
       certif_id = #{certifId,jdbcType=VARCHAR},
       acc_name = #{accName,jdbcType=VARCHAR},
       acc_no = #{accNo,jdbcType=VARCHAR},
+      pay_card_type_code = #{payCardTypeCode,jdbcType=VARCHAR},
       pay_card_type = #{payCardType,jdbcType=VARCHAR},
       pay_card_issue_code = #{payCardIssueCode,jdbcType=VARCHAR},
       pay_card_issue_name = #{payCardIssueName,jdbcType=VARCHAR},
