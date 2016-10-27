@@ -1026,14 +1026,7 @@ public class UserServiceImpl implements UserService {
 	 * 添加银行卡
 	 */
 	@Override
-	public int insertUserCard(String userId, String accName, String certifId, String accNo) {
-		UserCard userCard = new UserCard();
-		userCard.setUserId(userId);
-		userCard.setCertifTp("01");
-		userCard.setCertifId(certifId);
-		userCard.setAccName(accName);
-		userCard.setAccNo(accNo);
-		userCard.setStatus(2);
+	public int insertUserCard(UserCard userCard) {
 		return userCardMapper.insertSelective(userCard);
 	}
 
