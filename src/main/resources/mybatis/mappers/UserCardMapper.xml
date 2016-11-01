@@ -13,11 +13,15 @@
     <result column="pay_card_issue_code" property="payCardIssueCode" jdbcType="VARCHAR" />
     <result column="pay_card_issue_name" property="payCardIssueName" jdbcType="VARCHAR" />
     <result column="pay_card_issue_icon" property="payCardIssueIcon" jdbcType="VARCHAR" />
+    <result column="open_bank" property="openBank" jdbcType="VARCHAR" />
+    <result column="prov" property="prov" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_id, certif_tp, certif_id, acc_name, acc_no, pay_card_type_code, pay_card_type, 
-    pay_card_issue_code, pay_card_issue_name, pay_card_issue_icon, status
+    pay_card_issue_code, pay_card_issue_name, pay_card_issue_icon, open_bank, prov, city, 
+    status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -33,13 +37,13 @@
     insert into user_card (id, user_id, certif_tp, 
       certif_id, acc_name, acc_no, 
       pay_card_type_code, pay_card_type, pay_card_issue_code, 
-      pay_card_issue_name, pay_card_issue_icon, status
-      )
+      pay_card_issue_name, pay_card_issue_icon, open_bank, 
+      prov, city, status)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=VARCHAR}, #{certifTp,jdbcType=VARCHAR}, 
       #{certifId,jdbcType=VARCHAR}, #{accName,jdbcType=VARCHAR}, #{accNo,jdbcType=VARCHAR}, 
       #{payCardTypeCode,jdbcType=VARCHAR}, #{payCardType,jdbcType=VARCHAR}, #{payCardIssueCode,jdbcType=VARCHAR}, 
-      #{payCardIssueName,jdbcType=VARCHAR}, #{payCardIssueIcon,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
-      )
+      #{payCardIssueName,jdbcType=VARCHAR}, #{payCardIssueIcon,jdbcType=VARCHAR}, #{openBank,jdbcType=VARCHAR}, 
+      #{prov,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserCard" >
     insert into user_card
@@ -76,6 +80,15 @@
       </if>
       <if test="payCardIssueIcon != null" >
         pay_card_issue_icon,
+      </if>
+      <if test="openBank != null" >
+        open_bank,
+      </if>
+      <if test="prov != null" >
+        prov,
+      </if>
+      <if test="city != null" >
+        city,
       </if>
       <if test="status != null" >
         status,
@@ -115,6 +128,15 @@
       <if test="payCardIssueIcon != null" >
         #{payCardIssueIcon,jdbcType=VARCHAR},
       </if>
+      <if test="openBank != null" >
+        #{openBank,jdbcType=VARCHAR},
+      </if>
+      <if test="prov != null" >
+        #{prov,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
@@ -153,6 +175,15 @@
       <if test="payCardIssueIcon != null" >
         pay_card_issue_icon = #{payCardIssueIcon,jdbcType=VARCHAR},
       </if>
+      <if test="openBank != null" >
+        open_bank = #{openBank,jdbcType=VARCHAR},
+      </if>
+      <if test="prov != null" >
+        prov = #{prov,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
@@ -171,6 +202,9 @@
       pay_card_issue_code = #{payCardIssueCode,jdbcType=VARCHAR},
       pay_card_issue_name = #{payCardIssueName,jdbcType=VARCHAR},
       pay_card_issue_icon = #{payCardIssueIcon,jdbcType=VARCHAR},
+      open_bank = #{openBank,jdbcType=VARCHAR},
+      prov = #{prov,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
