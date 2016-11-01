@@ -15,6 +15,7 @@
     from user_card
     where id = #{id,jdbcType=BIGINT}
     and user_id = #{userId,jdbcType=VARCHAR}
+    ORDER BY id DESC
   </select>
   
   <select id="selectByPrimaryKeyByAccNo" resultMap="BaseResultMap">
