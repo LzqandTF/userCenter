@@ -144,8 +144,8 @@ public class UserScoreServiceImpl implements UserScoreService {
 	}
 
     @Override
-    public UserScore getUserScoreByOrderId(String userId, String orderId, Byte status) {
-        return userScoreMapper.getUserScoreByOrderId(userId, orderId, status);
+    public List<UserScore> getUserScoreByOrderId(String orderId) {
+        return userScoreMapper.getUserScoreByOrderId(orderId);
     }
 
     private Integer getScoreValue(String classCode, String codeKey){

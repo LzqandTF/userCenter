@@ -39,16 +39,9 @@
         <include refid="Base_Column_List" />
         FROM
         user_score
-        WHERE user_id = #{userId,jdbcType=VARCHAR}
-        <if test="orderId != null">
-            <![CDATA[ AND order_id <= #{orderId,jdbcType=VARCHAR} ]]>
-        </if>
-        <if test="status != null">
-            <![CDATA[ AND status <= #{status,jdbcType=TINYINT} ]]>
-        </if>
+        WHERE order_id = #{orderId,jdbcType=VARCHAR}
         ORDER BY
         id DESC
-        LIMIT 1
     </select>
   
 </mapper>
