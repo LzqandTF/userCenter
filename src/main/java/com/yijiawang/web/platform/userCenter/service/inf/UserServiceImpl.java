@@ -1024,4 +1024,34 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
+    @Override
+    public int insertUserCard(UserCard userCard) {
+        return 0;
+    }
+
+    @Override
+    public List<UserCard> findAllUserCard(String userId) {
+        return null;
+    }
+
+    @Override
+    public List<UserCard> findUserCardByAccNo(String userId, String accNo, Integer status) {
+        return null;
+    }
+
+    @Override
+    public UserCard selectByPrimaryKeyByUserId(Long id, String userId) {
+        return null;
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(UserCard record) {
+        return 0;
+    }
+
+    @Override
+    public int updateUserCertifInfo(String userId, String fullName, String certifId) {
+        return 0;
+    }
+
 }
