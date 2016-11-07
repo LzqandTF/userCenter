@@ -33,5 +33,15 @@
 	  AND code_key = #{codeKey,jdbcType=VARCHAR}
     </if>
   </select>
+
+    <select id="getUserScoreByOrderId" resultMap="BaseResultMap" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM
+        user_score
+        WHERE order_id = #{orderId,jdbcType=VARCHAR}
+        ORDER BY
+        id DESC
+    </select>
   
 </mapper>

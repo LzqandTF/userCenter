@@ -23,5 +23,6 @@ public interface UserScoreMapper {
     int countCurdateDataByRule(@Param("userId") String userId, @Param("classCode") String classCode, @Param("createTime") Date createTime);
     
     int countUserScoreDataByRule(@Param("userId") String userId, @Param("classCode") String classCode, @Param("codeKey") String codeKey);
-    
+
+    List<UserScore> getUserScoreByOrderId(@Param("orderId") String orderId);
 }

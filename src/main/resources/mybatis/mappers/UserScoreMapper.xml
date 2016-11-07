@@ -11,9 +11,10 @@
     <result column="score_amount" property="scoreAmount" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="TINYINT" />
+      <result column="order_id" property="orderId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, open_id, user_id, class_code, code_key, class_desc, score_amount, create_time, status
+    id, open_id, user_id, class_code, code_key, class_desc, score_amount, create_time, status, order_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -28,10 +29,10 @@
   <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.UserScore" >
     insert into user_score (id, open_id, user_id, 
       class_code, code_key, class_desc, score_amount, 
-      create_time, status)
+      create_time, status, order_id)
     values (#{id,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
       #{classCode,jdbcType=VARCHAR}, #{codeKey,jdbcType=VARCHAR}, #{classDesc,jdbcType=VARCHAR},
-      #{scoreAmount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
+      #{scoreAmount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}, #{orderId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserScore" >
     insert into user_score
@@ -63,6 +64,12 @@
       <if test="status != null" >
         status,
       </if>
+        <if test="codeKey != null" >
+            code_key,
+        </if>
+        <if test="orderId != null" >
+            order_id,
+        </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -92,6 +99,9 @@
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
       </if>
+        <if test="orderId != null" >
+            #{orderId,jdbcType=VARCHAR},
+        </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.yijiawang.web.platform.userCenter.po.UserScore" >
@@ -121,6 +131,9 @@
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
       </if>
+        <if test="orderId != null" >
+            order_id = #{orderId,jdbcType=VARCHAR},
+        </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -133,7 +146,8 @@
       class_desc = #{classDesc,jdbcType=VARCHAR},
       score_amount = #{scoreAmount,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      status = #{status,jdbcType=TINYINT}
+      status = #{status,jdbcType=TINYINT},
+      order_id = #{orderId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

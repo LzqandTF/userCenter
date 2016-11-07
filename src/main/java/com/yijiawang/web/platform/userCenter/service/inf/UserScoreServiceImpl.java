@@ -126,16 +126,29 @@ public class UserScoreServiceImpl implements UserScoreService {
 		Integer newDealPrice = dealPrice/Integer.valueOf(UserScore.SCORE_KEY_CODE_PAY_ONE_DOLLAR);
 		UserScore userScore = new UserScore();
 		userScore.setUserId(userId);
-		userScore.setClassCode(UserScore.SCORE_CLASS_CODE_PAY_ONE_DOLLAR);
-		userScore.setCodeKey(UserScore.SCORE_KEY_CODE_PAY_ONE_DOLLAR);
-		userScore.setClassDesc(String.format(UserScore.SCORE_CLASS_DESC_PAY_DOLLAR, newDealPrice));
-		userScore.setScoreAmount(newDealPrice*scoreAmount);
-		userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
+        if (dealPrice > 0) {
+            userScore.setClassCode(UserScore.SCORE_CLASS_CODE_PAY_ONE_DOLLAR);
+            userScore.setCodeKey(UserScore.SCORE_KEY_CODE_PAY_ONE_DOLLAR);
+            userScore.setClassDesc(String.format(UserScore.SCORE_CLASS_DESC_PAY_DOLLAR, newDealPrice));
+            userScore.setScoreAmount(newDealPrice*scoreAmount);
+            userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
+        } else if (dealPrice < 0) {
+            userScore.setClassCode(UserScore.SCORE_CLASS_CODE_BACK_SCORE);
+            userScore.setCodeKey(UserScore.SCORE_KEY_CODE_PAY_ONE_DOLLAR);
+            userScore.setClassDesc(String.format(UserScore.SCORE_CLASS_DESC_BACK_SCORE, newDealPrice));
+            userScore.setScoreAmount(newDealPrice*scoreAmount);
+            userScore.setStatus(UserScore.USER_SCORE_STATUS_2);
+        }
 		saveSelective(userScore);
 		return true;
 	}
-	
-	private Integer getScoreValue(String classCode, String codeKey){
+
+    @Override
+    public List<UserScore> getUserScoreByOrderId(String orderId) {
+        return userScoreMapper.getUserScoreByOrderId(orderId);
+    }
+
+    private Integer getScoreValue(String classCode, String codeKey){
 		SystemDict systemDict = systemDictService.getSystemDictByCodeKey(classCode, codeKey);
 		if (systemDict != null) {return Integer.valueOf(systemDict.getCodeValue());}
 		log.error(String.format("classCode=%s ; codeKey=%s 在system_dict表中不存在！", classCode, codeKey));
