@@ -142,8 +142,13 @@ public class UserScoreServiceImpl implements UserScoreService {
 		saveSelective(userScore);
 		return true;
 	}
-	
-	private Integer getScoreValue(String classCode, String codeKey){
+
+    @Override
+    public UserScore getUserScoreByParam(String userId, String classCode, String orderId) {
+        return userScoreMapper.selectByParam(userId, classCode, orderId);
+    }
+
+    private Integer getScoreValue(String classCode, String codeKey){
 		SystemDict systemDict = systemDictService.getSystemDictByCodeKey(classCode, codeKey);
 		if (systemDict != null) {return Integer.valueOf(systemDict.getCodeValue());}
 		log.error(String.format("classCode=%s ; codeKey=%s 在system_dict表中不存在！", classCode, codeKey));
