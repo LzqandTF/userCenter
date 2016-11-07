@@ -34,7 +34,7 @@
     </if>
   </select>
 
-    <select id="selectByParam" resultMap="BaseResultMap" >
+    <select id="getUserScoreByOrderId" resultMap="BaseResultMap" >
         SELECT
         <include refid="Base_Column_List" />
         FROM
@@ -43,8 +43,8 @@
         <if test="orderId != null">
             <![CDATA[ AND order_id <= #{orderId,jdbcType=VARCHAR} ]]>
         </if>
-        <if test="classCode != null">
-            <![CDATA[ AND class_code <= #{classCode,jdbcType=VARCHAR} ]]>
+        <if test="status != null">
+            <![CDATA[ AND status <= #{status,jdbcType=TINYINT} ]]>
         </if>
         ORDER BY
         id DESC

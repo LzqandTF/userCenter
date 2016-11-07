@@ -24,5 +24,5 @@ public interface UserScoreMapper {
     
     int countUserScoreDataByRule(@Param("userId") String userId, @Param("classCode") String classCode, @Param("codeKey") String codeKey);
 
-    UserScore selectByParam(@Param("userId") String userId, @Param("classCode") String classCode, @Param("orderId") String orderId);
+    UserScore getUserScoreByOrderId(@Param("userId") String userId, @Param("orderId") String orderId, @Param("status") Byte status);
 }
