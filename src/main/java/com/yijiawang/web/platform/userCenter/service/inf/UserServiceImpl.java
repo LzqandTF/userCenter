@@ -1021,7 +1021,6 @@ public class UserServiceImpl implements UserService {
 		
 		return result;
 	}
-
 	/**
 	 * 添加银行卡
 	 */
