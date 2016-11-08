@@ -51,7 +51,7 @@ public class UserScoreServiceImpl implements UserScoreService {
 	}
 
 	@Override
-	public boolean saveUserScoreByRule(String userId, String classCode, String codeKey) {
+	public boolean saveUserScoreByRule(String userId, String classCode, String codeKey, String orderId) {
 		if (UserScore.SCORE_CLASS_CODE_FIRST_SUBSCRIBE.equals(classCode)) { // 首次关注
 			int scoreAmount = getScoreValue(classCode, codeKey);
 			if (scoreAmount == 0) { return false; }
@@ -93,6 +93,7 @@ public class UserScoreServiceImpl implements UserScoreService {
 			userScore.setClassDesc(String.format(UserScore.SCORE_CLASS_DESC_ILLEGAL_SELLER_NOT_PAY, illegalCount));
 			userScore.setScoreAmount(userCredits);
 			userScore.setStatus(UserScore.USER_SCORE_STATUS_2);
+            userScore.setOrderId(orderId);
 			saveSelective(userScore);
 		} else if (UserScore.SCORE_INIT.equals(classCode)) {
 			UserInfo userinfo = userService.getUserByUserId(userId);
@@ -109,7 +110,7 @@ public class UserScoreServiceImpl implements UserScoreService {
 			saveSelective(userScore);
 			int userCredits = (userinfo.getBuyScore() == null || userinfo.getBuyScore() == 0) ? 0 : userinfo.getBuyScore();
 			if (userCredits > 0) {
-				saveUserScoreByRuleForPay(userId, userCredits);
+				saveUserScoreByRuleForPay(userId, null, userCredits);
 			}
 		} else {
 			log.error(String.format(UserScore.SCORE_CLASS_NOT_FOUND, classCode, codeKey));
@@ -119,13 +120,14 @@ public class UserScoreServiceImpl implements UserScoreService {
 	}
 	
 	@Override
-	public boolean saveUserScoreByRuleForPay(String userId, Integer dealPrice) {
+	public boolean saveUserScoreByRuleForPay(String userId, String orderId, Integer dealPrice) {
 		if (dealPrice == null || dealPrice.intValue() < 1) {return false;}
 		int scoreAmount = getScoreValue(UserScore.SCORE_CLASS_CODE_PAY_ONE_DOLLAR, 
 				                        UserScore.SCORE_KEY_CODE_PAY_ONE_DOLLAR);
 		Integer newDealPrice = dealPrice/Integer.valueOf(UserScore.SCORE_KEY_CODE_PAY_ONE_DOLLAR);
 		UserScore userScore = new UserScore();
 		userScore.setUserId(userId);
+        userScore.setOrderId(orderId);
         if (dealPrice > 0) {
             userScore.setClassCode(UserScore.SCORE_CLASS_CODE_PAY_ONE_DOLLAR);
             userScore.setCodeKey(UserScore.SCORE_KEY_CODE_PAY_ONE_DOLLAR);
