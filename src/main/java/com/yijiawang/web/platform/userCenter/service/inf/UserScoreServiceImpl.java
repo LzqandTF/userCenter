@@ -142,6 +142,21 @@ public class UserScoreServiceImpl implements UserScoreService {
         return userScoreMapper.getUserScoreByOrderId(orderId);
     }
 
+    @Override
+    public boolean rollbackUserScore(String userId, String orderId, Integer amount) {
+        if (amount == null || amount.intValue() < 1) {return false;}
+        UserScore userScore = new UserScore();
+        userScore.setUserId(userId);
+        userScore.setOrderId(orderId);
+        userScore.setClassCode(UserScore.SCORE_CLASS_CODE_BACK_SCORE);
+        userScore.setCodeKey(UserScore.SCORE_KEY_CODE_PAY_ONE_DOLLAR);
+        userScore.setClassDesc(UserScore.SCORE_CLASS_DESC_BACK_SCORE);
+        userScore.setScoreAmount(amount);
+        userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
+        saveSelective(userScore);
+        return true;
+    }
+
     private Integer getScoreValue(String classCode, String codeKey){
 		SystemDict systemDict = systemDictService.getSystemDictByCodeKey(classCode, codeKey);
 		if (systemDict != null) {return Integer.valueOf(systemDict.getCodeValue());}
