@@ -710,7 +710,84 @@ public class UserServiceImpl implements UserService {
 					logObject.add(" 退回余额 余额增加失败");
 					result = -2;
 				}
-			}
+			} else if (accountCheck.getTradeType() == TradeType.ZC_PAY.value()) {
+                // 众筹支付
+                // 1. 充值到余额
+                logObject.add(" 众筹支付 ");
+                if (accountCheck.getPayType().intValue() != PayType.BALANCE.value()) {
+                    // 使用第三方支付,先进行充值
+                    logObject.add(" 众筹支付 [非余额支付]");
+                    if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
+                        logObject.add(" 众筹支付 [非余额支付] 余额增加完成");
+                        accountCheck.setType(BalanceChange.ADD.value());
+                        accountCheck.setTitle("充值");
+                        accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
+                        if (accountCheckMapper.insert(accountCheck) > 0) {
+                            // un_index : tran_id +
+                            result = accountCheck.getId();
+                            logObject.add(" 众筹支付 [非余额支付] 余额充值流水写入成功");
+                        } else {
+                            logObject.add(" 众筹支付 [非余额支付] 余额充值流水写入失败");
+                            result = -3;
+                        }
+                    } else {
+                        logObject.add(" 众筹支付 [非余额支付] 余额增加失败");
+                        result = -2;
+                    }
+                }
+                if (result >= 0) {
+                    logObject.add(" 众筹支付 开始从余额支付众筹");
+                    if (userAccountMapper.updateBalance2UserAccount(userId, -1 * amount) > 0) {
+                        logObject.add(" 订单支付 [余额] 余额扣除完成");
+                        AccountCheck outAccountCheck = new AccountCheck();
+                        outAccountCheck.setUserId(accountCheck.getUserId());
+                        outAccountCheck.setOpenId(accountCheck.getOpenId());
+                        outAccountCheck.setTranId(accountCheck.getTranId());
+                        outAccountCheck.setTitle("众筹支付");
+                        outAccountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
+                        outAccountCheck.setTradeType(accountCheck.getTradeType());
+                        outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
+                        outAccountCheck.setType(BalanceChange.SUB.value());
+                        outAccountCheck.setPayType(accountCheck.getPayType());
+                        outAccountCheck.setLotId(accountCheck.getLotId());// 此处为众筹商品的id
+                        outAccountCheck.setOrderId(accountCheck.getOrderId());
+                        if (accountCheckMapper.insert(outAccountCheck) > 0) {
+                            // un_index : trand_id + 1 + 0
+                            result = outAccountCheck.getId();
+                            logObject.add(" 众筹支付, [余额] 余额扣除流水写入完成");
+                        } else {
+                            logObject.add(" 众筹支付, [余额] 余额扣除流水写入失败");
+                            result = -3;
+                        }
+                    } else {
+                        logObject.add(" 众筹支付, [余额] 余额扣除失败");
+                        result = -2;
+                    }
+                } else {
+                    logObject.add(" 众筹支付 余额充值步骤失败");
+                }
+            } else if (accountCheck.getTradeType() == TradeType.ZC_FINISH.value()) {
+                // 众筹确认收货
+                logObject.add(" 众筹完成 ");
+                // 修改余额
+                if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
+                    logObject.add(" 众筹完成 卖家余额增加完成");
+                    // 添加流水
+                    accountCheck.setType(BalanceChange.ADD.value());
+                    accountCheck.setTitle("众筹到账");
+                    accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
+                    if (accountCheckMapper.insert(accountCheck) > 0) {
+                        result = accountCheck.getId();
+                        logObject.add(" 众筹完成 卖家余额增加流水写入完成");
+                    } else {
+                        logObject.add(" 众筹完成 卖家余额增加流水写入失败");
+                        result = -3;
+                    }
+                } else {
+                    logObject.add(" 众筹完成 卖家余额增加失败");
+                    result = -2;
+                }
+            }
 		} catch (Exception e) {
 			logObject.add(e.getMessage());
 			result = -1;
