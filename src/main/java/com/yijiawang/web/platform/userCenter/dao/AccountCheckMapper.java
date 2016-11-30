@@ -24,13 +24,23 @@ public interface AccountCheckMapper {
     AccountCheck getOrderPayAccountCheck(String orderId);
 
     /**
+     * 获取众筹支付流水
+     *
+     * @param orderId
+     * @return
+     */
+    AccountCheck getZcOrderPayAccountCheck(String orderId);
+
+    /**
      * 判断该笔流水是否已经处理过,规则, trand_id + trade_type + type 为唯一键值
+     *
      * @return
      */
     AccountCheck queryAccountCheck(AccountCheck accountCheck);
 
     /**
      * 根据订单id获取冻结流水
+     *
      * @param orderId
      * @return
      */
@@ -38,6 +48,7 @@ public interface AccountCheckMapper {
 
     /**
      * 根据交易时间段获取列表
+     *
      * @param tradeTimeBegin
      * @param tradeTimeEnd
      * @return
@@ -46,6 +57,7 @@ public interface AccountCheckMapper {
 
     /**
      * 根据订单id获取最后一条流水
+     *
      * @param orderId
      * @return
      */
@@ -53,6 +65,7 @@ public interface AccountCheckMapper {
 
     /**
      * 根据流水号、资金流向、金额、交易类型判断交易流水表中是否存在此条记录
+     *
      * @param param
      * @return
      */
