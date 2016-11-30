@@ -789,6 +789,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
         } catch (Exception e) {
+        	e.printStackTrace();
             logObject.add(e.getMessage());
             result = -1;
         }

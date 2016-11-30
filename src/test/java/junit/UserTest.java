@@ -31,7 +31,6 @@ public class UserTest {
 
     @Autowired
     private UserService userService;
-
     @Autowired
     private UserInsurePriceService userInsurePriceService;
     @Autowired
@@ -265,5 +264,19 @@ public class UserTest {
         illegalCount = 6;
         illegalCount = illegalCount % 3 == 0 ? 3 : illegalCount % 3;
         System.out.println(illegalCount);
+    }
+    
+    @Test
+    public void test2() {
+    	 Map<String, String> param = new HashMap<>();
+         param.put("trade_type", TradeType.ORDER_WITHDRAW.value().toString());
+         param.put("open_id", "o027xw_KR7RKau5yfv76xpMp7jAQ");
+         param.put("lot_id", " ");
+         param.put("order_id", "006016113018217bTgUIwf");
+         param.put("pay_type", "0");
+         // 余额支付
+         param.put("tran_id", "00001611301821PoIqg2s4");
+         param.put("trade_amount", "30");
+        userService.addAccountCheck(param);
     }
 }
