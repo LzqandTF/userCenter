@@ -860,7 +860,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public AccountCheck getZcOrderPayAccountCheck(String orderId) {
-        return accountCheckMapper.getOrderPayAccountCheck(orderId);
+        return accountCheckMapper.getZcOrderPayAccountCheck(orderId);
     }
 
     @Override
