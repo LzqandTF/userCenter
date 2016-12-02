@@ -23,6 +23,8 @@ public interface AccountCheckMapper {
 
     AccountCheck getOrderPayAccountCheck(String orderId);
 
+    List<AccountCheck> getZcOrderAccountCheck(String orderId, int tradeType, int type);
+    
     /**
      * 获取众筹支付流水
      *

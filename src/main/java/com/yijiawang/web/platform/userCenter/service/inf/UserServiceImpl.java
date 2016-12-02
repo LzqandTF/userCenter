@@ -859,6 +859,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<AccountCheck> getZcOrderAccountCheck(String orderId, int tradeType, int type) {
+        return accountCheckMapper.getZcOrderAccountCheck(orderId, tradeType, type);
+    }
+
+    @Override
     public AccountCheck getZcOrderPayAccountCheck(String orderId) {
         return accountCheckMapper.getZcOrderPayAccountCheck(orderId);
     }

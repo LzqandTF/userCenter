@@ -40,6 +40,13 @@
       from account_check
       WHERE trade_type=11 AND type=0 AND order_id=#{orderId,jdbcType=VARCHAR}
   </select>
+  
+  <select id="getZcOrderAccountCheck" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from account_check
+      WHERE trade_type=#{1} AND type=#{2} AND order_id=#{0}
+  </select>
 
   <select id="queryAccountCheck" parameterType="com.yijiawang.web.platform.userCenter.po.AccountCheck"  resultMap="BaseResultMap">
       select
