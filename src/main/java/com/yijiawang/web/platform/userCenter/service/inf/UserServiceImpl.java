@@ -787,6 +787,85 @@ public class UserServiceImpl implements UserService {
                     logObject.add(" 众筹完成 卖家余额增加失败");
                     result = -2;
                 }
+            } else if (accountCheck.getTradeType() == TradeType.SHOP_PAY.value()) {
+                // 商城支付
+                // 1. 充值余额
+                logObject.add(" 商城支付 ");
+                if (accountCheck.getPayType().intValue() != PayType.BALANCE.value()) {
+                    // 使用第三方支付,先进行充值
+                    logObject.add(" 商城支付 [非余额支付]");
+                    if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
+                        logObject.add(" 商城支付 [非余额支付] 余额增加完成");
+                        accountCheck.setType(BalanceChange.ADD.value());
+                        accountCheck.setTitle("充值");
+                        accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
+                        if (accountCheckMapper.insert(accountCheck) > 0) {
+                            // un_index : trand_id + 20 + 1
+                            result = accountCheck.getId();
+                            logObject.add(" 商城支付, [非余额] 余额充值流水写入完成");
+                        } else {
+                            logObject.add(" 商城支付, [非余额] 余额充值流水写入失败");
+                            result = -3;
+                        }
+                    } else {
+                        logObject.add(" 商城支付, [非余额] 余额增加失败");
+                        result = -2;
+                    }
+                }
+                if (result >= 0) {
+                    // 如果以上步骤操作成功
+                    logObject.add(" 商城支付 开始从余额支付订单 ");
+                    if (userAccountMapper.updateBalance2UserAccount(userId, -1 * amount) > 0) {
+                        logObject.add(" 商城支付, [余额] 余额扣除完成");
+                        AccountCheck outAccountCheck = new AccountCheck();
+                        outAccountCheck.setUserId(accountCheck.getUserId());
+                        outAccountCheck.setOpenId(accountCheck.getOpenId());
+                        outAccountCheck.setTranId(accountCheck.getTranId());
+                        outAccountCheck.setTitle("订单支付");
+                        outAccountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
+                        outAccountCheck.setTradeType(accountCheck.getTradeType());
+                        outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
+                        outAccountCheck.setType(BalanceChange.SUB.value());
+                        outAccountCheck.setPayType(accountCheck.getPayType());
+                        outAccountCheck.setLotId(accountCheck.getLotId());
+                        outAccountCheck.setOrderId(accountCheck.getOrderId());
+                        if (accountCheckMapper.insert(outAccountCheck) > 0) {
+                            // un_index : trand_id + 20 + 0
+                            result = outAccountCheck.getId();
+                            logObject.add(" 商城支付, [余额] 余额扣除流水写入完成");
+                        } else {
+                            logObject.add(" 商城支付, [余额] 余额扣除流水写入失败");
+                            result = -3;
+                        }
+                    } else {
+                        logObject.add(" 商城支付, [余额] 余额扣除失败");
+                        result = -2;
+                    }
+                } else {
+                    logObject.add(" 商城支付 余额充值步骤失败");
+                }
+            } else if (accountCheck.getTradeType() == TradeType.SHOP_FINISH.value()) {
+                // 商城订单完成
+                logObject.add(" 商城订单完成 ");
+                // 修改余额
+                if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
+                    logObject.add(" 商城订单完成 卖家余额增加完成");
+                    // 添加流水
+                    accountCheck.setType(BalanceChange.ADD.value());
+                    accountCheck.setTitle("货款到账");
+                    accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
+                    if (accountCheckMapper.insert(accountCheck) > 0) {
+                        // un_index : tran_id(FIN前缀) + 28 + 1
+                        result = accountCheck.getId();
+                        logObject.add(" 商城订单完成 卖家余额增加流水写入完成");
+                    } else {
+                        logObject.add(" 商城订单完成 卖家余额增加流水写入失败");
+                        result = -3;
+                    }
+                } else {
+                    logObject.add(" 商城订单完成 卖家余额增加失败");
+                    result = -2;
+                }
             }
         } catch (Exception e) {
         	e.printStackTrace();
