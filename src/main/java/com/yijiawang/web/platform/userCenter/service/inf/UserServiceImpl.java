@@ -199,17 +199,17 @@ public class UserServiceImpl implements UserService {
             if (param.get("trade_type") == null || param.get("trade_amount") == null) {
                 result = -3;
             }
-            logObject.add("trade_type == " + param.get("trade_type"));
-            Integer tradeType = Integer.parseInt(param.get("trade_type"));
+            logObject.add("trade_type == " + param.get("trade_type").toString());
+            Integer tradeType = Integer.parseInt(param.get("trade_type").toString());
             accountCheck.setTradeType(tradeType);
-            logObject.add("trade_amount == " + param.get("trade_amount"));
-            Integer amount = Integer.parseInt(param.get("trade_amount"));
+            logObject.add("trade_amount == " + param.get("trade_amount").toString());
+            Integer amount = Integer.parseInt(param.get("trade_amount").toString());
             accountCheck.setTradeAmount(amount);
             if (param.get("pay_type") == null) {
                 result = -5;
             }
-            logObject.add("pay_type == " + param.get("pay_type"));
-            accountCheck.setPayType(Integer.parseInt(param.get("pay_type")));
+            logObject.add("pay_type == " + param.get("pay_type").toString());
+            accountCheck.setPayType(Integer.parseInt(param.get("pay_type").toString()));
             if (param.get("lot_id") != null) {
                 accountCheck.setLotId(param.get("lot_id"));
                 logObject.add("lot_id == " + param.get("lot_id"));
