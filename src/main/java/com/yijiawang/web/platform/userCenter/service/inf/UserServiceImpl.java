@@ -473,8 +473,8 @@ public class UserServiceImpl implements UserService {
                             // un_index : tran_id + 4 + 1
                             result = accountCheck.getId();
                             logObject.add(" 退款操作 退款给买家流水增加写入完成");
-                            if (accountCheck.getPayType() != PayType.BALANCE.value()) {
-                                // 2. 如果非余额付款,从余额扣除
+                            if (accountCheck.getPayType() == PayType.WEIXIN.value() || accountCheck.getPayType() == PayType.UNIONPAY.value()) {
+                                // 2. 如果非余额付款,非汇款登记,从余额扣除
                                 if (userAccountMapper.updateBalance2UserAccount(userId, -1 * amount) > 0) {
                                     logObject.add(" 退款操作 卖家余额扣除完成 !");
                                     AccountCheck outAccountCheck = new AccountCheck();
