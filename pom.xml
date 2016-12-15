@@ -233,6 +233,11 @@
                 <targetPath>props/</targetPath>
                 <filtering>true</filtering>
             </resource>
+            <resource>
+                <directory>src/main/resources/props.${env.profile}/config</directory>
+                <targetPath>config/</targetPath>
+                <filtering>true</filtering>
+            </resource>
         </resources>
 
         <plugins>
