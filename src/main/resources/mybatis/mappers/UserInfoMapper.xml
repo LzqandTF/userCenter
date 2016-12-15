@@ -32,10 +32,16 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="getUserByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
      <include refid="Base_Column_List" />
     from user_info
     where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <select id="getUserByOpenId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from user_info
+    where open_id = #{openId,jdbcType=VARCHAR}
   </select>
   <insert id="insert" parameterType="com.yijiawang.web.platform.userCenter.po.UserInfo" >
     insert into user_info (id, open_id, name, 

@@ -24,6 +24,8 @@ public interface WxUserInfoMapper {
 
     WxUserInfo selectWxUserInfoByUserId(String userId);
 
+    WxUserInfo selectWxUserInfoByOpenId(String openId);
+
     UserVO selectUserVOByUserId(String userId);
        
     List<String> getAllOpenId(@Param("subcribe")Integer subcribe);

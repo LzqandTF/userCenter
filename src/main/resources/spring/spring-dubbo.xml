@@ -20,5 +20,6 @@
     <dubbo:service interface="com.yijiawang.web.platform.userCenter.service.PencraftGameService" ref="pencraftGameService" />
     <dubbo:service interface="com.yijiawang.web.platform.userCenter.service.UserScoreService" ref="userScoreService" />
     <dubbo:service interface="com.yijiawang.web.platform.userCenter.service.UserSignInLogService" ref="userSignInLogService" />
+    <dubbo:service interface="com.yijiawang.web.platform.userCenter.service.ShopUserService" ref="shopUserService" />
     <dubbo:reference interface="com.yijiawang.web.platform.productCenter.service.SystemDictService" id="systemDictService"/>
 </beans>

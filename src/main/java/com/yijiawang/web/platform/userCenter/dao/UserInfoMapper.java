@@ -19,6 +19,8 @@ public interface UserInfoMapper {
     
     UserInfo getUserByUserId(String userId);
 
+    UserInfo getUserByOpenId(String openId);
+
     Set<UserInfo> getRecommendUserList();
 
     int addUserScore(@Param("userId")String userId, @Param("role")Integer role, @Param("amount")Integer amount);
