@@ -15,12 +15,12 @@
     </update>
     
     <update id="updateBalance2UserAccount">
-        UPDATE user_account set balance = balance + #{amount, jdbcType=INTEGER}
+        UPDATE user_account set balance = balance + #{amount, jdbcType=INTEGER},update_time=now()
         WHERE user_id = #{userId, jdbcType=VARCHAR}
     </update>
 
     <update id="updateFrozenMoney2UserAccount">
-        UPDATE user_account set frozen_money = frozen_money + #{amount, jdbcType=INTEGER}
+        UPDATE user_account set frozen_money = frozen_money + #{amount, jdbcType=INTEGER},update_time=now()
         WHERE user_id = #{userId, jdbcType=VARCHAR}
     </update>
 
