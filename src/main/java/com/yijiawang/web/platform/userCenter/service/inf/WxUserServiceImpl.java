@@ -21,6 +21,11 @@ public class WxUserServiceImpl implements WxUserService{
 	public int updateByPrimaryKey(WxUserInfo wxUserInfo) {
 		return wxUserInfoMapper.updateByPrimaryKey(wxUserInfo);
 	}
+	
+	@Override
+	public int updateByPrimaryKeySelective(WxUserInfo wxUserInfo) {
+		return wxUserInfoMapper.updateByPrimaryKeySelective(wxUserInfo);
+	}
 
 	@Override
 	public WxUserInfo getUserByOpenId(String openId) {

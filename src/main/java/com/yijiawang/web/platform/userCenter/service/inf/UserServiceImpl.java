@@ -1231,4 +1231,9 @@ public class UserServiceImpl implements UserService {
         return userInfoMapper.updateUserCertifInfo(userId, fullName, certifId);
     }
 
+	@Override
+	public UserInfo getUserByOpenId(String openId) {
+		return userInfoMapper.getUserByOpenId(openId);
+	}
+
 }
