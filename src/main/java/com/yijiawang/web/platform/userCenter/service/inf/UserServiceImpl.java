@@ -1236,4 +1236,9 @@ public class UserServiceImpl implements UserService {
 		return userInfoMapper.getUserByOpenId(openId);
 	}
 
+	@Override
+	public UserStatus selectUserStatusByUserId(String userId) {
+		return userStatusMapper.selectUserStatusByUserId(userId);
+	}
+
 }
