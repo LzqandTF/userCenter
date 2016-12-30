@@ -108,6 +108,9 @@ public class UserLevelServiceImpl implements UserLevelService{
     @Override
     public UserLevelVO getUserLevelSaler(String userId) {
         UserInfo userInfo = userService.getUserByUserId(userId);
+        if (userInfo == null) {
+        	return null;
+        }
         Integer score = userInfo.getSellScore();
         if (score == null) {
             score = initUserBuyerScore(userId, UserRoleType.SALER.value());
