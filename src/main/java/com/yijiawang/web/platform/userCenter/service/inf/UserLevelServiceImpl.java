@@ -75,6 +75,9 @@ public class UserLevelServiceImpl implements UserLevelService{
     @Override
     public UserLevelVO getUserLevelBuyer(String userId) {
         UserInfo userInfo = userService.getUserByUserId(userId);
+        if (userInfo == null) {
+        	return null;
+        }
         Integer score = userInfo.getBuyScore();
         if (score == null) {
             score = initUserBuyerScore(userId, UserRoleType.BUYER.value());
