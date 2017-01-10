@@ -33,8 +33,7 @@ public class UserStatistServiceImpl implements UserStatistService {
     public UserStatist getUserStatist(String userId, Integer role, Integer type) {
         UserStatist userStatist = userStatistMapper.getUserStatist(userId, role, type);
         if (userStatist == null) {
-            initUserStatic(userId, role, type);
-            userStatist = userStatistMapper.getUserStatist(userId, role, type);
+            userStatist = initUserStatic(userId, role, type);
         }
         return userStatist;
     }
@@ -45,13 +44,17 @@ public class UserStatistServiceImpl implements UserStatistService {
      * @param role
      * @param type
      */
-    private void initUserStatic(String userId, Integer role, Integer type) {
-        UserStatist userStatist = new UserStatist();
-        userStatist.setUserId(userId);
-        userStatist.setUpdatetime(new Date());
-        userStatist.setRole(role);
-        userStatist.setType(type);
-        userStatist.setCount(0);
+    @Override
+    public UserStatist initUserStatic(String userId, Integer role, Integer type) {
+        UserStatist userStatist = userStatistMapper.getUserStatist(userId, role, type);
+        if (userStatist == null) {
+            userStatist = new UserStatist();
+            userStatist.setUserId(userId);
+            userStatist.setUpdatetime(new Date());
+            userStatist.setRole(role);
+            userStatist.setType(type);
+            userStatist.setCount(0);
+        }
         Integer count = null;
         if(role.intValue() == UserRoleType.BUYER.value()) {
             if (type.intValue() != BuyerStatistType.NOTPAY.value()) {
@@ -63,6 +66,12 @@ public class UserStatistServiceImpl implements UserStatistService {
         if (count != null) {
             userStatist.setCount(count);
         }
-        userStatistMapper.insertSelective(userStatist);
+        if (userStatist.getId() != null) {
+            userStatistMapper.updateByPrimaryKeySelective(userStatist);
+        } else {
+            userStatistMapper.insertSelective(userStatist);
+        }
+        return userStatist;
     }
+
 }
