@@ -8,9 +8,12 @@ import com.yijiawang.web.platform.userCenter.param.AccountCheckParam;
 import com.yijiawang.web.platform.userCenter.po.*;
 import com.yijiawang.web.platform.userCenter.service.UserAccountLogService;
 import com.yijiawang.web.platform.userCenter.type.*;
+import com.yijiawang.web.platform.userCenter.util.AppConfig;
+import com.yijiawang.web.platform.userCenter.util.HttpRequestUtils;
 import com.yijiawang.web.platform.userCenter.vo.UserProtectQuestionVO;
 import com.yijiawang.web.platform.userCenter.vo.UserVO;
 import com.yijiawang.web.platform.userCenter.vo.XUserVO;
+import net.sf.json.JSONObject;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -868,7 +871,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
         } catch (Exception e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             logObject.add(e.getMessage());
             result = -1;
         }
@@ -1092,6 +1095,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public JSONObject getShopUserOrderSum(String openId) {
+        JSONObject res = null;
+        try {
+            // 获取基础路径
+            String baseUrl = AppConfig.getString("shop_base_url");
+            String param = "app=member&act=get_sorder_money&openid=" + openId;
+            res = HttpRequestUtils.sendPost(baseUrl, param);
+            log.info("商城订单 -- openId:" + openId + " -- 结果：" + res);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    @Override
     public int addUserScore(String userId, Integer role, Integer amount) {
         return userInfoMapper.addUserScore(userId, role, amount);
     }
@@ -1231,14 +1249,14 @@ public class UserServiceImpl implements UserService {
         return userInfoMapper.updateUserCertifInfo(userId, fullName, certifId);
     }
 
-	@Override
-	public UserInfo getUserByOpenId(String openId) {
-		return userInfoMapper.getUserByOpenId(openId);
-	}
+    @Override
+    public UserInfo getUserByOpenId(String openId) {
+        return userInfoMapper.getUserByOpenId(openId);
+    }
 
-	@Override
-	public UserStatus selectUserStatusByUserId(String userId) {
-		return userStatusMapper.selectUserStatusByUserId(userId);
-	}
+    @Override
+    public UserStatus selectUserStatusByUserId(String userId) {
+        return userStatusMapper.selectUserStatusByUserId(userId);
+    }
 
 }
