@@ -1311,4 +1311,13 @@ public class UserServiceImpl implements UserService {
         return userStatusMapper.selectUserStatusByUserId(userId);
     }
 
+	@Override
+	public void updateUserSellScore(String userId, Integer sellScore) {
+		UserInfo userInfo = userInfoMapper.getUserByUserId(userId);
+		if (userInfo != null) {
+			userInfoMapper.addUserScore(userId, 1, sellScore);
+		}
+		
+	}
+
 }
