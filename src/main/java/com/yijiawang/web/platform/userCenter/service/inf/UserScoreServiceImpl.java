@@ -63,6 +63,17 @@ public class UserScoreServiceImpl implements UserScoreService {
 			userScore.setScoreAmount(scoreAmount);
 			userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
 			saveSelective(userScore);
+		} else if (UserScore.SCORE_CLASS_CODE_LOT_ACCUSATION.equals(classCode)) { // 成功举报拍品
+			int scoreAmount = getScoreValue(classCode, codeKey);
+			if (scoreAmount == 0) { return false; }
+			UserScore userScore = new UserScore();
+			userScore.setUserId(userId);
+			userScore.setClassCode(classCode);
+			userScore.setCodeKey(codeKey);
+			userScore.setClassDesc(UserScore.SCORE_CLASS_DESC_LOT_ACCUSATION);
+			userScore.setScoreAmount(scoreAmount);
+			userScore.setStatus(UserScore.USER_SCORE_STATUS_1);
+			saveSelective(userScore);
 		} else if (UserScore.SCORE_CLASS_CODE_SHARE_LINK.equals(classCode)) { // 分享链接
 			if (userScoreMapper.countCurdateDataByRule(userId, classCode, new Date()) < UserScore.SCORE_CLASS_SHARE_LINK_MAX) {
 				int scoreAmount = getScoreValue(classCode, codeKey);
