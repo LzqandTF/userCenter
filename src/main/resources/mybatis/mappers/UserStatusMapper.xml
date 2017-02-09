@@ -7,6 +7,7 @@
     <result column="open_id" property="openId" jdbcType="VARCHAR" />
     <result column="dt_bid" property="dtBid" jdbcType="INTEGER" />
     <result column="dt_delivery" property="dtDelivery" jdbcType="VARCHAR" />
+      <result column="dt_publish" property="dtPublish" jdbcType="INTEGER" />
       <result column="bid_condition" property="bidCondition" jdbcType="VARCHAR" />
       <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
   </resultMap>
