@@ -5,9 +5,11 @@ import com.yijiawang.web.platform.userCenter.param.AccountCheckParam;
 import com.yijiawang.web.platform.userCenter.po.AccountCheck;
 import com.yijiawang.web.platform.userCenter.po.PencraftGame;
 import com.yijiawang.web.platform.userCenter.po.PencraftGameVote;
+import com.yijiawang.web.platform.userCenter.po.UserScore;
 import com.yijiawang.web.platform.userCenter.service.PencraftGameService;
 import com.yijiawang.web.platform.userCenter.service.UserInsurePriceService;
 import com.yijiawang.web.platform.userCenter.service.UserLevelService;
+import com.yijiawang.web.platform.userCenter.service.UserScoreService;
 import com.yijiawang.web.platform.userCenter.service.UserService;
 import com.yijiawang.web.platform.userCenter.type.PayType;
 import com.yijiawang.web.platform.userCenter.type.TradeType;
@@ -37,6 +39,8 @@ public class UserTest {
     private WxUserInfoMapper userInfoMapper;
     @Autowired
     private UserLevelService userLevelService;
+    @Autowired
+    private UserScoreService userScoreService;
 
 
     @Autowired
@@ -283,5 +287,14 @@ public class UserTest {
     @Test
     public void getShopUserOrderSum() {
         System.out.println(userService.getShopUserOrderSum("o55jRw2m03E8HQjoRyMx0oqjoAaw"));
+    }
+
+    @Test
+    public void saveUserScoreByRule() {
+		// 增加积分
+		userScoreService.saveUserScoreByRule("00011612051628uMBjYi1m", 
+				UserScore.SCORE_CLASS_CODE_LOT_ACCUSATION, 
+				UserScore.SCORE_CLASS_CODE_LOT_ACCUSATION, null);
+		System.out.println("");
     }
 }
