@@ -2,12 +2,18 @@ package com.yijiawang.web.platform.userCenter.service.inf;
 
 import com.yijiawang.web.platform.userCenter.cache.JedisPoolManager;
 import com.yijiawang.web.platform.userCenter.cache.UserCacheNameSpace;
+import com.yijiawang.web.platform.userCenter.dao.UserInfoMapper;
+import com.yijiawang.web.platform.userCenter.dao.UserLevelLogMapper;
 import com.yijiawang.web.platform.userCenter.dao.UserLevelMapper;
 import com.yijiawang.web.platform.userCenter.po.UserInfo;
 import com.yijiawang.web.platform.userCenter.po.UserLevelBuyer;
+import com.yijiawang.web.platform.userCenter.po.UserLevelLog;
 import com.yijiawang.web.platform.userCenter.po.UserLevelSaler;
 import com.yijiawang.web.platform.userCenter.service.UserLevelService;
 import com.yijiawang.web.platform.userCenter.service.UserService;
+import com.yijiawang.web.platform.userCenter.type.BuyerLevelCategory;
+import com.yijiawang.web.platform.userCenter.type.BuyerStatistType;
+import com.yijiawang.web.platform.userCenter.type.SalerLevelCategory;
 import com.yijiawang.web.platform.userCenter.type.UserRoleType;
 import com.yijiawang.web.platform.userCenter.vo.UserLevelVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +33,10 @@ public class UserLevelServiceImpl implements UserLevelService{
     private UserLevelMapper userLevelMapper;
     @Autowired
     private JedisPoolManager jedisPoolManager;
+    @Autowired
+    private UserLevelLogMapper userLevelLogMapper;
+    @Autowired
+    private UserInfoMapper userInfoMapper;
     @Autowired
     private UserService userService;
 
@@ -84,7 +94,7 @@ public class UserLevelServiceImpl implements UserLevelService{
             if (score == null) {
                 score = 0;
             }
-            userService.setUserScore(userId, UserRoleType.BUYER.value(), score);
+            setUserLevelScore(userId, UserRoleType.BUYER.value(), score);
         }
         // 转化为元
         score = score/100;
@@ -117,7 +127,7 @@ public class UserLevelServiceImpl implements UserLevelService{
             if (score == null) {
                 score = 0;
             }
-            userService.setUserScore(userId, UserRoleType.SALER.value(), score);
+            setUserLevelScore(userId, UserRoleType.SALER.value(), score);
         }
         //转化为元
         score = score/100;
@@ -145,5 +155,46 @@ public class UserLevelServiceImpl implements UserLevelService{
             return userLevelMapper.getUserSellSocre(userId);
         }
         return null;
+    }
+
+    @Override
+    public int addUserLevelScore(String userId, Integer role, Integer category, String entityId, Integer amount) {
+        // 增加买家身份等级积分
+        int result = addUserLevelScore(userId, role, amount);
+        if (result > 0) {
+            int amountResult = userService.getUserByUserId(userId).getBuyScore();
+            UserLevelLog levelLog = new UserLevelLog();
+            levelLog.setUserId(userId);
+            levelLog.setRoleType(role);
+            levelLog.setAmount(amount);
+            levelLog.setCategory(category);
+            if (role.intValue() == UserRoleType.BUYER.value()) {
+                // 增加用户
+                if (category == BuyerLevelCategory.CONSUME.value()) {
+                    levelLog.setTitle("消费");
+                } else if (category == BuyerLevelCategory.NOPAY.value()) {
+                    levelLog.setTitle("未付款");
+                } else if (category == BuyerLevelCategory.REPAY.value()) {
+                    levelLog.setTitle("恢复交易");
+                }
+            } else if (role.intValue() == UserRoleType.SALER.value()) {
+                // 增加卖家身份等级积分
+                if (category == SalerLevelCategory.SELL.value()) {
+                    levelLog.setTitle("销售");
+                }
+            }
+            levelLog.setEntityId(entityId);
+            levelLog.setAmountResult(amountResult);
+            return userLevelLogMapper.insertSelective(levelLog);
+        }
+        return 0;
+    }
+
+    private int addUserLevelScore(String userId, Integer role, Integer amount) {
+        return userInfoMapper.addUserScore(userId, role, amount);
+    }
+
+    private int setUserLevelScore(String userId, Integer role, Integer amount) {
+        return userInfoMapper.setUserScore(userId, role, amount);
     }
 }
