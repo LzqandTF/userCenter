@@ -921,6 +921,83 @@ public class UserServiceImpl implements UserService {
                         result = -2;
                     }
                 }
+            } else if (accountCheck.getTradeType() == TradeType.REWARD_PUNISH.value()) {
+                // 赏银支付
+                // 1. 充值到余额
+                logObject.add(" 赏银支付 ");
+                if (accountCheck.getPayType().intValue() != PayType.BALANCE.value()) {
+                    // 第三方支付,先充值到余额
+                    logObject.add(" 赏银支付, [非余额支付] ");
+                    if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
+                        logObject.add(" 赏银支付, [非余额支付] 余额增加完成");
+                        accountCheck.setType(BalanceChange.ADD.value());
+                        accountCheck.setTitle("充值");
+                        accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
+                        if (accountCheckMapper.insert(accountCheck) > 0) {
+                            // un_index : tran_id + 2 + 1
+                            result = accountCheck.getId();
+                            logObject.add(" 赏银支付, [非余额支付] 余额充值流水写入完成");
+                        } else {
+                            logObject.add(" 赏银支付, [非余额支付] 余额充值流水写入失败");
+                            result = -3;
+                        }
+                    } else {
+                        logObject.add(" 赏银支付, [非余额支付] 余额增加失败");
+                        result = -2;
+                    }
+                }
+                if (result >= 0) {
+                    // 2. 从余额支付保证金
+                    logObject.add(" 赏银支付, 开始从余额进行赏银支付 ");
+                    if (userAccountMapper.updateBalance2UserAccount(userId, -1 * amount) > 0) {
+                        logObject.add(" 赏银支付, 余额扣除完成");
+                    } else {
+                        logObject.add(" 赏银支付, 余额扣除失败");
+                        result = -2;
+                    }
+                    
+                    AccountCheck outAccountCheck = new AccountCheck();
+                    outAccountCheck.setUserId(accountCheck.getUserId());
+                    outAccountCheck.setOpenId(accountCheck.getOpenId());
+                    outAccountCheck.setTranId(accountCheck.getTranId());
+                    outAccountCheck.setTitle("赏银支付");
+                    outAccountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
+                    outAccountCheck.setTradeType(accountCheck.getTradeType());
+                    outAccountCheck.setTradeAmount(accountCheck.getTradeAmount());
+                    outAccountCheck.setType(BalanceChange.SUB.value());
+                    outAccountCheck.setPayType(PayType.BALANCE.value());
+                    outAccountCheck.setLotId(accountCheck.getLotId());
+                    if (accountCheckMapper.insert(outAccountCheck) > 0) {
+                        // un_index : tranId + 2 + 0
+                        result = outAccountCheck.getId();
+                        logObject.add(" 赏银支付, 余额消费流水写入完成");
+                    } else {
+                        logObject.add(" 赏银支付, 余额消费流水写入失败");
+                        result = -3;
+                    }
+                } else {
+                    logObject.add(" 赏银支付, 充值到余额失败");
+                }
+            } else if (accountCheck.getTradeType() == TradeType.REWARD_GET.value()) {
+                // 赏银收入 充值到余额
+                logObject.add(" 赏银收入  ");
+                if (userAccountMapper.updateBalance2UserAccount(userId, amount) > 0) {
+                    logObject.add(" 赏银收入 余额增加完成");
+                    accountCheck.setType(BalanceChange.ADD.value());
+                    accountCheck.setTitle("赏银收入");
+                    accountCheck.setResultBalance(userAccountMapper.selectByUserId(userId).getBalance());
+                    if (accountCheckMapper.insert(accountCheck) > 0) {
+                        // un_index : tran_id + 2 + 1
+                        result = accountCheck.getId();
+                        logObject.add(" 赏银收入 流水写入完成");
+                    } else {
+                        logObject.add("  赏银收入 流水写入失败");
+                        result = -3;
+                    }
+                } else {
+                    logObject.add("  赏银收入  余额增加失败");
+                    result = -2;
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
