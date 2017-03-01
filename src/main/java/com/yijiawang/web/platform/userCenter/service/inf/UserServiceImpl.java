@@ -947,7 +947,7 @@ public class UserServiceImpl implements UserService {
                     }
                 }
                 if (result >= 0) {
-                    // 2. 从余额支付保证金
+                    // 2. 从余额支付赏银
                     logObject.add(" 赏银支付, 开始从余额进行赏银支付 ");
                     if (userAccountMapper.updateBalance2UserAccount(userId, -1 * amount) > 0) {
                         logObject.add(" 赏银支付, 余额扣除完成");
