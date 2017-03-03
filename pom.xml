@@ -10,8 +10,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- 生产版本号 -->
-        <userCenter.release.version>2.5.8</userCenter.release.version>
-        <productCenter.release.version>3.2.8</productCenter.release.version>
+        <userCenter.release.version>2.5.9</userCenter.release.version>
+        <productCenter.release.version>3.3.0</productCenter.release.version>
     </properties>
 
     <profiles>
