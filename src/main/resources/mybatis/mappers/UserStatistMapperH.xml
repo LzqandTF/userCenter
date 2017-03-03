@@ -38,7 +38,7 @@
           select count(id) from order_info where owner_id=#{userId,jdbcType=VARCHAR} AND status = '3'
         </if>
         <if test="type == 6">
-            select count(o.id) from order_info o
+            select count(l.id) from order_info o
             LEFT JOIN order_lock l on o.order_id=l.order_id
             WHERE o.owner_id=#{userId,jdbcType=VARCHAR}
         </if>
