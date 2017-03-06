@@ -11,7 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- 生产版本号 -->
         <userCenter.release.version>2.6.0</userCenter.release.version>
-        <productCenter.release.version>3.3.0</productCenter.release.version>
+        <productCenter.release.version>3.3.2</productCenter.release.version>
     </properties>
 
     <profiles>
