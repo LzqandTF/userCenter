@@ -190,6 +190,11 @@ public class UserLevelServiceImpl implements UserLevelService{
         return 0;
     }
 
+    @Override
+    public UserLevelLog getUserLevelLog(String userId, Integer role, Integer category, String entityId) {
+        return userLevelLogMapper.getUserLevelLog(userId, role, category, entityId);
+    }
+
     private int addUserLevelScore(String userId, Integer role, Integer amount) {
         return userInfoMapper.addUserScore(userId, role, amount);
     }
@@ -197,4 +202,5 @@ public class UserLevelServiceImpl implements UserLevelService{
     private int setUserLevelScore(String userId, Integer role, Integer amount) {
         return userInfoMapper.setUserScore(userId, role, amount);
     }
+
 }
