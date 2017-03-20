@@ -1096,6 +1096,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<AccountCheck> getTradeAccountCheckById(Integer tradeType, String id) {
+        return accountCheckMapper.getTradeAccountCheckById(tradeType, id);
+    }
+
+    @Override
     public Long selectAllBalanceSum() {
         return userAccountMapper.selectAllBalanceSum();
     }

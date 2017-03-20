@@ -72,4 +72,12 @@ public interface AccountCheckMapper {
      * @return
      */
     List<AccountCheck> verifyAccountCheck(AccountCheckParam param);
+
+    /**
+     * 根据业务类型和id获取该笔业务的流水列表
+     * @param tradeType
+     * @param orderId
+     * @return
+     */
+    List<AccountCheck> getTradeAccountCheckById(@Param("tradeType") Integer tradeType, @Param("orderId") String orderId);
 }

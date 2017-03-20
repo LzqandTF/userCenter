@@ -103,4 +103,12 @@
         </if>
     </select>
 
+    <select id="getTradeAccountCheckById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from account_check
+        where
+        trade_type = #{tradeType,jdbcType=INTEGER} AND
+        order_id = #{orderId,jdbcType=VARCHAR}
+    </select>
 </mapper>
