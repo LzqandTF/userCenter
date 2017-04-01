@@ -15,6 +15,14 @@
     from wx_user_info
     where open_id = #{openId,jdbcType=VARCHAR}
   </select>
+  
+  <select id="selectWxUserInfoByUnionid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from wx_user_info
+    where union_id = #{unionid,jdbcType=VARCHAR}
+  </select>
+  
   <select id="selectUserVOByUserId" parameterType="java.lang.String" resultType="com.yijiawang.web.platform.userCenter.vo.UserVO">
     SELECT  a.user_id userId, a.open_id openId, a.avatar, a.nickname, b.mobile, b.vip
     FROM wx_user_info a

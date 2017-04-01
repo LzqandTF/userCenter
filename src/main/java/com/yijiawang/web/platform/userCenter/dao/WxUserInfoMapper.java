@@ -25,6 +25,8 @@ public interface WxUserInfoMapper {
     WxUserInfo selectWxUserInfoByUserId(String userId);
 
     WxUserInfo selectWxUserInfoByOpenId(String openId);
+    
+    WxUserInfo selectWxUserInfoByUnionid(String unionid);
 
     UserVO selectUserVOByUserId(String userId);
        

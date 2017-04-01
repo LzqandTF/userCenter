@@ -2,7 +2,7 @@ package com.yijiawang.web.platform.userCenter.service.inf;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.yijiawang.web.platform.userCenter.cache.JedisPoolManager;
 import com.yijiawang.web.platform.userCenter.dao.WxUserInfoMapper;
 import com.yijiawang.web.platform.userCenter.po.WxUserInfo;
 import com.yijiawang.web.platform.userCenter.service.WxUserService;
@@ -11,6 +11,10 @@ public class WxUserServiceImpl implements WxUserService{
 	
 	@Autowired
 	private WxUserInfoMapper wxUserInfoMapper;
+	
+    @SuppressWarnings("rawtypes")
+	@Autowired
+    private JedisPoolManager jedisPoolManager;
 
 	@Override
 	public int insertSelective(WxUserInfo wxUserInfo) {
@@ -35,5 +39,18 @@ public class WxUserServiceImpl implements WxUserService{
 	@Override
 	public WxUserInfo getUserByUserId(String userId) {
 		return wxUserInfoMapper.selectWxUserInfoByUserId(userId);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public WxUserInfo getUserByUnionid(String unionid) {
+		WxUserInfo wxUser = (WxUserInfo) jedisPoolManager.getObject(unionid);
+		if (wxUser==null) {
+			wxUser = wxUserInfoMapper.selectWxUserInfoByUnionid(unionid);
+			if (wxUser != null) {
+				jedisPoolManager.putObject(unionid, wxUser, 60*60*24);
+			}
+		}
+		return wxUser;
 	}
 }
