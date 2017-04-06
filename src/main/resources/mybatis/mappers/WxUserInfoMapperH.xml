@@ -78,4 +78,12 @@
 	<select id="getBlackHouseCountByUserId" parameterType="string" resultType="Integer">
 	   select count(*) from user_shield where userid=#{userId}
 	</select>
+	
+  <select id="getInterestListByEntityId" resultType="java.lang.String">
+    select
+   		wx.avatar
+    FROM wx_user_info wx 
+	LEFT JOIN user_interest	us ON wx.user_id = us.user_id 
+    where entity_id = #{entityId,jdbcType=VARCHAR} and type = #{type, jdbcType=TINYINT} and us.status = 0
+  </select>
 </mapper>
